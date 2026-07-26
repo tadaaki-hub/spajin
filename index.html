@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#12383d">
+  <title>スパ人 岐阜県版｜仕事終わりの温浴診断</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --ink: #fff8e9;
+      --muted: #c7c0aa;
+      --night: #12383d;
+      --panel: rgba(27, 68, 67, .82);
+      --panel-2: rgba(72, 55, 37, .72);
+      --line: rgba(255, 246, 220, .18);
+      --yuzu: #ffd56a;
+      --hinoki: #c98f52;
+      --noren: #123f63;
+      --mint: #9ee5d5;
+      --coral: #f0a27d;
+      --sky: #86d8ef;
+      --yu: #5fc7c9;
+      --character-sheet: url("./spajin-guardians-modern-cutout.png");
+      --costume-filter: saturate(1);
+      --guide-aura: rgba(255, 213, 106, .28);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 86% 3%, rgba(255,213,106,.24), transparent 22rem),
+        radial-gradient(circle at 10% 34%, rgba(95,199,201,.25), transparent 24rem),
+        radial-gradient(circle at 50% 105%, rgba(201,143,82,.28), transparent 30rem),
+        linear-gradient(180deg, #12383d 0%, #173f42 42%, #2e2a20 100%);
+      font-family: "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", sans-serif;
+      min-height: 100vh;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none; opacity: .42;
+      background:
+        radial-gradient(ellipse at 20% 18%, rgba(255,255,255,.18), transparent 18rem),
+        radial-gradient(ellipse at 85% 24%, rgba(255,255,255,.13), transparent 17rem),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 78px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 78px);
+      mask-image: linear-gradient(#000, transparent 92%);
+    }
+    button { font: inherit; }
+    .noise {
+      position: fixed; inset: 0; z-index: -1; opacity: .15; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E");
+    }
+    .shell { width: min(1080px, calc(100% - 32px)); margin: 0 auto; }
+    .glass {
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(145deg, rgba(22,71,76,.88), rgba(50,59,47,.82)),
+        radial-gradient(circle at 18% 0%, rgba(255,213,106,.11), transparent 20rem);
+      box-shadow: 0 24px 70px rgba(5,22,24,.36);
+      backdrop-filter: blur(14px);
+    }
+    .dot-grid {
+      background-image:
+        radial-gradient(rgba(255,255,255,.14) 1.2px, transparent 1.2px),
+        linear-gradient(135deg, rgba(255,213,106,.08), rgba(95,199,201,.08));
+      background-size: 18px 18px, 100% 100%;
+    }
+    .bubble {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 248, 226, .09);
+      padding: 15px 17px;
+      line-height: 1.85;
+    }
+    .bubble::before {
+      content: ""; position: absolute; left: -7px; top: 21px;
+      width: 12px; height: 12px; background: #23484a;
+      border-left: 1px solid var(--line); border-bottom: 1px solid var(--line);
+      transform: rotate(45deg);
+    }
+    body.tired-mode {
+      --ink: #f7f0df;
+      --muted: #b8b0a0;
+      --yuzu: #d8c38c;
+      --guide-aura: rgba(216, 195, 140, .2);
+    }
+    body.tired-mode .glass { filter: saturate(.86); }
+    body.tired-mode .primary-btn { box-shadow: none; }
+    .avatar {
+      flex: 0 0 auto; width: 44px; height: 44px; border-radius: 14px;
+      display: grid; place-items: center; color: #1a1915; font-weight: 900;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.3);
+      background-image: var(--character-sheet);
+      background-repeat: no-repeat;
+      background-size: 520% auto;
+      border: 0;
+      filter: var(--costume-filter) drop-shadow(0 7px 8px rgba(0,0,0,.3));
+    }
+    .cast-visual {
+      position: relative; overflow: hidden; border-radius: 20px;
+      border: 1px solid rgba(255,213,106,.28); background: #101b1c;
+      box-shadow: 0 18px 38px rgba(0,0,0,.22);
+    }
+    .cast-visual img {
+      display: block; width: 100%; aspect-ratio: 16 / 9;
+      object-fit: contain; object-position: center bottom;
+      background: #101b1c;
+    }
+    .cast-caption {
+      position: absolute; inset: auto 0 0; display: flex; justify-content: center;
+      gap: 7px; flex-wrap: wrap; padding: 26px 10px 10px;
+      background: linear-gradient(transparent, rgba(15,15,12,.92));
+    }
+    .cast-name {
+      padding: 4px 8px; border-radius: 999px; font-size: 10px; font-weight: 900;
+      color: #fff8e9; background: rgba(18,63,99,.78); border: 1px solid rgba(255,213,106,.28);
+    }
+    .cast-gallery { display: grid; gap: 14px; }
+    .cast-pattern-label {
+      position: absolute; left: 12px; top: 12px; z-index: 2;
+      padding: 6px 10px; border-radius: 999px; font-size: 11px; font-weight: 900;
+      color: #173018; background: rgba(255,213,106,.92);
+    }
+    .opening-talks { display: grid; gap: 18px; }
+    .opening-layout { display: grid; grid-template-columns: 1fr; }
+    .summon-stage {
+      position: relative; min-height: 520px; display: grid; place-items: end center;
+      overflow: hidden; border-radius: 26px; padding: 22px 14px 18px;
+      isolation: isolate; perspective: 900px;
+      background:
+        radial-gradient(circle at 50% 72%, var(--guide-aura), transparent 3rem, transparent 12rem),
+        radial-gradient(circle at 50% 100%, rgba(255,255,255,.13), transparent 11rem),
+        linear-gradient(180deg, rgba(255,255,255,.035), rgba(0,0,0,.12));
+    }
+    .summon-stage.is-summoning { animation: gameStageAwaken 3.6s ease both; }
+    .summon-curtain {
+      position: absolute; z-index: 20; inset: 0; background:
+        radial-gradient(circle at 50% 58%, #193233 0, #091314 42%, #030606 76%);
+      pointer-events: none;
+    }
+    .summon-stage.is-summoning .summon-curtain {
+      animation: curtainOpen 1.15s .12s cubic-bezier(.72,0,.22,1) both;
+    }
+    .summon-title-sigil {
+      position: absolute; z-index: 21; inset: 0; display: grid; place-content: center;
+      text-align: center; color: #fff1bd; opacity: 0; pointer-events: none;
+      text-shadow: 0 0 12px #ffd85e, 0 0 32px rgba(255,197,67,.68);
+    }
+    .summon-title-sigil strong {
+      display: block; font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+      font-size: clamp(27px, 8vw, 42px); letter-spacing: .2em; white-space: nowrap;
+    }
+    .summon-title-sigil span {
+      display: block; margin-top: 7px; font-size: 9px; font-weight: 900;
+      letter-spacing: .42em; color: rgba(255,244,204,.78);
+    }
+    .summon-stage.is-summoning .summon-title-sigil {
+      animation: sigilTitle 1.05s .10s ease both;
+    }
+    .summon-precomment {
+      position: absolute; z-index: 17; left: 22px; right: 22px; top: 84px;
+      margin: auto; max-width: 330px; padding: 15px 17px; opacity: 0;
+      color: #fffdf2; font-size: 14px; font-weight: 900; line-height: 1.75;
+      text-align: center; border: 1px solid rgba(255,238,185,.48); border-radius: 17px;
+      background: rgba(8,25,27,.82); backdrop-filter: blur(9px);
+      box-shadow: 0 18px 44px rgba(0,0,0,.34), inset 0 0 28px rgba(255,221,115,.06);
+      text-shadow: 0 2px 8px rgba(0,0,0,.55);
+      transform: translateY(10px) scale(.96);
+    }
+    .summon-precomment::before {
+      content: "VOICE"; display: block; margin-bottom: 4px; color: #ffd66a;
+      font-size: 8px; letter-spacing: .34em;
+    }
+    .summon-stage.is-summoning .summon-precomment {
+      animation: precommentIn 1.65s .86s ease both;
+    }
+    .cinema-bar {
+      position: absolute; z-index: 18; left: 0; right: 0; height: 34px;
+      background: #030505; pointer-events: none; transform: scaleY(0);
+    }
+    .cinema-bar.top { top: 0; transform-origin: top; }
+    .cinema-bar.bottom { bottom: 0; transform-origin: bottom; }
+    .summon-stage.is-summoning .cinema-bar { animation: cinemaBars 4.15s .72s ease both; }
+    .summon-speedlines {
+      position: absolute; z-index: 0; inset: -30%; opacity: 0; pointer-events: none;
+      background: repeating-conic-gradient(from 0deg at 50% 63%, rgba(255,232,153,.34) 0deg 1deg, transparent 1.3deg 9deg);
+      mask-image: radial-gradient(circle at 50% 63%, transparent 0 12%, #000 42%, transparent 72%);
+    }
+    .summon-stage.is-summoning .summon-speedlines {
+      animation: speedlineBurst 1.8s 1.05s cubic-bezier(.16,.8,.24,1) both;
+    }
+    .summon-stage::before {
+      content: ""; position: absolute; z-index: -1; width: 230px; height: 230px;
+      left: 50%; bottom: 34px; border-radius: 50%; border: 1px solid rgba(255,222,128,.42);
+      background: radial-gradient(circle, transparent 46%, rgba(255,213,106,.10) 47%, transparent 68%);
+      box-shadow: 0 0 64px var(--guide-aura), inset 0 0 48px var(--guide-aura);
+      opacity: 0; transform: translateX(-50%) rotateX(68deg) scale(.15);
+      pointer-events: none;
+    }
+    .summon-stage.is-summoning::before {
+      animation: summonGate 2.5s .18s cubic-bezier(.2,.75,.22,1) both;
+    }
+    .summon-stage::before,
+    .summon-stage::after {
+      pointer-events: none;
+    }
+    .summon-stage::after {
+      content: ""; position: absolute; z-index: 4; inset: auto -20% -22% -20%; height: 72%;
+      background:
+        radial-gradient(ellipse at 16% 84%, rgba(255,255,255,.70), transparent 28%),
+        radial-gradient(ellipse at 50% 90%, rgba(255,255,255,.58), transparent 32%),
+        radial-gradient(ellipse at 84% 86%, rgba(255,255,255,.64), transparent 27%);
+      filter: blur(16px); opacity: .58;
+      animation: steamFloor 4.8s 2.45s ease-in-out infinite alternate;
+    }
+    .steam-field { position: absolute; inset: 0; z-index: 8; pointer-events: none; }
+    .steam-field::before {
+      content: ""; position: absolute; inset: -12%; opacity: 0; filter: blur(22px);
+      background:
+        radial-gradient(ellipse at 14% 28%, rgba(255,255,255,.88), transparent 31%),
+        radial-gradient(ellipse at 70% 20%, rgba(238,252,248,.86), transparent 34%),
+        radial-gradient(ellipse at 48% 55%, rgba(255,255,255,.92), transparent 38%),
+        radial-gradient(ellipse at 22% 82%, rgba(225,245,240,.78), transparent 35%),
+        radial-gradient(ellipse at 88% 72%, rgba(255,255,255,.82), transparent 34%);
+    }
+    .summon-stage.is-summoning .steam-field::before {
+      animation: steamVeil 2.55s .58s ease both;
+    }
+    .steam-wisp {
+      --x: 50%; --drift: 0px; --scale: 1;
+      position: absolute; left: var(--x); bottom: -105px; width: 112px; height: 190px;
+      border-radius: 50%; opacity: 0; filter: blur(18px);
+      background:
+        radial-gradient(ellipse at 50% 75%, rgba(255,255,255,.82), rgba(225,244,238,.34) 46%, transparent 72%);
+      transform: translateX(-50%) scale(var(--scale));
+    }
+    .summon-stage.is-summoning .steam-wisp {
+      animation: steamBurst var(--duration, 2.35s) var(--delay, 0s) cubic-bezier(.2,.72,.25,1) both;
+    }
+    .steam-wisp:nth-child(1) { --x: 9%;  --drift: -38px; --scale: 1.35; --delay: .72s; --duration: 2.7s; }
+    .steam-wisp:nth-child(2) { --x: 27%; --drift: -52px; --scale: 1.05; --delay: .84s; --duration: 2.45s; }
+    .steam-wisp:nth-child(3) { --x: 43%; --drift: -20px; --scale: 1.5;  --delay: .74s; --duration: 2.85s; }
+    .steam-wisp:nth-child(4) { --x: 58%; --drift: 28px;  --scale: 1.25; --delay: .88s; --duration: 2.55s; }
+    .steam-wisp:nth-child(5) { --x: 74%; --drift: 52px;  --scale: 1.1;  --delay: .78s; --duration: 2.7s; }
+    .steam-wisp:nth-child(6) { --x: 93%; --drift: 38px;  --scale: 1.4;  --delay: .92s; --duration: 2.5s; }
+    .summon-flash {
+      position: absolute; z-index: 0; left: 50%; bottom: 68px; width: 42px; height: 42px;
+      border-radius: 50%; background: #fff4be; opacity: 0; transform: translateX(-50%) scale(.2);
+      box-shadow: 0 0 45px 22px var(--guide-aura), 0 0 110px 54px var(--guide-aura);
+      pointer-events: none;
+    }
+    .summon-stage.is-summoning .summon-flash { animation: summonFlash 1.55s 2.15s ease-out both; }
+    .portal-phone {
+      position: absolute; z-index: 2; left: 50%; bottom: 70px; width: 176px; height: 310px;
+      padding: 9px; border: 2px solid rgba(255,235,170,.72); border-radius: 31px;
+      opacity: 0; transform: translateX(-50%) translateY(44px) rotateX(64deg) scale(.76);
+      transform-origin: 50% 100%; background: linear-gradient(145deg, #5f655f, #101718 26%, #020707 72%, #6c6043);
+      box-shadow: 0 28px 36px rgba(0,0,0,.58), 0 0 0 3px rgba(9,19,20,.9), 0 0 60px var(--guide-aura);
+      pointer-events: none;
+    }
+    .portal-phone::before {
+      content: ""; position: absolute; z-index: 2; left: 50%; top: 8px; width: 62px; height: 16px;
+      border-radius: 0 0 12px 12px; background: #050909; transform: translateX(-50%);
+    }
+    .portal-phone-screen {
+      position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 22px;
+      background:
+        radial-gradient(circle at 50% 64%, rgba(255,232,140,.5), transparent 22%),
+        repeating-radial-gradient(circle at 50% 64%, transparent 0 21px, rgba(255,224,122,.18) 22px 23px),
+        linear-gradient(180deg, #0b2022, #143b3c 55%, #081718);
+      box-shadow: inset 0 0 30px rgba(255,226,132,.16);
+    }
+    .portal-phone-screen::before {
+      content: "SPAJIN LINK"; position: absolute; left: 0; right: 0; top: 38%;
+      color: rgba(255,239,184,.82); font-size: 9px; font-weight: 1000; letter-spacing: .24em;
+      text-align: center; text-shadow: 0 0 9px #ffd45e;
+    }
+    .portal-phone-screen::after {
+      content: ""; position: absolute; left: 50%; top: 55%; width: 54px; height: 54px;
+      border: 1px solid rgba(255,226,128,.7); border-radius: 50%;
+      transform: translate(-50%,-50%) rotate(45deg);
+      box-shadow: 0 0 24px rgba(255,216,94,.28), inset 0 0 16px rgba(255,216,94,.22);
+    }
+    .summon-stage.is-summoning .portal-phone {
+      animation: phonePortalIn 1.18s 1.82s cubic-bezier(.15,.82,.22,1) both;
+    }
+    .spark-field { position: absolute; z-index: 5; inset: 0; pointer-events: none; }
+    .summon-spark {
+      --sx: 50%; --sy: 50%; --tx: 0px; --ty: -100px;
+      position: absolute; left: var(--sx); top: var(--sy); width: 5px; height: 5px;
+      border-radius: 50%; background: #fff4ac; opacity: 0;
+      box-shadow: 0 0 8px 2px #ffca46;
+    }
+    .summon-stage.is-summoning .summon-spark {
+      animation: sparkFly 1.25s var(--sd, 1.25s) ease-out both;
+    }
+    .summon-spark:nth-child(1) { --sx: 50%; --sy: 64%; --tx: -128px; --ty: -128px; --sd: 1.15s; }
+    .summon-spark:nth-child(2) { --sx: 48%; --sy: 60%; --tx: 116px; --ty: -154px; --sd: 1.24s; }
+    .summon-spark:nth-child(3) { --sx: 52%; --sy: 68%; --tx: -82px; --ty: -214px; --sd: 1.32s; }
+    .summon-spark:nth-child(4) { --sx: 46%; --sy: 66%; --tx: 148px; --ty: -76px; --sd: 1.18s; }
+    .summon-spark:nth-child(5) { --sx: 54%; --sy: 62%; --tx: -152px; --ty: -52px; --sd: 1.40s; }
+    .summon-spark:nth-child(6) { --sx: 50%; --sy: 70%; --tx: 72px; --ty: -232px; --sd: 1.30s; }
+    .summoned-guardian {
+      position: relative; z-index: 6; width: min(48vw, 192px); height: min(105vw, 420px);
+      margin-bottom: 60px;
+      background-image: var(--character-sheet); background-repeat: no-repeat;
+      background-size: auto 100%; background-position: center bottom;
+      filter: var(--costume-filter) drop-shadow(0 32px 18px rgba(0,0,0,.5)) drop-shadow(0 0 18px var(--guide-aura));
+      opacity: 0; transform-origin: 50% 100%;
+      clip-path: inset(100% -45% 0 -45% round 42% 42% 0 0);
+    }
+    .summon-stage.is-summoning .summoned-guardian {
+      animation: deityFromPhone 1.72s 2.22s cubic-bezier(.13,.86,.2,1) both;
+    }
+    .summon-label {
+      position: absolute; z-index: 19; left: 16px; top: 16px;
+      padding: 7px 10px; border-radius: 999px; font-size: 11px; font-weight: 900;
+      color: #1b1911; background: rgba(255,213,106,.92);
+      opacity: 0;
+    }
+    .summon-stage.is-summoning .summon-label { animation: hudIn .48s 3.56s ease both; }
+    .summon-nameplate {
+      position: absolute; z-index: 12; left: 14px; right: 14px; bottom: 17px;
+      padding: 12px 15px 11px 19px; color: #fff8dc; opacity: 0;
+      border-left: 4px solid #ffd56a;
+      background: linear-gradient(90deg, rgba(7,29,31,.96), rgba(11,40,42,.82) 72%, transparent);
+      box-shadow: -12px 0 30px rgba(255,206,82,.12);
+      transform: translateX(-42px);
+    }
+    .summon-nameplate::before {
+      content: "SPA GUARDIAN"; display: block; margin-bottom: 1px;
+      color: #ffd66a; font-size: 8px; font-weight: 1000; letter-spacing: .28em;
+    }
+    .summon-nameplate strong {
+      display: block; font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+      font-size: clamp(23px, 7vw, 32px); line-height: 1.05; letter-spacing: .08em;
+      text-shadow: 0 2px 12px rgba(0,0,0,.5);
+    }
+    .summon-nameplate small {
+      display: block; margin-top: 5px; color: #d5e8df; font-size: 10px; font-weight: 800;
+      letter-spacing: .06em;
+    }
+    .summon-stage.is-summoning .summon-nameplate { animation: nameplateIn .72s 3.48s cubic-bezier(.18,.85,.2,1) both; }
+    .opening-guide-name { color: var(--yuzu); }
+    #opening-talks .opening-speaker { opacity: 0; }
+    #opening-talks.is-ready .opening-speaker { animation: oracleSpeaks .55s cubic-bezier(.2,.8,.2,1) both; }
+    .opening-speaker {
+      display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: end; gap: 11px;
+    }
+    .opening-speaker.right { grid-template-columns: minmax(0, 1fr) 92px; }
+    .opening-speaker.right .opening-copy { order: 1; text-align: right; }
+    .opening-speaker.right .opening-portrait { order: 2; }
+    .opening-speaker.right .bubble { text-align: left; }
+    .opening-speaker.right .bubble::before {
+      left: auto; right: -7px; border: 0; border-right: 1px solid var(--line);
+      border-top: 1px solid var(--line);
+    }
+    .opening-portrait {
+      width: 92px; height: 132px; border-radius: 18px; align-self: end;
+      background-image: var(--character-sheet); background-repeat: no-repeat;
+      background-size: 520% auto; border: 1px solid rgba(255,213,106,.18);
+      background-color: #071213;
+      filter: var(--costume-filter) drop-shadow(0 14px 12px rgba(0,0,0,.3));
+    }
+    .opening-copy { padding-bottom: 7px; }
+    .scroll-cue {
+      display: flex; align-items: center; gap: 9px; margin-top: 25px;
+      color: var(--yuzu); font-size: 12px; font-weight: 900;
+    }
+    .scroll-cue::before {
+      content: "↓"; width: 28px; height: 28px; display: grid; place-items: center;
+      border: 1px solid rgba(242,193,78,.45); border-radius: 999px;
+    }
+    .profile-card {
+      border: 1px solid var(--line); border-radius: 20px; padding: 18px;
+      background:
+        linear-gradient(145deg, rgba(255,248,226,.08), rgba(95,199,201,.06)),
+        rgba(255,255,255,.035);
+    }
+    .profile-face {
+      width: 74px; height: 88px; border-radius: 18px;
+      background-image: var(--character-sheet); background-repeat: no-repeat;
+      background-size: 520% auto; border: 1px solid rgba(255,213,106,.18);
+      background-color: #071213;
+      filter: var(--costume-filter) drop-shadow(0 8px 8px rgba(0,0,0,.3));
+    }
+    .question-block {
+      position: relative; padding-top: 4px;
+    }
+    .question-block legend {
+      min-height: 48px; display: flex; align-items: center; padding-right: 88px;
+    }
+    .question-guide {
+      position: absolute; z-index: 1; right: 0; top: -30px;
+      width: 88px; height: 116px; pointer-events: none;
+      background-image: var(--character-sheet); background-repeat: no-repeat;
+      background-size: 520% auto;
+      background-color: #071213;
+      border-radius: 18px;
+      filter: var(--costume-filter) drop-shadow(0 10px 10px rgba(0,0,0,.32));
+    }
+    .question-guide::after {
+      content: attr(data-name); position: absolute; right: 0; bottom: -3px;
+      padding: 4px 7px; border-radius: 999px; white-space: nowrap;
+      color: #1b1911; background: var(--yuzu); font-size: 9px; font-weight: 900;
+    }
+    .question-block [data-question] { position: relative; z-index: 2; }
+    .result-guardian {
+      position: absolute; right: -24px; bottom: -22px;
+      width: 210px; height: 260px; opacity: .92; pointer-events: none;
+      background-image: var(--character-sheet); background-repeat: no-repeat;
+      background-size: 520% auto; background-position: center;
+      filter: var(--costume-filter) drop-shadow(0 20px 18px rgba(0,0,0,.38));
+    }
+    .result-oracle {
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(255,213,106,.22); border-radius: 22px;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(255,213,106,.12), transparent 10rem),
+        radial-gradient(circle at 0% 100%, rgba(95,199,201,.12), transparent 10rem),
+        rgba(255,248,226,.06);
+      padding: 16px;
+    }
+    .result-oracle::before {
+      content: "♨"; position: absolute; right: 12px; top: -18px;
+      font-size: 72px; line-height: 1; opacity: .07;
+    }
+    .nav-button {
+      border: 1px solid var(--line); border-radius: 999px; padding: 8px 13px;
+      color: #f2ead8; background: rgba(255,255,255,.055); cursor: pointer;
+      font-size: 12px; font-weight: 900;
+    }
+    .nav-button:hover { border-color: rgba(242,193,78,.5); color: var(--yuzu); }
+    .option {
+      min-height: 84px; text-align: left; border: 1px solid var(--line);
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(95,199,201,.12), transparent 8rem),
+        rgba(255,248,226,.075);
+      color: var(--ink);
+      padding: 15px; cursor: pointer; transition: .2s ease;
+    }
+    .option:hover { transform: translateY(-2px); border-color: rgba(255,213,106,.58); background: rgba(255,248,226,.11); }
+    .option.selected {
+      border-color: var(--yuzu); background: rgba(242,193,78,.10);
+      box-shadow: 0 0 0 2px rgba(242,193,78,.12);
+    }
+    .option .check {
+      width: 21px; height: 21px; border: 1px solid #68675d; border-radius: 7px;
+      display: grid; place-items: center; float: right; color: transparent;
+    }
+    .option.selected .check { background: var(--yuzu); color: #1b1a16; border-color: var(--yuzu); }
+    .primary-btn {
+      border: 0; border-radius: 999px; padding: 15px 24px; cursor: pointer;
+      color: #1b1911; background: var(--yuzu); font-weight: 900;
+      box-shadow: 0 10px 30px rgba(242,193,78,.2); transition: .2s ease;
+    }
+    .primary-btn:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.05); }
+    .primary-btn:disabled { opacity: .35; cursor: not-allowed; box-shadow: none; }
+    .ghost-btn {
+      border: 1px solid rgba(255,213,106,.55); border-radius: 999px; padding: 12px 18px;
+      background: transparent; color: var(--yuzu); cursor: pointer; font-weight: 800;
+    }
+    .tag {
+      display: inline-flex; align-items: center; gap: 6px; border-radius: 999px;
+      border: 1px solid var(--line); padding: 7px 11px; color: #fff3d5;
+      background: rgba(255,255,255,.06); font-size: 12px; font-weight: 800;
+    }
+    .hidden { display: none !important; }
+    .fade-up { animation: fadeUp .45s ease both; }
+    .swap { animation: swap .42s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+    @keyframes swap { 0% { opacity: 0; transform: translateY(8px) scale(.985); } 100% { opacity: 1; transform: none; } }
+    @keyframes deityAppear {
+      0% { opacity: 0; transform: translateY(76px) scale(.82); clip-path: inset(100% 0 0 0 round 48% 48% 0 0); filter: var(--costume-filter) blur(16px) brightness(1.8) drop-shadow(0 26px 20px rgba(0,0,0,.42)); }
+      42% { opacity: .68; }
+      72% { opacity: 1; transform: translateY(-7px) scale(1.025); clip-path: inset(0 0 0 0 round 0); filter: var(--costume-filter) blur(2px) brightness(1.2) drop-shadow(0 26px 20px rgba(0,0,0,.42)); }
+      100% { opacity: 1; transform: translateY(0) scale(1); clip-path: inset(0 0 0 0 round 0); filter: var(--costume-filter) blur(0) brightness(1) drop-shadow(0 26px 20px rgba(0,0,0,.42)); }
+    }
+    @keyframes gameStageAwaken {
+      0%, 18% { box-shadow: inset 0 0 0 rgba(255,215,108,0); }
+      44% { box-shadow: inset 0 0 56px rgba(255,215,108,.24), 0 0 0 1px rgba(255,215,108,.35); }
+      100% { box-shadow: inset 0 0 24px rgba(255,215,108,.08), 0 0 0 1px rgba(255,215,108,.16); }
+    }
+    @keyframes curtainOpen {
+      0%, 52% { opacity: 1; clip-path: inset(0); }
+      100% { opacity: 0; clip-path: inset(50% 0 50%); }
+    }
+    @keyframes sigilTitle {
+      0% { opacity: 0; transform: scale(.72); filter: blur(8px); }
+      28%, 62% { opacity: 1; transform: scale(1); filter: blur(0); }
+      100% { opacity: 0; transform: scale(1.14); filter: blur(3px); }
+    }
+    @keyframes precommentIn {
+      0% { opacity: 0; transform: translateY(10px) scale(.96); }
+      18%, 72% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-8px) scale(1.02); }
+    }
+    @keyframes cinemaBars {
+      0% { transform: scaleY(0); }
+      14%, 78% { transform: scaleY(1); }
+      100% { transform: scaleY(0); }
+    }
+    @keyframes speedlineBurst {
+      0% { opacity: 0; transform: scale(.35) rotate(-5deg); }
+      32% { opacity: .85; }
+      100% { opacity: 0; transform: scale(1.12) rotate(4deg); }
+    }
+    @keyframes sparkFly {
+      0% { opacity: 0; transform: translate(0,0) scale(.2); }
+      18% { opacity: 1; }
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.5); }
+    }
+    @keyframes steamVeil {
+      0% { opacity: 0; transform: scale(.9) translateY(28px); }
+      24%, 62% { opacity: .96; transform: scale(1.03) translateY(0); }
+      100% { opacity: 0; transform: scale(1.18) translateY(-30px); }
+    }
+    @keyframes phonePortalIn {
+      0% { opacity: 0; transform: translateX(-50%) translateY(44px) rotateX(64deg) scale(.76); }
+      58% { opacity: 1; transform: translateX(-50%) translateY(-7px) rotateX(-5deg) scale(1.04); }
+      100% { opacity: 1; transform: translateX(-50%) translateY(0) rotateX(0) scale(1); }
+    }
+    @keyframes deityFromPhone {
+      0% {
+        opacity: 0; transform: translateY(128px) translateZ(-160px) scale(.28) rotateX(22deg);
+        clip-path: inset(58% -45% 0 -45% round 45% 45% 0 0);
+        filter: var(--costume-filter) blur(10px) brightness(1.9) drop-shadow(0 8px 8px rgba(0,0,0,.25));
+      }
+      38% { opacity: 1; }
+      72% {
+        opacity: 1; transform: translateY(-20px) translateZ(100px) scale(1.12) rotateX(-3deg);
+        clip-path: inset(0 -45% 0 -45% round 0);
+        filter: var(--costume-filter) blur(0) brightness(1.18) drop-shadow(0 38px 20px rgba(0,0,0,.52)) drop-shadow(0 0 24px var(--guide-aura));
+      }
+      100% {
+        opacity: 1; transform: translateY(0) translateZ(65px) scale(1.04) rotateX(0);
+        clip-path: inset(0 -45% 0 -45% round 0);
+        filter: var(--costume-filter) brightness(1) drop-shadow(0 32px 18px rgba(0,0,0,.5)) drop-shadow(0 0 18px var(--guide-aura));
+      }
+    }
+    @keyframes nameplateIn {
+      0% { opacity: 0; transform: translateX(-42px); clip-path: inset(0 100% 0 0); }
+      55% { opacity: 1; transform: translateX(5px); clip-path: inset(0); }
+      100% { opacity: 1; transform: translateX(0); clip-path: inset(0); }
+    }
+    @keyframes hudIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes steamBurst {
+      0% { opacity: 0; transform: translate(-50%, 40px) scale(.68); }
+      18% { opacity: .92; }
+      66% { opacity: .72; }
+      100% { opacity: 0; transform: translate(calc(-50% + var(--drift)), -410px) scale(1.75); }
+    }
+    @keyframes summonGate {
+      0% { opacity: 0; transform: translateX(-50%) rotateX(68deg) scale(.15); }
+      38% { opacity: .88; }
+      74% { opacity: .58; transform: translateX(-50%) rotateX(68deg) scale(1.12); }
+      100% { opacity: .2; transform: translateX(-50%) rotateX(68deg) scale(1); }
+    }
+    @keyframes summonFlash {
+      0%, 100% { opacity: 0; transform: translateX(-50%) scale(.25); }
+      38% { opacity: .9; transform: translateX(-50%) scale(1.25); }
+      68% { opacity: .3; transform: translateX(-50%) scale(2.2); }
+    }
+    @keyframes steamFloor {
+      from { transform: translateY(16px) scale(1); opacity: .46; }
+      to { transform: translateY(-10px) scale(1.06); opacity: .68; }
+    }
+    @keyframes oracleSpeaks {
+      from { opacity: 0; transform: translateY(14px) scale(.985); }
+      to { opacity: 1; transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; transition: none !important; }
+      .summoned-guardian { opacity: 1; transform: none; clip-path: none; }
+      #opening-talks .opening-speaker { opacity: 1; }
+      .steam-wisp { display: none; }
+      .summon-curtain, .summon-title-sigil, .summon-precomment, .cinema-bar, .summon-speedlines, .spark-field { display: none; }
+      .summon-nameplate, .summon-label { opacity: 1; transform: none; }
+      .portal-phone { opacity: 1; transform: translateX(-50%); }
+    }
+    @media (min-width: 641px) {
+      .opening-speaker { grid-template-columns: 118px minmax(0, 1fr); gap: 14px; }
+      .opening-speaker.right { grid-template-columns: minmax(0, 1fr) 118px; }
+      .opening-portrait { width: 118px; height: 158px; border-radius: 22px; }
+    }
+    @media (min-width: 768px) {
+      .opening-layout { grid-template-columns: 1.05fr .95fr; }
+      .opening-summon-panel { order: initial; }
+    }
+    @media (max-width: 767px) {
+      .opening-summon-panel { order: -1; }
+    }
+    @media (max-width: 640px) {
+      .shell { width: min(100% - 20px, 1080px); }
+      .bubble { font-size: 14px; }
+      .avatar { width: 38px; height: 38px; border-radius: 12px; }
+      .opening-speaker .text-xs span { display: none; }
+      .opening-speaker.right .opening-copy { padding-left: 4px; }
+      .opening-speaker:not(.right) .opening-copy { padding-right: 4px; }
+      header .tag { padding: 7px 9px; }
+      .result-guardian {
+        right: -34px; bottom: -28px; width: 168px; height: 214px; opacity: .72;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header class="shell flex items-center justify-between py-5">
+    <button id="logo-button" class="flex items-center gap-3 bg-transparent border-0 text-left cursor-pointer" aria-label="最初の画面に戻る">
+      <span class="w-11 h-11 rounded-2xl grid place-items-center font-black text-xl" style="background:linear-gradient(135deg,var(--yuzu),#fff0b0);color:#173018;box-shadow:0 8px 22px rgba(255,213,106,.22)">湯</span>
+      <span>
+          <span class="block text-xl font-black tracking-tight">スパ人 <small class="text-xs font-bold text-amber-200">GIFU</small></span>
+          <span class="block text-[11px] text-stone-300 mt-0.5">岐阜県版・湯けむり温浴コンシェルジュ</span>
+      </span>
+    </button>
+    <div class="flex items-center gap-2">
+      <button id="about-button" class="nav-button">スパ人とは</button>
+      <div class="tag"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span id="clock">17:30</span> 業務終了</div>
+    </div>
+  </header>
+
+  <main class="shell pb-16">
+    <section id="opening-section" class="glass dot-grid rounded-[28px] overflow-hidden">
+      <div class="opening-layout">
+        <div class="p-6 sm:p-10 md:p-12">
+          <div class="inline-flex items-center gap-2 text-xs font-black tracking-[.15em] text-amber-300 mb-5">
+            GIFU SPA ORACLE / AFTER WORK
+          </div>
+          <h1 id="opening-title" class="text-4xl sm:text-5xl md:text-6xl font-black leading-[1.08] tracking-tight">
+            岐阜の湯で、<br><span style="color:var(--yuzu)">今日を流す。</span>
+          </h1>
+          <p id="opening-lead" class="text-stone-300 leading-7 mt-5 max-w-lg">湯気の中から今夜の担当神がひとり登場します。リロードするたびに別の神様・別衣装になることも。3つの質問に答えると、その神様が最後まで岐阜の一湯を案内します。</p>
+          <div class="scroll-cue">そのまま下へ。3つだけ教えてください</div>
+        </div>
+        <div class="opening-summon-panel p-5 sm:p-8 md:p-10 bg-black/10 flex flex-col justify-center">
+          <div id="opening-scene-label" class="text-xs text-stone-500 mb-4">17:32　湯けむり召喚中</div>
+          <div id="summon-stage" class="summon-stage mb-5" aria-live="polite">
+            <div class="summon-curtain" aria-hidden="true"></div>
+            <div class="summon-title-sigil" aria-hidden="true">
+              <strong>湯の守護神</strong><span>GUARDIAN AWAKENING</span>
+            </div>
+            <div id="summon-precomment" class="summon-precomment">今夜の湯は、私に任せてください。</div>
+            <div class="cinema-bar top" aria-hidden="true"></div>
+            <div class="cinema-bar bottom" aria-hidden="true"></div>
+            <div id="summon-costume-label" class="summon-label">湯けむり装束</div>
+            <div class="summon-speedlines" aria-hidden="true"></div>
+            <div class="summon-flash" aria-hidden="true"></div>
+            <div class="portal-phone" aria-hidden="true"><div class="portal-phone-screen"></div></div>
+            <div id="summoned-guardian" class="summoned-guardian" role="img" aria-label="湯気から登場する神様"></div>
+            <div class="spark-field" aria-hidden="true">
+              <i class="summon-spark"></i><i class="summon-spark"></i><i class="summon-spark"></i>
+              <i class="summon-spark"></i><i class="summon-spark"></i><i class="summon-spark"></i>
+            </div>
+            <div class="steam-field" aria-hidden="true">
+              <i class="steam-wisp"></i><i class="steam-wisp"></i><i class="steam-wisp"></i>
+              <i class="steam-wisp"></i><i class="steam-wisp"></i><i class="steam-wisp"></i>
+            </div>
+            <div class="summon-nameplate">
+              <strong id="summon-guardian-name">湯川明神</strong>
+              <small id="summon-guardian-role">近場でサクッと綺麗</small>
+            </div>
+          </div>
+          <div id="opening-talks" class="opening-talks" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about-section" class="hidden fade-up">
+      <div class="glass rounded-[28px] overflow-hidden">
+        <div class="p-6 sm:p-10 md:p-12">
+          <div class="flex flex-wrap items-end justify-between gap-5 mb-8">
+            <div>
+              <div class="text-xs font-black tracking-[.16em] text-amber-300">ABOUT SPAJIN</div>
+              <h1 class="text-3xl sm:text-5xl font-black mt-2">スパ人とは</h1>
+          <p class="text-stone-300 leading-7 mt-4 max-w-2xl">定時後になると、給湯室より温浴施設の話が長くなる社内愛好会。温浴への偏愛が神格化した「五神」が、湯けむりの向こうから今夜の一湯を提案します。</p>
+            </div>
+            <button id="about-back-button" class="ghost-btn">← 診断へ戻る</button>
+          </div>
+          <div class="cast-gallery">
+            <figure class="cast-visual" aria-label="社内温浴愛好会スパ人の5人・仕事帰り版">
+              <span class="cast-pattern-label">仕事帰りの守護神</span>
+              <img src="./spajin-guardians-modern.webp" alt="左から湯川明神、泉潤天、熱波大黒、御堂福禄、暮林恵比寿の現代風アニメキャラクター">
+              <figcaption class="cast-caption">
+                <span class="cast-name">湯川明神</span>
+                <span class="cast-name">泉潤天</span>
+                <span class="cast-name">熱波大黒</span>
+                <span class="cast-name">御堂福禄</span>
+                <span class="cast-name">暮林恵比寿</span>
+              </figcaption>
+            </figure>
+            <figure class="cast-visual" aria-label="社内温浴愛好会スパ人の5人・神装束版">
+              <span class="cast-pattern-label">湯の守護神</span>
+              <img src="./spajin-guardians-mythic.webp" alt="左から湯川明神、泉潤天、熱波大黒、御堂福禄、暮林恵比寿の神装束アニメキャラクター">
+              <figcaption class="cast-caption">
+                <span class="cast-name">湯川明神</span>
+                <span class="cast-name">泉潤天</span>
+                <span class="cast-name">熱波大黒</span>
+                <span class="cast-name">御堂福禄</span>
+                <span class="cast-name">暮林恵比寿</span>
+              </figcaption>
+            </figure>
+          </div>
+          <div id="character-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-6"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="diagnosis-section" class="mt-7 fade-up">
+      <div class="glass rounded-[28px] p-5 sm:p-8 md:p-10">
+        <div class="flex items-center justify-between gap-4 mb-4">
+          <div class="text-xs font-black tracking-[.14em] text-amber-300">湯けむりのお告げ</div>
+          <div class="text-sm text-stone-400"><span id="progress-count" class="text-white font-black">0</span> / 3 選択済み</div>
+        </div>
+        <p class="text-sm leading-7 text-stone-300 mb-5">
+          湯けむりの向こうに、今夜のあなたに合う一湯が見えています。<br class="hidden sm:block">
+          考えすぎず、心に浮かんだ言葉を選んでください。
+        </p>
+        <div class="h-1.5 bg-black/30 rounded-full overflow-hidden mb-7">
+          <div id="progress-bar" class="h-full rounded-full transition-all duration-300" style="width:0;background:var(--yuzu)"></div>
+        </div>
+
+        <div class="space-y-9">
+          <fieldset class="question-block">
+            <legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">01</span> 今夜、いちばん流してしまいたいものは？</legend>
+            <div class="question-guide" role="img" aria-label="泉潤天" data-name="泉潤天" style="background-position:25% 48%"></div>
+            <div class="grid sm:grid-cols-3 gap-3" data-question="q1">
+              <button class="option" data-value="A"><span class="check">✓</span><span class="text-2xl">✧</span><strong class="block mt-2">肌と心のカサつき</strong><small class="text-stone-400">やさしく潤いを取り戻したい</small></button>
+              <button class="option" data-value="B"><span class="check">✓</span><span class="text-2xl">◌</span><strong class="block mt-2">体に積もった重たい疲れ</strong><small class="text-stone-400">芯からゆるめて流したい</small></button>
+              <button class="option" data-value="C"><span class="check">✓</span><span class="text-2xl">♨︎</span><strong class="block mt-2">頭から離れない仕事の熱</strong><small class="text-stone-400">思考ごと空っぽにしたい</small></button>
+            </div>
+          </fieldset>
+          <fieldset class="question-block">
+            <legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">02</span> 今のあなたを呼んでいる場所は？</legend>
+            <div class="question-guide" role="img" aria-label="御堂福禄" data-name="御堂福禄" style="background-position:75% 48%"></div>
+            <div class="grid sm:grid-cols-2 gap-3" data-question="q2">
+              <button class="option" data-value="A"><span class="check">✓</span><span class="text-2xl">☾</span><strong class="block mt-2">夜空と風が待つ、ひらけた場所</strong><small class="text-stone-400">外の空気に心を預けたい</small></button>
+              <button class="option" data-value="B"><span class="check">✓</span><span class="text-2xl">▤</span><strong class="block mt-2">湯気に包まれた、静かな隠れ家</strong><small class="text-stone-400">時間を忘れて深くこもりたい</small></button>
+            </div>
+          </fieldset>
+          <fieldset class="question-block">
+            <legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">03</span> 今夜の冒険運は？</legend>
+            <div class="question-guide" role="img" aria-label="暮林恵比寿" data-name="暮林恵比寿" style="background-position:100% 48%"></div>
+            <div class="grid sm:grid-cols-2 gap-3" data-question="q3">
+              <button class="option" data-value="A"><span class="check">✓</span><span class="text-2xl">✦</span><strong class="block mt-2">足元にある小さな幸運を拾いたい</strong><small class="text-stone-400">今いる場所の近くで出会う</small></button>
+              <button class="option" data-value="B"><span class="check">✓</span><span class="text-2xl">⌁</span><strong class="block mt-2">少し遠くの景色に呼ばれている</strong><small class="text-stone-400">夜の道の先まで運ばれたい</small></button>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-9 pt-6 border-t border-white/10">
+          <p id="selection-hint" class="text-sm text-stone-400">あと3つ選ぶと、スパ神が今夜の一湯を示します。</p>
+          <button id="diagnose-button" class="primary-btn w-full sm:w-auto" disabled>今夜の湯運を見る</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="result-section" class="hidden mt-7 fade-up" aria-live="polite">
+      <div id="change-comment-box" class="hidden mb-5"></div>
+      <div class="glass rounded-[28px] overflow-hidden">
+        <div class="grid md:grid-cols-[.9fr_1.1fr]">
+          <div class="relative min-h-[280px] p-7 sm:p-10 flex flex-col justify-between overflow-hidden" style="background:radial-gradient(circle at 88% 16%,rgba(255,213,106,.22),transparent 13rem),radial-gradient(circle at 10% 95%,rgba(95,199,201,.24),transparent 14rem),linear-gradient(145deg,#174f56,#2f3f38 58%,#4a3421)">
+            <div class="absolute -right-10 -top-12 text-[190px] leading-none opacity-[.08] select-none">♨</div>
+            <div class="absolute left-8 bottom-5 text-[110px] leading-none opacity-[.06] select-none">湯</div>
+            <div id="result-guardian" class="result-guardian" role="img" aria-label="案内キャラクター"></div>
+            <div>
+              <div id="result-kicker" class="tag relative">今夜の湯運</div>
+              <div id="result-character" class="text-sm font-bold text-amber-300 mt-6"></div>
+              <h2 id="result-title" class="text-3xl sm:text-4xl font-black leading-tight mt-2 relative"></h2>
+              <p id="result-location" class="text-stone-400 mt-3 text-sm"></p>
+            </div>
+            <div id="result-tags" class="flex flex-wrap gap-2 mt-8 relative"></div>
+          </div>
+          <div id="result-content" class="p-7 sm:p-10">
+            <div class="text-xs font-black tracking-[.15em] text-stone-500">GIFU ONSEN GUIDE</div>
+            <h3 class="text-xl font-black mt-2">温泉効能をメインにしたおすすめ理由</h3>
+            <div class="result-oracle mt-5">
+              <div class="flex gap-3 items-start relative">
+                <div id="result-oracle-avatar" class="avatar" aria-hidden="true"></div>
+                <div class="min-w-0 flex-1">
+                  <div id="result-oracle-name" class="text-xs font-black text-amber-300"></div>
+                  <p id="result-oracle-text" class="leading-7 text-sm text-stone-100 mt-1"></p>
+                </div>
+              </div>
+            </div>
+            <p id="result-reason" class="leading-8 text-stone-300 mt-4"></p>
+            <div class="mt-6 p-4 rounded-2xl border border-white/10 bg-black/15">
+              <div class="text-xs font-black text-emerald-300">施設紹介・過ごし方</div>
+              <p id="result-desc" class="leading-7 mt-2 text-sm text-stone-300"></p>
+            </div>
+            <p class="text-[11px] leading-5 text-stone-500 mt-4">※温泉効能・施設紹介文は、作成済みの「温泉効能」スプレッドシート由来のモック用データです。効能の感じ方には個人差があります。実際のお出かけ前に公式情報をご確認ください。</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="change-area" class="text-center py-7">
+        <p class="text-sm text-stone-400 mb-3">え？そこはいつも行くホームだって？</p>
+        <button id="change-button" class="ghost-btn">別の施設にチェンジ！ ↻</button>
+      </div>
+      <div class="flex justify-center">
+        <button id="retry-button" class="text-sm text-stone-400 underline underline-offset-4 bg-transparent border-0 cursor-pointer hover:text-white">こだわりを選び直す</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell border-t border-white/10 py-7 flex flex-wrap gap-3 justify-between text-xs text-stone-500">
+    <span>© 社内温浴愛好会「スパ人」</span><span>データ通信なし・固定データ診断</span>
+  </footer>
+
+  <script>
+    const COMMON_ART_STYLE_PROMPT = "Anime style, modern web illustration, character icon, flat design, colorful, background is subtle hot spring steam --v 6.0";
+
+    const CHARACTER_IMAGE_PROMPTS = {
+      yukawa: "A male anime character in his late 20s, wearing a neat business suit, but with a small white onsen towel folded on top of his head. Friendly and polite expression. Subtle silhouette of a Japanese biwa (lute) in the background with golden sparkles. Emerald green theme color. --v 6.0",
+      izumi: "A beautiful and gentle anime woman with drooping eyes, glowing flawless skin, wearing office casual clothes. She is wrapped in a translucent, glowing steam like a divine robe. Holding a large yellow Japanese bath basin. Soft pink and pastel theme. --v 6.0",
+      ogi: "An energetic young male anime character, muscular build, short hair, rolled-up white shirt sleeves. He is dynamically holding a large sauna towel, ready to wave it for an aufguss performance. Fiery orange and red theme with heat wave effects. --v 6.0",
+      iwakura: "A cool and intelligent anime woman with glasses, tight hairstyle, wearing an office blazer. A black sauna mat is wrapped around her neck like a scarf. She is strictly holding a digital tablet. Deep purple and navy theme color. --v 6.0",
+      tsuyuki: "A cool, silent male anime character with bangs covering his eyes, wearing a casual hoodie and high-tech wireless headphones. He is holding a glowing car smart key. Background shows a blurred breathtaking view of a mountain open-air hot spring under a starry sky. Deep blue theme. --v 6.0"
+    };
+
+    const COSTUME_PATTERNS = [
+      { id: "office", name: "仕事帰り装束", sheet: "url('./spajin-guardians-modern-cutout.png')", filter: "saturate(1)", aura: "rgba(255, 213, 106, .28)" },
+      { id: "mythic", name: "湯の守護神装束", sheet: "url('./spajin-guardians-mythic-cutout.png')", filter: "saturate(1)", aura: "rgba(255, 213, 106, .32)" },
+      { id: "yukemuri", name: "湯けむり白装束", sheet: "url('./spajin-guardians-mythic-cutout.png')", filter: "brightness(1.08) saturate(.86)", aura: "rgba(255, 255, 255, .26)" },
+      { id: "hinoki", name: "檜の休息装束", sheet: "url('./spajin-guardians-modern-cutout.png')", filter: "sepia(.18) saturate(.9) brightness(1.03)", aura: "rgba(201, 143, 82, .34)" },
+      { id: "night", name: "夜風の露天装束", sheet: "url('./spajin-guardians-modern-cutout.png')", filter: "hue-rotate(14deg) saturate(1.08) brightness(.96)", aura: "rgba(134, 216, 239, .28)" },
+      { id: "tired", name: "お疲れ羽織", sheet: "url('./spajin-guardians-mythic-cutout.png')", filter: "grayscale(.14) saturate(.78) brightness(.94)", aura: "rgba(216, 195, 140, .22)", tired: true }
+    ];
+    const VISUAL_PATTERNS = COSTUME_PATTERNS;
+
+    const CHARACTERS = {
+      yukawa: {
+        name: "湯川明神", role: "近場でサクッと綺麗", imagePosition: "0% 48%",
+        department: "営業部／安心感の明神", profile: "ビシッとしたスーツに、頭だけ温泉タオル。常識人の顔をしながら、仕事帰りに無理なく寄れる一湯を守護する。",
+        motto: "近くて綺麗。それがいちばん助かる。"
+      },
+      izumi: {
+        name: "泉潤天", role: "天然泉質至上主義", imagePosition: "25% 48%",
+        department: "経理部／美肌と泉質の潤天", profile: "タレ目でおっとり、湯気の羽衣をまとった天然泉質の女神。ぬるぬる・トロトロの肌あたりを語り始めると長い。",
+        motto: "お肌が溶けちゃう〜。"
+      },
+      ogi: {
+        name: "熱波大黒", role: "サウナ・水風呂・動線命", imagePosition: "50% 48%",
+        department: "開発部／熱波と情熱の大黒", profile: "袖をまくった若手社員風の熱波神。打出の小槌の代わりにデカいサウナタオルを構え、温・冷・休の動線を叫ぶ。",
+        motto: "温・冷・休、全部が一本の導線ですッ！"
+      },
+      iwakura: {
+        name: "御堂福禄", role: "炭酸泉と岩盤浴のプロ", imagePosition: "75% 48%",
+        department: "営業企画部／おこもりの福禄", profile: "知的なメガネの女性主任。首のサウナマットとタブレットで、炭酸泉から岩盤浴までの長時間滞在を厳格に設計する。",
+        motto: "急がないことも、立派な予定です。"
+      },
+      tsuyuki: {
+        name: "暮林恵比寿", role: "遠出・露天・大パノラマ", imagePosition: "100% 48%",
+        department: "システム部／絶景ドライブの恵比寿", profile: "前髪で目元が少し隠れた無口な天才SE。スマートキーとナビを手に、平日の夜ほど遠くの絶景露天へ向かう。",
+        motto: "夜景が見えるなら、少しくらい遠くても。"
+      }
+    };
+
+    const SUMMON_COMMENTS = {
+      yukawa: "今日は無理しなくていい。近くて、きれいで、ちゃんと温まる湯を探しましょう。",
+      izumi: "がんばったお肌には、ぬるぬるのご褒美が必要なのぉ〜。",
+      ogi: "仕事のモヤモヤ、熱波でまとめてログアウトですッ！",
+      iwakura: "今夜の疲労回復プラン、私が組みます。まずは深呼吸を。",
+      tsuyuki: "まだ夜は残ってる。少し走れば、空の広い露天に着く。"
+    };
+
+    const OPENING_LINES = {
+      yukawa: [
+        "お疲れ様です！ 今日も一日、よく乗り切りましたね。今夜は近場でサクッと整えるか、少しだけ足を伸ばすか、気分で決めましょう。",
+        "まずは無理しない方向でいきましょう。疲れてる日は、近くて綺麗で、ちゃんと温まれる場所がいちばん助かりますから。",
+        "今日の疲れ、持ち帰るにはちょっと重そうですね。お湯・距離・過ごし方、3つだけ選んでくれたら候補を絞ります。"
+      ],
+      izumi: [
+        "お疲れ様ぁ〜。今日のお肌、かなり頑張ってる顔してるよぉ。ぬるぬる、しっとり、やさしいお湯で甘やかしてあげよ？",
+        "今夜はどんなお湯に包まれたい？ 美肌の湯、やわらかい泉質、露天の湯けむり……お肌が喜ぶ方へ行こ〜。",
+        "一日中がんばった体には、ちゃんと潤いが必要なのぉ。泉質重視か、のんびり過ごすか、今の気分を教えてねぇ。"
+      ],
+      ogi: [
+        "お疲れ様ですッ！！ その肩こり、サウナと水風呂で一気にログアウトしましょう！ 今夜の熱量、選んでください！",
+        "仕事のモヤモヤ、まだ残ってますね！？ なら温めて、冷まして、休む！ この三段構えでいきましょうッ！",
+        "今日は攻めますか？ それともじっくり整えますか？ サウナ、水風呂、外気浴の導線まで見て、ベストな一湯を出します！"
+      ],
+      iwakura: [
+        "お疲れ様です。今夜は短時間で済ませるか、岩盤浴まで含めて長めにこもるか。まずは滞在計画を立てましょう。",
+        "疲れている日ほど、入浴と休憩の順番が大事です。炭酸泉、岩盤浴、外気浴……今夜の優先順位を教えてください。",
+        "退勤後の時間は貴重です。だからこそ、ただ入るだけではなく、どう過ごすかまで含めて最適な施設を選びましょう。"
+      ],
+      tsuyuki: [
+        "まだ夜は残ってる。近場で済ませるのもいいけど、少し走れば空の広い露天に着くかもしれない。どっちにする？",
+        "今日のノイズ、頭に残ってるね。お湯だけじゃなくて、景色や帰り道まで含めて、今夜の行き先を決めよう。",
+        "遠くへ行く理由なんて、湯けむりと夜風があれば十分。近くで整うか、少し遠くでほどけるか、選んで。"
+      ]
+    };
+
+    const TIRED_OPENING_LINES = {
+      yukawa: "……お疲れ様です。今日はもう、近い・綺麗・迷わない。この三条件でいきましょう。説明は短めにしますね。",
+      izumi: "お疲れ様ぁ……今日はお肌も心も、説明を聞く体力なさそう。やさしいお湯だけ選ぼ。だいじょうぶ、湯気が全部ぼかしてくれるよぉ。",
+      ogi: "お疲れ様です……ッ。今日は熱血も省エネです。温める、冷ます、寝る。これ以上の会議は不要です！",
+      iwakura: "かなりお疲れですね。今日は詳細比較をやめます。入浴、休憩、帰宅。この順で生還しましょう。",
+      tsuyuki: "今日は言葉が多いと疲れる日だね。景色の広いところか、近くて静かなところ。どちらかだけ決めよう。"
+    };
+
+    // 3 × 2 × 2 = 12通り。すべて固定データで構成。
+    let DIAGNOSIS_MASTER = []; /*
+      {
+        condition: { q1: "A", q2: "A", q3: "A" }, character: "izumi",
+        primary: { name: "長久手温泉 ござらっせ", location: "近場エリア／仕事帰り向け", tags: ["天然温泉", "露天風呂", "近場"], desc: "露天風呂と多彩な浴槽を備えた、普段使いしやすい温浴施設。", reason: "泉質の個性を楽しみながら、露天の風で気分を切り替えたい夜に。肌あたりを確かめつつゆっくり浸かる過ごし方が、デスクワーク後のリラックスタイムに向いています。" },
+        secondary: { name: "天然温泉 かきつばた", location: "刈谷方面／寄り道ルート", tags: ["天然温泉", "露天", "寄り道"], desc: "落ち着いた露天空間で天然温泉を楽しめる、少しテイストを変えたい日の候補。", reason: "天然温泉の浴感と、外に抜ける空気の両方を味わいたい人向け。近場の気軽さは残しながら、いつもの施設とは違う露天時間をつくれます。", comment: "泉潤天：「そこ、もうホームなんだねぇ。じゃあ今日は『かきつばた』に寄り道しよ？ お湯の違いをお肌で比べるのぉ〜」" }
+      },
+      {
+        condition: { q1: "A", q2: "A", q3: "B" }, character: "izumi",
+        primary: { name: "池田温泉", location: "岐阜・池田方面／ドライブ", tags: ["ぬるぬる浴感", "天然温泉", "遠出"], desc: "岐阜を代表する、なめらかな浴感で知られる天然温泉。", reason: "なめらかな浴感を最優先し、露天で日常から離れたい日にぴったり。湯上がりの肌触りを楽しみたいという希望と、ドライブしてでも泉質を味わいたい気分が重なります。" },
+        secondary: { name: "日帰り温泉 根尾川谷汲温泉", location: "岐阜・谷汲方面／奥いびルート", tags: ["美肌の湯", "自然", "秘境感"], desc: "奥いびの豊かな緑に囲まれ、静けさと天然温泉を味わえる施設。", reason: "泉質へのこだわりはそのままに、静かな自然環境までセットで楽しめる裏ルート。肌あたりのよい湯をゆっくり味わい、露天の空気で心身を休めたい夜におすすめです。", comment: "泉潤天：「あそこはいつも行くホームだったんだねぇ。それなら、同じぬるぬる系でも、もう少し奥にドライブして『根尾川谷汲温泉』に行ってみてぇ。完全に日常を忘れられるのぉ〜」" }
+      },
+      {
+        condition: { q1: "A", q2: "B", q3: "A" }, character: "izumi",
+        primary: { name: "キャナル・リゾート", location: "名古屋市内／近場", tags: ["天然温泉", "岩盤浴", "長居"], desc: "天然温泉と大型岩盤浴エリアを一度に楽しめる都市型スパ。", reason: "お湯の浴感を楽しんだあと、岩盤浴でじんわり温まりたい日に。入浴と休憩を交互に挟みやすく、短い夜でも“温泉にこもる”満足感をつくれます。" },
+        secondary: { name: "天然温泉 アーバンクア", location: "名古屋市内／静かめルート", tags: ["天然温泉", "温活", "街なか"], desc: "街なかで温泉・温活・休憩をまとめて楽しめる施設。", reason: "遠くへ行かずに天然温泉と温活を両立したい人向け。お湯で体を温めてから休憩を挟み、無理なく長めに過ごしたいという希望に合います。", comment: "泉潤天：「キャナルがホームなの、わかるぅ〜。今日は街なかの『アーバンクア』で、静かにお湯と温活を重ねてみない？」" }
+      },
+      {
+        condition: { q1: "A", q2: "B", q3: "B" }, character: "izumi",
+        primary: { name: "湯の華アイランド", location: "岐阜・可児方面／ドライブ", tags: ["天然温泉", "岩盤浴", "一日滞在"], desc: "川沿いの景色と温泉、岩盤浴を組み合わせて長く過ごせる温浴リゾート。", reason: "天然温泉を味わうことと、岩盤浴にこもることをどちらも諦めたくない日に。景色を眺めながら休憩を挟めるため、遠出そのものをリフレッシュ時間に変えられます。" },
+        secondary: { name: "天光の湯", location: "岐阜・多治見方面／裏ドライブ", tags: ["天然温泉", "庭園露天", "温活"], desc: "落ち着いた露天空間と温浴を楽しむ、東濃方面の寄り道候補。", reason: "泉質を楽しみながら、にぎやかな大型施設とは違う空気でじっくり過ごしたい人向け。温浴と休憩を重ね、仕事モードをゆっくりほどけます。", comment: "泉潤天：「湯の華までホームなのぉ？ じゃあ多治見へチェンジ。『天光の湯』で、お肌も気分もゆるゆるにしよ〜」" }
+      },
+      {
+        condition: { q1: "B", q2: "A", q3: "A" }, character: "iwakura",
+        primary: { name: "天空SPA HILLS 竜泉寺の湯", location: "名古屋・守山方面／近場", tags: ["炭酸泉", "展望露天", "外気浴"], desc: "炭酸泉と街を望む露天スペースを楽しめる、仕事帰りの王道。", reason: "炭酸泉でぬるめにじっくり温まり、開放的な露天でクールダウンしたい夜に。強い熱さよりも、入浴と外気浴をゆったり往復する過ごし方に向いています。" },
+        secondary: { name: "庄内温泉 喜多の湯", location: "名古屋・北区方面／近場", tags: ["機能風呂", "露天", "普段使い"], desc: "多彩な機能風呂と露天を気軽に楽しめる、日常使いの候補。", reason: "炭酸系・機能系のお風呂を楽しみ、外の空気で休みたいという軸を保った別案。移動負担を抑えながら、浴槽の種類を変えて気分転換できます。", comment: "御堂福禄：「竜泉寺がホーム。王道を押さえていますね。では今夜は『喜多の湯』で、機能風呂を順番に攻略しましょう」" }
+      },
+      {
+        condition: { q1: "B", q2: "A", q3: "B" }, character: "tsuyuki",
+        primary: { name: "土岐よりみち温泉", location: "岐阜・土岐方面／ドライブ", tags: ["炭酸泉", "展望露天", "夜景"], desc: "高台の展望露天と炭酸泉を組み合わせた、遠出の王道。", reason: "炭酸泉でゆったり温まったあと、高台の風と眺望で頭を空っぽにしたい日に。仕事終わりでも、移動した距離そのものが日常を切り替えるスイッチになります。" },
+        secondary: { name: "恵みの湯", location: "岐阜・各務原方面／寄り道ドライブ", tags: ["季節湯", "外気浴", "落ち着き"], desc: "季節感のあるお風呂と、肩の力を抜いて休める空間が魅力の候補。", reason: "機能風呂を楽しむ軸は残しつつ、派手な絶景よりも落ち着く外気浴へテイストを変更。香りや季節を感じながら、感覚をゆっくり切り替えたい日に合います。", comment: "暮林恵比寿：「土岐はもう日常圏か。なら少し方角を変えよう。『恵みの湯』の夜風は、帰り道まで含めて静かだね」" }
+      },
+      {
+        condition: { q1: "B", q2: "B", q3: "A" }, character: "iwakura",
+        primary: { name: "RAKU SPA GARDEN 名古屋", location: "名古屋市内／近場", tags: ["炭酸泉", "岩盤浴", "おこもり"], desc: "お風呂・岩盤浴・休憩を一か所で完結しやすい大型スパ。", reason: "炭酸泉でゆっくり温まり、岩盤浴と休憩を往復して長居したい夜に。館内で過ごし方を切り替えやすく、遠出せずに“今日は帰りたくない”をかなえます。" },
+        secondary: { name: "湯〜とぴあ宝", location: "名古屋・笠寺方面／近場", tags: ["多彩な浴槽", "休憩", "長時間"], desc: "多彩なお風呂と館内設備で、時間を気にせず過ごしやすい施設。", reason: "機能風呂を巡りながら、休憩を多めに取って長時間過ごしたい人向け。岩盤浴だけに限定せず、館内全体を“おこもり先”として使える別案です。", comment: "御堂福禄：「RAKU SPAが会議室代わりとは、なかなかですね。なら『湯〜とぴあ宝』へ。今夜の退勤先を変更します」" }
+      },
+      {
+        condition: { q1: "B", q2: "B", q3: "B" }, character: "iwakura",
+        primary: { name: "土岐よりみち温泉", location: "岐阜・土岐方面／ドライブ", tags: ["超炭酸泉", "岩盤浴", "展望"], desc: "高台の展望露天と炭酸泉、趣向の異なる岩盤浴を一度に楽しめる施設。", reason: "炭酸泉でじっくり温まり、岩盤浴で長時間おこもりしたい希望に正面から応える王道です。高台の眺めもあり、遠出した満足感まで一度に回収できます。" },
+        secondary: { name: "武芸川温泉", location: "岐阜・関方面／裏ドライブ", tags: ["岩盤浴", "自然", "高コスパ"], desc: "関川の自然を感じる露天風呂と、複数の岩盤房を楽しめる施設。", reason: "温浴と岩盤浴をたっぷり楽しむ条件は保ちながら、展望型から自然に包まれる隠れ家型へチェンジ。時間を急がず、静かに温まり続けたい夜に向いています。", comment: "御堂福禄：「いつも行く快適さに飽きたらチェンジですね。関の『武芸川温泉』なら、隠れ家旅館に来たような静かな気分を味わえますよ」" }
+      },
+      {
+        condition: { q1: "C", q2: "A", q3: "A" }, character: "ogi",
+        primary: { name: "キャナル・リゾート", location: "名古屋市内／近場", tags: ["高温サウナ", "深い水風呂", "外気浴"], desc: "サウナ、水風呂、外気浴をテンポよく巡りやすい大型温浴施設。", reason: "熱いサウナのあとに水風呂へ入り、外気浴でしっかり休みたい人向け。仕事帰りに遠くへ行かず、“温・冷・休”の流れを楽しめるのが決め手です。" },
+        secondary: { name: "天然温泉 コロナの湯 中川店", location: "名古屋・中川方面／近場", tags: ["サウナ", "水風呂", "露天休憩"], desc: "サウナと多彩なお風呂を日常的に使いやすい、近場の別ルート。", reason: "サウナから水風呂、休憩へ進む基本軸を崩さず、いつもと違うセッティングを試したい日に。近距離で比較できるため、自分好みの温度や休み方を探せます。", comment: "熱波大黒：「キャナルがホーム！？ さすが先輩ッ！ なら中川の『コロナの湯』で、別セッティングを検証しましょう！」" }
+      },
+      {
+        condition: { q1: "C", q2: "A", q3: "B" }, character: "tsuyuki",
+        primary: { name: "大垣サウナ", location: "岐阜・大垣方面／サ旅", tags: ["サウナ", "水風呂", "サ旅"], desc: "サウナ好きが一度は目指したい、熱と水をシンプルに味わう老舗。", reason: "設備の派手さより、サウナと水風呂そのものに集中したい夜に。遠出の手間も含めて儀式になり、デスクワークの思考をきっぱり切り替えたい希望に合います。" },
+        secondary: { name: "サウナイーグル", location: "愛知・知立方面／夜ドライブ", tags: ["高温サウナ", "水風呂", "サウナ特化"], desc: "熱さと冷たさに向き合いたい人のための、サウナ特化型候補。", reason: "サウナと水風呂を主役にする条件はそのまま、老舗の静けさからイベント感のある熱体験へ方向転換。刺激と達成感を求める夜に向いています。", comment: "暮林恵比寿：「大垣がホームとは筋金入りだね。なら東へ振ろう。今夜は知立で、熱の種類を変えない？」" }
+      },
+      {
+        condition: { q1: "C", q2: "B", q3: "A" }, character: "ogi",
+        primary: { name: "天然温泉 アーバンクア", location: "名古屋市内／近場", tags: ["サウナ", "温活", "おこもり"], desc: "サウナと温活エリアを組み合わせ、街なかで長く過ごしやすい施設。", reason: "サウナで汗をかいたあともすぐ帰らず、温活や休憩を重ねたい人向け。近場ながら館内で過ごし方を変えられ、平日の夜を小さな休日にできます。" },
+        secondary: { name: "RAKU SPA GARDEN 名古屋", location: "名古屋市内／近場", tags: ["サウナ", "岩盤浴", "休憩充実"], desc: "サウナ後も岩盤浴や休憩スペースで、ゆっくり夜を延長できる施設。", reason: "サウナの爽快感と岩盤浴のじんわりした温まりを両立する別案。休憩を挟みながら長時間過ごせるため、短時間で追い込むより“こもって整える”日に合います。", comment: "熱波大黒：「アーバンクアがホームなら話が早いッ！ 次は『RAKU SPA』で、サウナ後のおこもり性能をベンチマークです！」" }
+      },
+      {
+        condition: { q1: "C", q2: "B", q3: "B" }, character: "tsuyuki",
+        primary: { name: "よりみち温泉", location: "岐阜・土岐方面／夜ドライブ", tags: ["サウナ", "岩盤浴", "展望"], desc: "サウナ、岩盤浴、高台の眺めをまとめて楽しめる遠出候補。", reason: "サウナでしっかり汗をかき、岩盤浴と休憩で夜を長く過ごしたい人向け。高台まで走ることで仕事場との距離が生まれ、気持ちの切り替えにもつながります。" },
+        secondary: { name: "湯の華アイランド", location: "岐阜・可児方面／別ルート", tags: ["サウナ", "岩盤浴", "川景色"], desc: "温浴と岩盤浴に、川沿いの景色まで組み合わせられる滞在型施設。", reason: "熱と温活を軸にしながら、高台のパノラマから川沿いの自然へテイストを変更。汗をかく時間と景色を眺める時間を交互に取りたい夜におすすめです。", comment: "暮林恵比寿：「土岐がいつもの景色なら、可児へ抜けよう。『湯の華』は、川を眺めている時間までコースに入るよ」" }
+      }
+    */
+
+    DIAGNOSIS_MASTER = [
+      {
+        condition: { q1: "A", q2: "A", q3: "A" }, character: "izumi",
+        primary: { name: "美人の湯 かかみがはら", location: "岐阜県・各務原市", tags: ["美肌泉質", "露天", "近場"], spring: "ナトリウム-炭酸水素塩・塩化物温泉", effects: "美肌、切り傷、冷え性", benefit: "ふふ、この泉質は見逃せないよぉ。ナトリウム-炭酸水素塩・塩化物温泉で、美肌、切り傷、冷え性が期待されるお湯。肌あたりを確かめながら、ゆっくり浸かってあげてねぇ。", intro: "『美人の湯 かかみがはら』は、お湯そのものを味わいたい日にぴったり。浴後さっぱり＆しっとりする泉質と、大きな天蓋付きの露天風呂が魅力。湯上がりの肌と気分を、やさしく潤わせに行こ〜。" },
+        secondary: { name: "各務原温泉 恵みの湯", location: "岐阜県・各務原市", tags: ["季節湯", "美肌", "外気浴"], spring: "弱アルカリ性単純温泉", effects: "疲労回復、自律神経調整、美肌", benefit: "ふふ、この泉質は見逃せないよぉ。弱アルカリ性単純温泉で、疲労回復、自律神経調整、美肌が期待されるお湯。肌あたりを確かめながら、ゆっくり浸かってあげてねぇ。", intro: "『各務原温泉 恵みの湯』は、香りまで含めて癒やされたい日にぴったり。生ハーブを使ったサウナや季節湯が唯一無二で、外気浴までやさしく整うよぉ。", comment: "泉潤天：「そこがホームなんだねぇ。じゃあ今日は『恵みの湯』で、香りとお湯にお肌を預けてみよ〜」" }
+      },
+      {
+        condition: { q1: "A", q2: "A", q3: "B" }, character: "izumi",
+        primary: { name: "池田温泉（本館・新館）", location: "岐阜県・池田町方面", tags: ["ぬるぬる浴感", "美肌", "遠出"], spring: "アルカリ性単純温泉（pH8.8以上）", effects: "神経痛、関節痛、美肌効果", benefit: "ふふ、この泉質は見逃せないよぉ。アルカリ性単純温泉で、神経痛、関節痛、美肌効果が期待されるお湯。肌あたりを確かめながら、ゆっくり浸かってあげてねぇ。", intro: "『池田温泉』は、岐阜を代表する元祖ぬるぬる温泉。純重曹型のお湯で、湯上がりのすべすべ感を楽しみたい夜にぴったりだよぉ。" },
+        secondary: { name: "日帰り温泉 根尾川谷汲温泉", location: "岐阜県・揖斐川町", tags: ["美肌の湯", "自然", "奥いび"], spring: "ナトリウム-炭酸水素塩温泉", effects: "神経痛、慢性皮膚病、美肌効果", benefit: "ふふ、この泉質は見逃せないよぉ。ナトリウム-炭酸水素塩温泉で、神経痛、慢性皮膚病、美肌効果が期待されるお湯。肌あたりを確かめながら、ゆっくり浸かってあげてねぇ。", intro: "『日帰り温泉 根尾川谷汲温泉』は、奥いびの緑に囲まれた静かな美肌湯。トロトロ・ヌルヌルの質感と露天の空気で、日常をすっと忘れられるのぉ〜。", comment: "泉潤天：「池田がホームなら、今日は奥いびへ。『根尾川谷汲温泉』のとろみ、きっとお肌が覚えちゃうよぉ」" }
+      },
+      {
+        condition: { q1: "A", q2: "B", q3: "A" }, character: "izumi",
+        primary: { name: "ぬくい温泉", location: "岐阜県・本巣市", tags: ["美肌泉質", "高濃度炭酸泉", "近場"], spring: "ナトリウム-炭酸水素塩・塩化物温泉", effects: "美肌効果、神経痛、冷え性", benefit: "ふふ、この泉質は見逃せないよぉ。ナトリウム-炭酸水素塩・塩化物温泉で、美肌効果、神経痛、冷え性が期待されるお湯。肌あたりを確かめながら、ゆっくり浸かってあげてねぇ。", intro: "『ぬくい温泉』は、ぬるぬる湯と高濃度炭酸泉の組み合わせが魅力。寝転び湯やサウナもあり、近場でゆっくり温まりたい夜に使いやすいよぉ。" },
+        secondary: { name: "六条温泉 喜多の湯", location: "岐阜県・岐阜市", tags: ["美肌湯", "岩盤浴", "岐阜市"], spring: "アルカリ性単純温泉（人工・天然）", effects: "神経痛、冷え性、疲労回復", benefit: "ふふ、この泉質は見逃せないよぉ。アルカリ性単純温泉で、神経痛、冷え性、疲労回復が期待されるお湯。肌あたりを確かめながら、ゆっくり浸かってあげてねぇ。", intro: "『六条温泉 喜多の湯』は、水素風呂や美肌の湯、岩盤浴までそろう岐阜市内の定番。お湯もおこもりも欲しい日にちょうどいいのぉ。", comment: "泉潤天：「ぬくいがいつものお湯なら、今日は六条へ。美肌湯と岩盤浴で、帰るころにはふわふわだよぉ」" }
+      },
+      {
+        condition: { q1: "A", q2: "B", q3: "B" }, character: "izumi",
+        primary: { name: "Spa Resort 湯の華アイランド", location: "岐阜県・可児市", tags: ["天然温泉", "岩盤浴", "木曽川"], spring: "カルシウム・ナトリウム-塩化物温泉", effects: "切り傷、冷え性、皮膚乾燥症", benefit: "ふふ、この泉質は見逃せないよぉ。カルシウム・ナトリウム-塩化物温泉で、切り傷、冷え性、皮膚乾燥症が期待されるお湯。肌あたりを確かめながら、ゆっくり浸かってあげてねぇ。", intro: "『Spa Resort 湯の華アイランド』は、木曽川の絶景と温泉、岩盤浴をまとめて楽しめるメガ温浴リゾート。遠出した満足感までしっかり味わえるよぉ。" },
+        secondary: { name: "天光の湯", location: "岐阜県・多治見市", tags: ["天然ラドン", "庭園露天", "東濃"], spring: "放射能温泉（天然ラドン温泉）", effects: "痛風、慢性皮膚病、高血圧、自律神経調整", benefit: "ふふ、この泉質は見逃せないよぉ。天然ラドン温泉で、痛風、慢性皮膚病、高血圧、自律神経調整が期待されるお湯。肌あたりを確かめながら、ゆっくり浸かってあげてねぇ。", intro: "『天光の湯』は、ラドン泉と庭園露天、サウナ環境まで楽しめる東濃の一湯。にぎやかさより、落ち着いて温まりたい遠出に向いてるよぉ。", comment: "泉潤天：「湯の華がホームなのぉ？ じゃあ多治見へチェンジ。『天光の湯』で、静かにお肌と気分をゆるめよ〜」" }
+      },
+      {
+        condition: { q1: "B", q2: "A", q3: "A" }, character: "iwakura",
+        primary: { name: "ぎなん温泉", location: "岐阜県・岐南町", tags: ["機能風呂", "外気浴", "近場"], spring: "ナトリウム-塩化物温泉", effects: "冷え性、関節痛、切り傷", benefit: "今夜は計画的に温まりましょう。ナトリウム-塩化物温泉で、冷え性、関節痛、切り傷が期待されます。入浴、休憩、もう一度温める。この反復に向いた施設です。", intro: "『ぎなん温泉』は、新しめの大型スパらしい使いやすさが魅力。保湿感のある温泉に加え、岩盤浴・休憩・コワーキングまでそろい、平日の夜を小さな休暇にできます。" },
+        secondary: { name: "湯どころ みのり", location: "岐阜県・岐南町", tags: ["多彩浴槽", "外気浴", "岐南"], spring: "低張性弱アルカリ性温泉", effects: "疲労回復、健康増進、筋肉痛", benefit: "今夜は計画的に温まりましょう。低張性弱アルカリ性温泉で、疲労回復、健康増進、筋肉痛が期待されます。入浴、休憩、もう一度温める。この反復に向いた施設です。", intro: "『湯どころ みのり』は、浴槽とサウナの仕掛けが強い岐南の人気施設。外気浴まで含めて、短時間でも満足度を組み立てやすいですね。", comment: "御堂福禄：「ぎなん温泉がホーム。よく分かっていますね。では今夜は『みのり』で、浴槽と休憩の順番を変えて攻略しましょう」" }
+      },
+      {
+        condition: { q1: "B", q2: "A", q3: "B" }, character: "tsuyuki",
+        primary: { name: "土岐よりみち温泉", location: "岐阜県・土岐市", tags: ["展望露天", "美肌", "夜ドライブ"], spring: "アルカリ性単純温泉（pH9.9）", effects: "美肌効果、冷え性、神経痛", benefit: "アルカリ性単純温泉の湯で、美肌効果、冷え性、神経痛が期待される。悪くないね。お湯だけじゃなく、移動や景色まで含めて、頭のノイズを落とす一湯になる。", intro: "『土岐よりみち温泉』は、高台からの展望露天と超炭酸泉、岩盤浴までそろう遠出の王道。帰り道の余韻まで今夜のコースに入れよう。" },
+        secondary: { name: "バーデンパーク SOGI", location: "岐阜県・土岐市", tags: ["自然", "露天", "東濃"], spring: "アルカリ性単純弱放射能温泉（pH9.9）", effects: "痛風、神経痛、疲労回復、冷え性", benefit: "アルカリ性単純弱放射能温泉の湯で、痛風、神経痛、疲労回復、冷え性が期待される。悪くないね。自然の静けさまで含めて、頭のノイズを落とす一湯になる。", intro: "『バーデンパーク SOGI』は、豊かな自然に囲まれた健康増進施設。総檜風呂や石風呂の風情があり、景色を変えたい夜に合う。", comment: "暮林恵比寿：「土岐がいつもの景色なら、少し静かな曽木へ。風呂の種類より、夜の空気が効く日もある」" }
+      },
+      {
+        condition: { q1: "B", q2: "B", q3: "A" }, character: "iwakura",
+        primary: { name: "六条温泉 喜多の湯", location: "岐阜県・岐阜市", tags: ["機能風呂", "岩盤浴", "岐阜市"], spring: "アルカリ性単純温泉（人工・天然）", effects: "神経痛、冷え性、疲労回復", benefit: "今夜は計画的に温まりましょう。アルカリ性単純温泉で、神経痛、冷え性、疲労回復が期待されます。入浴、休憩、もう一度温める。この反復に向いた施設です。", intro: "『六条温泉 喜多の湯』は、機能風呂と広い岩盤浴エリアで、近場のおこもり先として優秀。館内で過ごす時間まで含めて設計できます。" },
+        secondary: { name: "大垣天然温泉 湯の城", location: "岐阜県・大垣市", tags: ["温活", "長居", "大垣"], spring: "ナトリウム-塩化物温泉", effects: "冷え性、疲労回復、切り傷", benefit: "今夜は計画的に温まりましょう。ナトリウム-塩化物温泉で、冷え性、疲労回復、切り傷が期待されます。入浴、休憩、もう一度温める。この反復に向いた施設です。", intro: "『大垣天然温泉 湯の城』は、天然温泉・ナノ炭酸泉・大型サウナを押さえた優良スパ。少し足を伸ばすだけで、近場感と満足感のバランスが取れます。", comment: "御堂福禄：「六条がホームなら、大垣へ移動しましょう。『湯の城』なら、温まり直す計画が立てやすいですよ」" }
+      },
+      {
+        condition: { q1: "B", q2: "B", q3: "B" }, character: "iwakura",
+        primary: { name: "武芸川温泉", location: "岐阜県・関市", tags: ["岩盤浴", "自然", "関"], spring: "ナトリウム-炭酸水素塩・塩化物温泉", effects: "美肌効果、冷え性、神経痛", benefit: "今夜は計画的に温まりましょう。ナトリウム-炭酸水素塩・塩化物温泉で、美肌効果、冷え性、神経痛が期待されます。入浴、休憩、もう一度温める。この反復に向いた施設です。", intro: "『武芸川温泉』は、関川沿いの自然と岩盤浴の使いやすさが魅力。時間を急がず、静かに温まり続けたい夜に向いています。" },
+        secondary: { name: "養老温泉 ゆせんの里", location: "岐阜県・養老町", tags: ["療養泉", "温熱", "養老"], spring: "ナトリウム-カルシウム-塩化物温泉", effects: "神経痛、冷え性、皮膚病、疲労回復", benefit: "今夜は計画的に温まりましょう。ナトリウム-カルシウム-塩化物温泉で、神経痛、冷え性、皮膚病、疲労回復が期待されます。入浴、休憩、もう一度温める。この反復に向いた施設です。", intro: "『養老温泉 ゆせんの里』は、濃厚な源泉と温熱浴でじっくりおこもりしたい日に強い施設。平日の夜を本気の温活時間に変えられます。", comment: "御堂福禄：「武芸川がホームとは長期滞在の素質があります。なら次は養老。温熱浴まで含めて、今夜は計画的にこもりましょう」" }
+      },
+      {
+        condition: { q1: "C", q2: "A", q3: "A" }, character: "ogi",
+        primary: { name: "湯どころ みのり", location: "岐阜県・岐南町", tags: ["サウナ", "水風呂", "外気浴"], spring: "低張性弱アルカリ性温泉", effects: "疲労回復、健康増進、筋肉痛", benefit: "来ましたッ！ 低張性弱アルカリ性温泉に加えて、疲労回復、健康増進、筋肉痛が期待される温浴軸です。温める、汗を出す、休む。この流れで今夜の疲労を一気にリセットしましょう！", intro: "『湯どころ みのり』は、ミュージックロウリュウ、激熱サウナ、深い水風呂など、ととのい動線へのこだわりが熱い施設です！" },
+        secondary: { name: "天然温泉コロナの湯 大垣店", location: "岐阜県・大垣市", tags: ["サウナ", "水風呂", "大垣"], spring: "低張性弱アルカリ性温泉", effects: "疲労回復、筋肉痛、神経痛", benefit: "来ましたッ！ 低張性弱アルカリ性温泉に加えて、疲労回復、筋肉痛、神経痛が期待される温浴軸です。温める、汗を出す、休む。この流れで今夜の疲労を一気にリセットしましょう！", intro: "『天然温泉コロナの湯 大垣店』は、遠赤外線サウナや岩盤浴まで含めてガッツリ汗を流せる複合型。映画やボウリング後の追い温浴にも強いです！", comment: "熱波大黒：「みのりがホーム！？ さすがですッ！ なら大垣で別セッティングを検証しましょう！」" }
+      },
+      {
+        condition: { q1: "C", q2: "A", q3: "B" }, character: "ogi",
+        primary: { name: "大垣天然温泉 湯の城", location: "岐阜県・大垣市", tags: ["サウナ", "外気浴", "大垣"], spring: "ナトリウム-塩化物温泉", effects: "冷え性、疲労回復、切り傷", benefit: "来ましたッ！ ナトリウム-塩化物温泉に加えて、冷え性、疲労回復、切り傷が期待される温浴軸です。温める、汗を出す、休む。この流れで今夜の疲労を一気にリセットしましょう！", intro: "『大垣天然温泉 湯の城』は、天然温泉に加えてロウリュウイベントのある大型サウナが魅力。遠出気分で熱と外気浴を攻められます！" },
+        secondary: { name: "かみほの湯", location: "岐阜県・美濃市", tags: ["サウナ", "自然", "美濃"], spring: "弱アルカリ性単純温泉", effects: "神経痛、関節痛、疲労回復", benefit: "来ましたッ！ 弱アルカリ性単純温泉に加えて、神経痛、関節痛、疲労回復が期待される温浴軸です。温める、汗を出す、休む。この流れで今夜の疲労を一気にリセットしましょう！", intro: "『かみほの湯』は、美濃の自然に囲まれた隠れたサウナ名所。広いサウナや外気浴で、熱のあとに空気まで味わえます！", comment: "熱波大黒：「大垣がホームなら、美濃へ行きましょう！ 『かみほの湯』で自然外気浴まで含めたサ旅ですッ！」" }
+      },
+      {
+        condition: { q1: "C", q2: "B", q3: "A" }, character: "ogi",
+        primary: { name: "六条温泉 喜多の湯", location: "岐阜県・岐阜市", tags: ["サウナ", "岩盤浴", "近場"], spring: "アルカリ性単純温泉（人工・天然）", effects: "神経痛、冷え性、疲労回復", benefit: "来ましたッ！ アルカリ性単純温泉に加えて、神経痛、冷え性、疲労回復が期待される温浴軸です。温める、汗を出す、休む。この流れで今夜の疲労を一気にリセットしましょう！", intro: "『六条温泉 喜多の湯』は、サウナも岩盤浴も近場でまとめて楽しみたい日に頼れる岐阜市内の定番。熱と休憩をちゃんと重ねられます！" },
+        secondary: { name: "倉知温泉 マーゴの湯", location: "岐阜県・関市", tags: ["サウナ", "休憩", "関"], spring: "低張性弱アルカリ性単純温泉", effects: "疲労回復、リラックス、神経痛", benefit: "来ましたッ！ 低張性弱アルカリ性単純温泉に加えて、疲労回復、リラックス、神経痛が期待される温浴軸です。温める、汗を出す、休む。この流れで今夜の疲労を一気にリセットしましょう！", intro: "『倉知温泉 マーゴの湯』は、買い物帰りにも寄りやすく、炭酸泉や替わり湯、休憩スペースまで楽しめる関の一湯です！", comment: "熱波大黒：「六条がホームなら、関へチェンジです！ サウナ後のだらだら休憩まで、全部コースに入れましょう！」" }
+      },
+      {
+        condition: { q1: "C", q2: "B", q3: "B" }, character: "tsuyuki",
+        primary: { name: "Spa Resort 湯の華アイランド", location: "岐阜県・可児市", tags: ["岩盤浴", "サウナ", "木曽川"], spring: "カルシウム・ナトリウム-塩化物温泉", effects: "切り傷、冷え性、皮膚乾燥症", benefit: "カルシウム・ナトリウム-塩化物温泉の湯で、切り傷、冷え性、皮膚乾燥症が期待される。悪くないね。お湯だけじゃなく、移動や景色まで含めて、頭のノイズを落とす一湯になる。", intro: "『Spa Resort 湯の華アイランド』は、木曽川の絶景と大型岩盤浴をまとめて楽しめる遠出の王道。景色を眺める時間までコースに入れよう。" },
+        secondary: { name: "牧歌の里 温泉牧華", location: "岐阜県・郡上市", tags: ["高原", "遠出", "外気浴"], spring: "低張性弱アルカリ性温泉", effects: "疲労回復、筋肉痛、神経痛", benefit: "低張性弱アルカリ性温泉の湯で、疲労回復、筋肉痛、神経痛が期待される。悪くないね。高原の空気まで含めて、頭のノイズを落とす一湯になる。", intro: "『牧歌の里 温泉牧華』は、ひるがの高原の空気と温泉を味わえる遠出候補。ハーブの香りや雪見露天の余韻まで、帰り道に残る。", comment: "暮林恵比寿：「湯の華がホームなら、今日はもっと空気の薄い方へ。高原の外気浴は、音が少ない」" }
+      }
+    ];
+
+    const QUESTION_LABELS = {
+      q1: { A: "肌と心のカサつき", B: "体に積もった重たい疲れ", C: "頭から離れない仕事の熱" },
+      q2: { A: "夜空と風が待つ、ひらけた場所", B: "湯気に包まれた、静かな隠れ家" },
+      q3: { A: "足元にある小さな幸運", B: "少し遠くから呼んでいる景色" }
+    };
+
+    let currentSelection = { q1: null, q2: null, q3: null };
+    let currentResultData = null;
+    let currentVisualPattern = VISUAL_PATTERNS[0];
+    let activeGuideId = "yukawa";
+    let tiredMode = false;
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
+    }
+
+    function characterFacilityLine(characterId, facility, changed) {
+      const route = changed ? "裏ルート" : "王道";
+      const firstTag = facility.tags?.[0] || "温浴";
+      const place = facility.name;
+      const lines = {
+        yukawa: `ここは手堅く『${place}』です。${firstTag}を押さえつつ、仕事帰りでも無理しすぎない${route}。今日は難しいこと抜きで、きれいなお湯に助けてもらいましょう。`,
+        izumi: `ふふ、『${place}』が呼んでるよぉ。${firstTag}の気分なら、お湯に肌を預けるだけでかなり救われるの。急がず、湯けむりの中でゆるゆるほどけよ？`,
+        ogi: `来ましたッ、『${place}』！ ${firstTag}を軸に、体を温めて、冷まして、休む流れまで見えます！ 今夜の疲労、ここで一気にログアウトしましょう！`,
+        iwakura: `今夜の計画は『${place}』で組みます。${firstTag}を起点に、入浴、休憩、もう一度温まる。この順で進めれば、平日の夜でも満足度はかなり高いですよ。`,
+        tsuyuki: `『${place}』、悪くない。${firstTag}を味わって、帰り道の余韻まで含めて今夜のコースにしよう。少し日常から離れるだけで、頭のノイズは静かになる。`
+      };
+      return lines[characterId] || lines.yukawa;
+    }
+
+    function characterBenefitLine(characterId, facility) {
+      const spring = facility.spring || "温泉";
+      const effects = facility.effects || "疲労回復";
+      const lines = {
+        yukawa: `効能面で見ると、${spring}で、${effects}が期待されるタイプです。今日は難しく考えず、体のこわばりをほどく一湯として使いやすいですね。`,
+        izumi: `ふふ、この泉質いいよぉ。${spring}で、${effects}が期待されるお湯。肌あたりを確かめながら、ゆっくり浸かってあげてねぇ。`,
+        ogi: `来ましたッ！ ${spring}に加えて、${effects}が期待される温浴軸です。温める、汗を出す、休む。この流れで今夜の疲労を一気にリセットしましょう！`,
+        iwakura: `効能から計画すると、${spring}で、${effects}が期待されます。入浴、休憩、もう一度温める。この反復で組むのが良いですね。`,
+        tsuyuki: `${spring}の湯で、${effects}が期待される。悪くないね。お湯だけじゃなく、移動や景色まで含めて、頭のノイズを落とす一湯にしよう。`
+      };
+      return lines[characterId] || lines.yukawa;
+    }
+
+    function bubbleHTML(characterId, text) {
+      const character = CHARACTERS[characterId];
+      return `
+        <div class="flex gap-3 items-start fade-up">
+          <div class="avatar" aria-hidden="true" style="background-position:${character.imagePosition}"></div>
+          <div class="min-w-0 flex-1">
+            <div class="text-xs mb-1.5"><strong>${escapeHTML(character.name)}</strong><span class="text-stone-500 ml-2">${escapeHTML(character.role)}</span></div>
+            <div class="bubble">${escapeHTML(text)}</div>
+          </div>
+        </div>`;
+    }
+
+    function openingBubbleHTML(characterId, text, side) {
+      const character = CHARACTERS[characterId];
+      return `
+        <div class="opening-speaker ${side === "right" ? "right" : ""} fade-up">
+          <div class="opening-portrait" role="img" aria-label="${escapeHTML(character.name)}の切り出し画像" style="background-position:${character.imagePosition}"></div>
+          <div class="opening-copy min-w-0">
+            <div class="text-xs mb-1.5"><strong>${escapeHTML(character.name)}</strong><span class="text-stone-500 ml-2">${escapeHTML(character.role)}</span></div>
+            <div class="bubble">${escapeHTML(text)}</div>
+          </div>
+        </div>`;
+    }
+
+    function initOpeningTalk() {
+      const character = CHARACTERS[activeGuideId];
+      const lines = OPENING_LINES[activeGuideId];
+      const selectedLine = tiredMode ? TIRED_OPENING_LINES[activeGuideId] : lines[Math.floor(Math.random() * lines.length)];
+      const summonStage = document.getElementById("summon-stage");
+      const openingTalks = document.getElementById("opening-talks");
+      document.getElementById("summoned-guardian").style.backgroundPosition = character.imagePosition;
+      document.getElementById("summoned-guardian").setAttribute("aria-label", `${character.name}が湯気から登場`);
+      document.getElementById("summon-precomment").textContent = SUMMON_COMMENTS[activeGuideId];
+      document.getElementById("summon-guardian-name").textContent = character.name;
+      document.getElementById("summon-guardian-role").textContent = character.role;
+      openingTalks.classList.remove("is-ready");
+      openingTalks.innerHTML = openingBubbleHTML(activeGuideId, selectedLine, "left");
+      summonStage.classList.remove("is-summoning");
+      void summonStage.offsetWidth;
+      summonStage.classList.add("is-summoning");
+      window.setTimeout(() => openingTalks.classList.add("is-ready"), 4300);
+      document.getElementById("opening-scene-label").textContent = tiredMode
+        ? `17:32　${character.name}、お疲れモードで召喚`
+        : `17:32　${character.name}、湯けむりから登場`;
+      document.getElementById("opening-title").innerHTML = tiredMode
+        ? `今日はもう、<br><span style="color:var(--yuzu)">やさしい湯だけ。</span>`
+        : `岐阜の湯で、<br><span style="color:var(--yuzu)">今日を流す。</span>`;
+      document.getElementById("opening-lead").textContent = tiredMode
+        ? "五神の紹介を聞く体力も残っていない夜のための省エネ案内。今夜の担当神が、短く・迷わせず・最後まで一湯を選びます。"
+        : "湯気の中から今夜の担当神がひとり登場します。リロードするたびに別の神様・別衣装になることも。3つの質問に答えると、その神様が最後まで岐阜の一湯を案内します。";
+      document.querySelectorAll(".question-guide").forEach(guide => {
+        guide.style.backgroundPosition = character.imagePosition;
+        guide.dataset.name = character.name;
+        guide.setAttribute("aria-label", character.name);
+      });
+    }
+
+    function initVisualPattern() {
+      const ids = Object.keys(CHARACTERS);
+      activeGuideId = ids[Math.floor(Math.random() * ids.length)];
+      currentVisualPattern = VISUAL_PATTERNS[Math.floor(Math.random() * VISUAL_PATTERNS.length)];
+      tiredMode = Boolean(currentVisualPattern.tired) || Math.random() < 0.14;
+      document.body.classList.toggle("tired-mode", tiredMode);
+      document.documentElement.style.setProperty("--character-sheet", currentVisualPattern.sheet);
+      document.documentElement.style.setProperty("--costume-filter", currentVisualPattern.filter || "saturate(1)");
+      document.documentElement.style.setProperty("--guide-aura", currentVisualPattern.aura || "rgba(255, 213, 106, .28)");
+      document.getElementById("summon-costume-label").textContent = tiredMode
+        ? `${currentVisualPattern.name} / お疲れモード`
+        : currentVisualPattern.name;
+    }
+
+    function renderAboutCharacters() {
+      document.getElementById("character-grid").innerHTML = Object.entries(CHARACTERS).map(([id, character]) => `
+        <article class="profile-card">
+          <div class="flex gap-4 items-start">
+            <div class="profile-face flex-none" role="img" aria-label="${escapeHTML(character.name)}" style="background-position:${character.imagePosition}"></div>
+            <div class="min-w-0">
+              <h2 class="font-black text-lg">${escapeHTML(character.name)}</h2>
+              <div class="text-xs text-amber-300 mt-1">${escapeHTML(character.department)}</div>
+            </div>
+          </div>
+          <p class="text-sm text-stone-300 leading-6 mt-4">${escapeHTML(character.profile)}</p>
+          <p class="text-xs text-stone-500 mt-3">「${escapeHTML(character.motto)}」</p>
+        </article>`).join("");
+    }
+
+    function updateClock() {
+      const now = new Date();
+      document.getElementById("clock").textContent = now.toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function showDiagnosis(reset = false) {
+      if (reset) {
+        currentSelection = { q1: null, q2: null, q3: null };
+        document.querySelectorAll(".option").forEach(button => button.classList.remove("selected"));
+        updateProgress();
+      }
+      document.getElementById("about-section").classList.add("hidden");
+      document.getElementById("result-section").classList.add("hidden");
+      document.getElementById("opening-section").classList.remove("hidden");
+      document.getElementById("diagnosis-section").classList.remove("hidden");
+      document.getElementById("diagnosis-section").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function showOpening() {
+      document.getElementById("about-section").classList.add("hidden");
+      document.getElementById("result-section").classList.add("hidden");
+      document.getElementById("opening-section").classList.remove("hidden");
+      document.getElementById("diagnosis-section").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showAbout() {
+      document.getElementById("opening-section").classList.add("hidden");
+      document.getElementById("diagnosis-section").classList.add("hidden");
+      document.getElementById("result-section").classList.add("hidden");
+      document.getElementById("about-section").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function selectQuestion(questionId, value, button) {
+      currentSelection[questionId] = value;
+      button.closest("[data-question]").querySelectorAll(".option").forEach(option => {
+        option.classList.toggle("selected", option === button);
+        option.setAttribute("aria-pressed", option === button ? "true" : "false");
+      });
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const count = Object.values(currentSelection).filter(Boolean).length;
+      document.getElementById("progress-count").textContent = count;
+      document.getElementById("progress-bar").style.width = `${count / 3 * 100}%`;
+      document.getElementById("diagnose-button").disabled = count !== 3;
+      const remaining = 3 - count;
+      document.getElementById("selection-hint").textContent = remaining
+        ? `あと${remaining}つ選ぶと、スパ神が今夜の一湯を示します。`
+        : "お告げがそろいました。今夜の湯運を読み解きます。";
+    }
+
+    function calculateResult() {
+      currentResultData = DIAGNOSIS_MASTER.find(item =>
+        item.condition.q1 === currentSelection.q1 &&
+        item.condition.q2 === currentSelection.q2 &&
+        item.condition.q3 === currentSelection.q3
+      );
+      if (!currentResultData) {
+        alert("この組み合わせの固定データが見つかりません。");
+        return;
+      }
+      renderResult(currentResultData.primary, false);
+      document.getElementById("opening-section").classList.add("hidden");
+      document.getElementById("diagnosis-section").classList.add("hidden");
+      document.getElementById("result-section").classList.remove("hidden");
+      document.getElementById("change-area").classList.remove("hidden");
+      document.getElementById("change-comment-box").classList.add("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderResult(facility, changed) {
+      const character = CHARACTERS[activeGuideId];
+      const content = document.getElementById("result-content");
+      content.classList.remove("swap");
+      void content.offsetWidth;
+      content.classList.add("swap");
+      document.getElementById("result-kicker").textContent = changed ? "湯運の裏ルート" : "今夜の湯運";
+      document.getElementById("result-character").textContent = `${character.name}が示した一湯`;
+      document.getElementById("result-guardian").style.backgroundPosition = character.imagePosition;
+      document.getElementById("result-guardian").setAttribute("aria-label", `${character.name}の案内`);
+      document.getElementById("result-oracle-avatar").style.backgroundPosition = character.imagePosition;
+      document.getElementById("result-oracle-name").textContent = `${character.name}からのひとこと`;
+      document.getElementById("result-oracle-text").textContent = characterFacilityLine(activeGuideId, facility, changed);
+      document.getElementById("result-title").textContent = facility.name;
+      document.getElementById("result-location").textContent = facility.location;
+      const tags = [...(facility.tags || []), facility.spring ? `泉質：${facility.spring}` : null, facility.effects ? `効能：${facility.effects}` : null].filter(Boolean);
+      document.getElementById("result-tags").innerHTML = tags.map(tag => `<span class="tag">${escapeHTML(tag)}</span>`).join("");
+      document.getElementById("result-reason").textContent = characterBenefitLine(activeGuideId, facility);
+      document.getElementById("result-desc").textContent = facility.intro || facility.desc || "";
+    }
+
+    function executeChange() {
+      if (!currentResultData) return;
+      renderResult(currentResultData.secondary, true);
+      const commentBox = document.getElementById("change-comment-box");
+      commentBox.innerHTML = bubbleHTML(activeGuideId, characterFacilityLine(activeGuideId, currentResultData.secondary, true));
+      commentBox.classList.remove("hidden");
+      document.getElementById("change-area").classList.add("hidden");
+      commentBox.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    document.getElementById("diagnose-button").addEventListener("click", calculateResult);
+    document.getElementById("change-button").addEventListener("click", executeChange);
+    document.getElementById("retry-button").addEventListener("click", () => showDiagnosis(true));
+    document.getElementById("logo-button").addEventListener("click", () => {
+      history.pushState({ view: "home" }, "", location.pathname);
+      showOpening();
+    });
+    document.getElementById("about-button").addEventListener("click", () => {
+      history.pushState({ view: "about" }, "", "#about");
+      showAbout();
+    });
+    document.getElementById("about-back-button").addEventListener("click", () => {
+      history.pushState({ view: "home" }, "", location.pathname);
+      showOpening();
+    });
+    window.addEventListener("popstate", () => location.hash === "#about" ? showAbout() : showOpening());
+    document.querySelectorAll("[data-question] .option").forEach(button => {
+      button.setAttribute("aria-pressed", "false");
+      button.addEventListener("click", () => selectQuestion(button.closest("[data-question]").dataset.question, button.dataset.value, button));
+    });
+    initVisualPattern();
+    initOpeningTalk();
+    renderAboutCharacters();
+    if (location.hash === "#about") showAbout();
+    updateClock();
+    setInterval(updateClock, 30000);
+  </script>
+</body>
+</html>
