@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スパ人 A/Bモック｜選択式 vs 書き込み式</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --ink:#fff8e9; --muted:#d8cfb6; --night:#12383d; --line:rgba(255,246,220,.18);
+      --yuzu:#ffd56a; --yu:#5fc7c9; --hinoki:#c98f52;
+      --character-sheet:url("./spajin-guardians-modern-cutout.png"); --guardian-pos:0% 50%;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;color:var(--ink);font-family:"Hiragino Sans","Yu Gothic UI","Yu Gothic",sans-serif;background:radial-gradient(circle at 82% 5%,rgba(255,213,106,.28),transparent 21rem),radial-gradient(circle at 8% 28%,rgba(95,199,201,.24),transparent 24rem),linear-gradient(180deg,#12383d 0%,#173f42 42%,#2f281e 100%)}
+    body:before{content:"";position:fixed;inset:0;z-index:-1;opacity:.35;pointer-events:none;background:repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 1px,transparent 1px 78px),radial-gradient(ellipse at 20% 20%,rgba(255,255,255,.16),transparent 20rem)}
+    button,textarea{font:inherit}.shell{width:min(1080px,calc(100% - 28px));margin:0 auto}
+    .glass{border:1px solid var(--line);background:linear-gradient(145deg,rgba(22,71,76,.88),rgba(50,59,47,.82));box-shadow:0 24px 70px rgba(5,22,24,.36);backdrop-filter:blur(14px)}
+    .tag{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.13);border-radius:999px;background:rgba(255,255,255,.08);padding:7px 11px;color:#efe7cf;font-size:12px;font-weight:800}
+    .nav-button{border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(255,255,255,.08);color:var(--ink);padding:9px 13px;font-weight:900;cursor:pointer;text-decoration:none}
+    .variant-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:6px;border-radius:22px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
+    .variant-toggle button{border:0;border-radius:17px;padding:12px 10px;color:var(--muted);background:transparent;cursor:pointer;font-weight:1000}
+    .variant-toggle button.active{color:#173018;background:linear-gradient(135deg,var(--yuzu),#fff3b8);box-shadow:0 10px 28px rgba(255,213,106,.22)}
+    .guardian-stage{position:relative;min-height:410px;overflow:hidden;border-radius:28px;background:radial-gradient(circle at 50% 78%,rgba(255,213,106,.22),transparent 13rem),linear-gradient(180deg,rgba(255,255,255,.06),rgba(0,0,0,.18))}
+    .guardian-stage:before,.guardian-stage:after{content:"";position:absolute;inset:auto -20% 0;height:68%;background:radial-gradient(ellipse at 20% 70%,rgba(255,255,255,.32),transparent 22rem),radial-gradient(ellipse at 60% 72%,rgba(255,255,255,.24),transparent 24rem);filter:blur(16px);animation:steam 6s ease-in-out infinite alternate;pointer-events:none}
+    .guardian-stage:after{opacity:.6;transform:translateY(35px) scale(1.08);animation-duration:8s;animation-delay:-2s}@keyframes steam{from{transform:translate3d(-18px,18px,0) scale(1);opacity:.46}to{transform:translate3d(20px,-18px,0) scale(1.05);opacity:.78}}
+    .phone-portal{position:absolute;left:50%;bottom:22px;width:118px;height:214px;transform:translateX(-50%) perspective(700px) rotateX(4deg);border-radius:28px;border:4px solid rgba(255,255,255,.16);background:radial-gradient(circle at 50% 22%,rgba(255,255,255,.26),transparent 4rem),linear-gradient(180deg,#1b454b,#071e22);box-shadow:0 24px 50px rgba(0,0,0,.36),inset 0 0 40px rgba(95,199,201,.18)}
+    .guardian{position:absolute;z-index:2;left:50%;bottom:-28px;width:min(76vw,270px);height:min(135vw,500px);transform:translateX(-50%);background-image:var(--character-sheet);background-repeat:no-repeat;background-size:500% 100%;background-position:var(--guardian-pos);filter:drop-shadow(0 30px 34px rgba(0,0,0,.45));animation:popGuardian 1.5s cubic-bezier(.15,.86,.19,1) both}
+    @keyframes popGuardian{0%{opacity:0;transform:translateX(-50%) translateY(110px) scale(.68);clip-path:inset(70% 0 0 0 round 34px)}58%{opacity:1;transform:translateX(-50%) translateY(-14px) scale(1.04);clip-path:inset(0)}100%{opacity:1;transform:translateX(-50%) translateY(0) scale(1);clip-path:inset(0)}}
+    .bubble{position:relative;border:1px solid rgba(255,255,255,.16);border-radius:22px;background:rgba(255,248,226,.10);padding:15px 17px;line-height:1.85}
+    .option{position:relative;min-height:112px;width:100%;border:1px solid rgba(255,255,255,.14);border-radius:22px;background:rgba(255,255,255,.08);color:var(--ink);text-align:left;padding:17px;cursor:pointer;transition:.18s}
+    .option:hover{transform:translateY(-2px);border-color:rgba(255,213,106,.55)}.option.selected{border-color:rgba(255,213,106,.9);background:linear-gradient(145deg,rgba(255,213,106,.22),rgba(95,199,201,.12));box-shadow:0 18px 40px rgba(0,0,0,.18)}
+    .check{position:absolute;top:12px;right:12px;width:24px;height:24px;border-radius:999px;display:grid;place-items:center;background:rgba(255,255,255,.1);color:transparent;font-weight:1000}.selected .check{background:var(--yuzu);color:#173018}
+    .input-box{width:100%;min-height:138px;resize:vertical;border:1px solid rgba(255,255,255,.16);border-radius:22px;padding:16px;color:var(--ink);outline:none;background:rgba(255,255,255,.08);line-height:1.75}.input-box:focus{border-color:rgba(255,213,106,.78);box-shadow:0 0 0 4px rgba(255,213,106,.12)}
+    .primary{width:100%;border:0;border-radius:20px;background:linear-gradient(135deg,var(--yuzu),#fff0b0);color:#173018;padding:16px 18px;font-weight:1000;box-shadow:0 18px 42px rgba(255,213,106,.25);cursor:pointer}.primary:disabled{opacity:.48;cursor:not-allowed;box-shadow:none}
+    .metric{border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:12px;background:rgba(0,0,0,.12)}.metric strong{display:block;font-size:22px;color:#fff3b8}.small-label{color:#ffd56a;font-size:11px;letter-spacing:.16em;font-weight:1000}.hidden{display:none!important}
+    .guide-panel{display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:center;border:1px solid rgba(255,213,106,.24);border-radius:26px;background:linear-gradient(135deg,rgba(255,213,106,.14),rgba(95,199,201,.10));padding:14px;margin-top:22px}
+    .guide-avatar{width:92px;height:126px;background-image:var(--character-sheet);background-repeat:no-repeat;background-size:500% 100%;background-position:var(--guardian-pos);filter:drop-shadow(0 16px 18px rgba(0,0,0,.32))}
+    .guide-speech{border:1px solid rgba(255,255,255,.13);border-radius:20px;background:rgba(0,0,0,.14);padding:13px 14px;line-height:1.8}
+    .guide-speech strong{color:#fff3b8}.question-guide-line{margin-top:10px;color:#d8cfb6;font-size:13px;line-height:1.8}
+    @media(max-width:640px){.guide-panel{grid-template-columns:72px 1fr;padding:12px}.guide-avatar{width:72px;height:104px}.guide-speech{font-size:14px}}
+    code{color:#fff3b8}
+  </style>
+</head>
+<body>
+  <header class="shell flex items-center justify-between gap-3 py-5">
+    <a href="./spajin.html" class="flex items-center gap-3 text-left no-underline text-inherit">
+      <span class="w-11 h-11 rounded-2xl grid place-items-center font-black text-xl" style="background:linear-gradient(135deg,var(--yuzu),#fff0b0);color:#173018">湯</span>
+      <span><strong class="block leading-tight">スパ人</strong><small class="text-stone-300">A/B MOCK</small></span>
+    </a>
+    <div class="flex items-center gap-2"><button id="export-log" class="nav-button">ログCSV</button><a href="./spajin.html" class="nav-button">本編へ</a></div>
+  </header>
+  <main class="shell pb-16">
+    <section class="glass rounded-[30px] overflow-hidden">
+      <div class="grid lg:grid-cols-[.95fr_1.05fr]">
+        <div class="p-6 sm:p-9">
+          <div class="tag mb-5">モックABテスト / 選択式 vs 書き込み式</div>
+          <h1 class="text-3xl sm:text-5xl font-black leading-tight">今夜の一湯、<br>どう選ぶと楽しいか。</h1>
+          <p class="text-stone-300 leading-7 mt-5">今までのスパ神演出を引き継ぎつつ、診断入力の違いだけを比較します。A案は迷わないカード選択、B案は一言入力でAI占い感を足します。</p>
+          <div class="variant-toggle mt-6"><button id="variant-a" data-variant="A">A 選択式</button><button id="variant-b" data-variant="B">B 書き込み式</button></div>
+          <div class="grid grid-cols-3 gap-3 mt-5"><div class="metric"><small>主指標</small><strong>完走</strong></div><div class="metric"><small>副指標</small><strong>納得</strong></div><div class="metric"><small>観察</small><strong>面白さ</strong></div></div>
+        </div>
+        <div class="guardian-stage">
+          <div class="absolute z-10 left-5 right-5 top-5"><div id="guardian-bubble" class="bubble">湯気が濃い夜ですね。今日は、あなたの選び方そのものを占ってみましょう。</div></div>
+          <div class="phone-portal"></div><div id="guardian" class="guardian" role="img" aria-label="湯気から登場するスパ神"></div>
+        </div>
+      </div>
+    </section>
+    <section class="mt-6 glass rounded-[30px] p-5 sm:p-8">
+      <div class="flex flex-wrap items-end justify-between gap-4"><div><div class="small-label">DIAGNOSIS INPUT</div><h2 id="variant-title" class="text-2xl sm:text-3xl font-black mt-1"></h2></div><span id="variant-note" class="tag"></span></div>
+      <div class="guide-panel" aria-live="polite">
+        <div class="guide-avatar" role="img" aria-label="今夜の担当スパ神"></div>
+        <div>
+          <div class="small-label">TONIGHT'S GUIDE</div>
+          <div class="guide-speech"><strong id="guide-name">湯川明神</strong><br><span id="guide-line">ここからは私が案内します。直感で選んでください。</span></div>
+          <p id="guide-progress" class="question-guide-line">まずは、今夜いちばん流してしまいたいものから。</p>
+        </div>
+      </div>
+      <form class="mt-7 space-y-6">
+        <fieldset><legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">01</span>今夜、いちばん流してしまいたいものは？</legend><div class="grid sm:grid-cols-3 gap-3" data-question="q1">
+          <button type="button" class="option" data-value="A"><span class="check">✓</span><span class="text-2xl">✧</span><strong class="block mt-2">肌と心のカサつき</strong><small class="text-stone-400">やわらかな湯で潤いたい</small></button>
+          <button type="button" class="option" data-value="B"><span class="check">✓</span><span class="text-2xl">◌</span><strong class="block mt-2">体に積もった重さ</strong><small class="text-stone-400">泡と仕掛けで巡らせたい</small></button>
+          <button type="button" class="option" data-value="C"><span class="check">✓</span><span class="text-2xl">♨</span><strong class="block mt-2">頭の中のノイズ</strong><small class="text-stone-400">熱と水で切り替えたい</small></button>
+        </div></fieldset>
+        <fieldset><legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">02</span>今のあなたを呼んでいる場所は？</legend><div class="grid sm:grid-cols-2 gap-3" data-question="q2">
+          <button type="button" class="option" data-value="A"><span class="check">✓</span><span class="text-2xl">☾</span><strong class="block mt-2">空の下で息を抜く場所</strong><small class="text-stone-400">露天・外気浴・絶景</small></button>
+          <button type="button" class="option" data-value="B"><span class="check">✓</span><span class="text-2xl">▤</span><strong class="block mt-2">湯気の奥にこもる場所</strong><small class="text-stone-400">岩盤浴・休憩・長時間滞在</small></button>
+        </div></fieldset>
+        <fieldset><legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">03</span>どの湯脈をひらきますか？</legend><div class="grid sm:grid-cols-4 gap-3" data-question="area">
+          <button type="button" class="option" data-value="横浜・川崎"><span class="check">✓</span><strong>港灯の都市湯脈</strong><small class="block text-stone-400 mt-1">横浜・川崎</small></button>
+          <button type="button" class="option" data-value="湘南・三浦"><span class="check">✓</span><strong>潮風の湘南湯脈</strong><small class="block text-stone-400 mt-1">湘南・三浦</small></button>
+          <button type="button" class="option" data-value="相模原・西湘"><span class="check">✓</span><strong>山風の西湘湯脈</strong><small class="block text-stone-400 mt-1">相模原・西湘</small></button>
+          <button type="button" class="option" data-value="箱根・湯河原"><span class="check">✓</span><strong>名湯の箱根湯脈</strong><small class="block text-stone-400 mt-1">箱根・湯河原</small></button>
+        </div></fieldset>
+        <fieldset id="free-text-block" class="hidden"><legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">04</span>最後に、今の気分を一言だけどうぞ</legend><textarea id="free-text" class="input-box" maxlength="140" placeholder="例：今日は何も考えず、海風を浴びてぼーっとしたい"></textarea><p class="text-stone-400 text-sm mt-2">B案のみ表示。入力が空でも診断できます。OpenAI本番接続時は、この一言をキャラ文生成の味付けに使います。</p></fieldset>
+        <button id="submit-button" class="primary" type="button" disabled>今夜のスパ神に聞く</button>
+      </form>
+    </section>
+    <section id="result-section" class="mt-6 hidden">
+      <div class="glass rounded-[30px] p-5 sm:p-8">
+        <div class="small-label">RESULT / MOCK OPENAI CHARACTER TEXT</div><h2 id="result-name" class="text-3xl font-black mt-2"></h2><p id="result-meta" class="text-stone-300 mt-2"></p>
+        <div class="grid md:grid-cols-[1fr_.72fr] gap-5 mt-6"><div><div class="bubble"><strong id="result-guardian" class="text-amber-200"></strong><p id="result-character-text" class="mt-2"></p></div><div class="mt-5 rounded-3xl p-4 bg-black/20 border border-white/10"><div class="small-label">DATABASE FIELDS USED</div><p id="result-db-text" class="text-stone-300 leading-7 mt-2"></p></div></div>
+        <div class="space-y-3"><div class="metric"><small>入力形式</small><strong id="result-variant"></strong></div><div class="metric"><small>候補抽出</small><strong id="result-score"></strong></div><div class="metric"><small>想定API</small><strong>Cloud Run</strong></div><button id="change-button" class="nav-button w-full">別の施設にチェンジ</button><button id="reset-button" class="nav-button w-full">もう一度試す</button></div></div>
+      </div>
+    </section>
+    <section class="mt-6 glass rounded-[30px] p-5 sm:p-8"><div class="small-label">HANDOFF NOTES</div><h2 class="text-2xl font-black mt-1">業者さんへの引継ぎメモ</h2>
+      <div class="grid md:grid-cols-3 gap-4 mt-5 text-sm leading-7 text-stone-300"><div class="rounded-3xl p-4 bg-white/5 border border-white/10"><strong class="text-amber-200">A/Bテスト対象</strong><br>施設DBやスパ神設定は共通。変えるのは入力UIだけ。</div><div class="rounded-3xl p-4 bg-white/5 border border-white/10"><strong class="text-amber-200">OpenAI API</strong><br>このモックでは擬似生成。本番ではCloud Runの <code>/api/character-text</code> に置き換える。</div><div class="rounded-3xl p-4 bg-white/5 border border-white/10"><strong class="text-amber-200">DB連携</strong><br>神奈川県_施設マスターの列名をAPIレスポンスに変換して使用。</div></div>
+      <pre class="mt-5 overflow-auto rounded-3xl p-4 text-xs leading-6 bg-black/25 border border-white/10"><code>POST /api/recommend
+input:  { variant, q1_type, q2_type, area_label, free_text }
+output: { facility, guardian, character_text, ab_log_id }</code></pre></section>
+  </main>
+  <script>
+    const GUARDIANS={yukawa:{name:"湯川明神",pos:"0% 50%",intro:"迷ったら、失敗しにくい一湯から行きましょう。仕事終わりの判断力は温存です。",guide:["まずは体の声から行きましょう。難しく考えなくて大丈夫です。","次は過ごし方です。サクッと抜くか、じっくり回復か。","最後に湯脈を選びましょう。今夜の移動気分に近いエリアで。","揃いました。かなり現実的にいい候補が出せます。"]},izumi:{name:"泉潤天",pos:"25% 50%",intro:"お肌と心が、少し乾いている夜かもねぇ。湯ざわりの声を聞いてみよぉ。",guide:["最初は、今夜どこをやさしくほどきたいか教えてねぇ。","次はね、風にあたりたいか、湯気に包まれたいかだよぉ。","湯脈を選んでぇ。お湯の神様がそっちに流れていくからねぇ。","うん、見えてきたよぉ。今夜のお肌と心に合う一湯。"]},neppa:{name:"熱波大黒",pos:"50% 50%",intro:"頭の中がモヤつく日は、熱と水で一回再起動ッ！でも無理は禁物ですッ！",guide:["一問目ッ！今日いちばん吹き飛ばしたい疲れはどれですかッ！","二問目ッ！外で風を浴びるか、館内で粘るか、勝負です！","エリア選択ッ！ここで今夜の導線が決まります！","よし、出ましたッ！今夜のリセット候補、いきます！"]},mido:{name:"御堂福禄",pos:"75% 50%",intro:"今日は回復計画を立てましょう。短時間か、おこもりか。そこが分岐点です。",guide:["まず不調の種類を分類します。感覚で構いません。","次に滞在スタイルです。ここは満足度に直結します。","エリアを確定しましょう。候補施設を一気に絞れます。","条件は揃いました。あとは施設との相性を見ます。"]},kurebayashi:{name:"暮林恵比寿",pos:"100% 50%",intro:"風のある湯は、帰り道まで効きます。……今夜の余韻を選びましょう。",guide:["最初の問いです。今夜、何を湯気に預けたいですか。","次は場所の気配。空か、湯気の奥か。","湯脈をひとつ。風景は、選んだあとから効いてきます。","……見えました。帰り道まで残る一湯です。"]}};
+    const FACILITIES=[
+      {id:"kanagawa_001",area:"横浜・川崎",name:"RAKU SPA BAY 横浜",q1:"A",q2:"A",quality:"ナトリウム-塩化物温泉",effects:"温まり感",point:"みなとみらいの夜景を望むテラスと、リゾート感ある大人の隠れ家スパ。",tags:["露天・絶景","近場・日常"],guardians:["kurebayashi","yukawa"],scoreBase:80},
+      {id:"kanagawa_002",area:"横浜・川崎",name:"RAKU SPA 鶴見",q1:"A",q2:"B",quality:"弱アルカリ性温泉、プラネタリウム岩盤浴",effects:"肌ざわり・湯上がり感",point:"漫画と岩盤浴で、1日中だらだら籠もれるエンタメ型温浴施設。",tags:["美肌・泉質","おこもり"],guardians:["izumi","mido","yukawa"],scoreBase:86},
+      {id:"kanagawa_005",area:"横浜・川崎",name:"スカイスパYOKOHAMA",q1:"C",q2:"A",quality:"人工炭酸泉、サウナ特化",effects:"リセット感",point:"横浜の夜景と本格アウフグース環境が魅力のサウナー向け施設。",tags:["サウナ","露天・絶景"],guardians:["neppa","kurebayashi"],scoreBase:92},
+      {id:"kanagawa_017",area:"湘南・三浦",name:"横須賀温泉 湯楽の里",q1:"A",q2:"A",quality:"ナトリウム-塩化物強塩温泉",effects:"温まり感",point:"東京湾を眺める大パノラマ露天と、海風の外気浴が魅力。",tags:["露天・絶景","遠出・非日常"],guardians:["kurebayashi","izumi"],scoreBase:90},
+      {id:"kanagawa_020",area:"湘南・三浦",name:"湘南RESORT SPA 竜泉寺の湯",q1:"B",q2:"A",quality:"炭酸泉、各種機能風呂",effects:"めぐり・リセット感",point:"広大な露天風呂と高濃度炭酸泉、湘南の風が抜ける外気浴。",tags:["炭酸泉・機能風呂","露天・絶景"],guardians:["mido","kurebayashi"],scoreBase:88},
+      {id:"kanagawa_030",area:"相模原・西湘",name:"湯花楽 厚木店",q1:"C",q2:"B",quality:"高濃度炭酸泉、日本最大級の麦飯石サウナ",effects:"リセット感・温活",point:"サウナと温活に特化。広大なドーム型おこもりサウナが魅力。",tags:["サウナ","おこもり","炭酸泉・機能風呂"],guardians:["neppa","mido"],scoreBase:89},
+      {id:"kanagawa_031",area:"相模原・西湘",name:"湯楽おんりーゆー",q1:"A",q2:"B",quality:"単純温泉（弱アルカリ性・療養泉）",effects:"やさしい入り心地",point:"南足柄の森の奥深く。ぬる湯の露天で五感を静めるリトリート。",tags:["美肌・泉質","おこもり","露天・絶景"],guardians:["izumi","kurebayashi"],scoreBase:87},
+      {id:"kanagawa_070",area:"箱根・湯河原",name:"天山湯治郷",q1:"A",q2:"A",quality:"アルカリ性単純温泉・ナトリウム-塩化物泉",effects:"湯治感・やさしい入り心地",point:"木々と岩に囲まれた複数の野天風呂で、魂からリセットする湯治の聖地。",tags:["美肌・泉質","露天・絶景","遠出・非日常"],guardians:["izumi","kurebayashi","yukawa"],scoreBase:94},
+      {id:"kanagawa_073",area:"箱根・湯河原",name:"龍宮殿本館",q1:"A",q2:"A",quality:"カルシウム・ナトリウム-硫酸塩・塩化物温泉",effects:"湯治感・温まり感",point:"芦ノ湖と富士山の絶景が同時に広がる、日本最高峰クラスの絶景露天。",tags:["露天・絶景","遠出・非日常"],guardians:["kurebayashi","yukawa"],scoreBase:95}
+    ];
+    const state={variant:new URLSearchParams(location.search).get("variant")?.toUpperCase()==="B"?"B":"A",q1:null,q2:null,area:null,usedIds:new Set(),openingGuardianId:"yukawa"};const $=id=>document.getElementById(id);
+    function chooseOpeningGuardian(){const ids=Object.keys(GUARDIANS),id=ids[Math.floor(Math.random()*ids.length)],g=GUARDIANS[id];state.openingGuardianId=id;document.documentElement.style.setProperty("--character-sheet",Math.random()>.5?"url('./spajin-guardians-mythic-cutout.png')":"url('./spajin-guardians-modern-cutout.png')");document.documentElement.style.setProperty("--guardian-pos",g.pos);$("guardian-bubble").textContent=g.intro;updateGuide(0)}
+    function updateGuide(step){const g=GUARDIANS[state.openingGuardianId];$("guide-name").textContent=g.name;$("guide-line").textContent=g.guide[Math.min(step,g.guide.length-1)];$("guide-progress").textContent=["まずは、今夜いちばん流してしまいたいものから。","いいですね。次は、どんな場所で回復したいかです。","あと少し。最後にエリアの湯脈を選びましょう。","準備完了です。スパ神が候補を読み解きます。"][Math.min(step,3)]}
+    function setVariant(v){state.variant=v;localStorage.setItem("spajin_ab_variant",v);$("variant-a").classList.toggle("active",v==="A");$("variant-b").classList.toggle("active",v==="B");$("free-text-block").classList.toggle("hidden",v!=="B");$("variant-title").textContent=v==="A"?"A案：選択カードだけで進む":"B案：選択＋一言入力で進む";$("variant-note").textContent=v==="A"?"スマホで迷わず完走できるかを検証":"AI占い感・自分ごと感が増えるかを検証";checkReady();logEvent("variant_view",{variant:v})}
+    function selectOption(group,value,button){state[group]=value;button.parentElement.querySelectorAll(".option").forEach(o=>{o.classList.toggle("selected",o===button);o.setAttribute("aria-pressed",o===button?"true":"false")});logEvent("select_option",{group,value,variant:state.variant});updateGuide(state.q1&&state.q2&&state.area?3:state.q1&&state.q2?2:state.q1?1:0);checkReady()}
+    function checkReady(){const ready=state.q1&&state.q2&&state.area;$("submit-button").disabled=!ready;if(ready)$("submit-button").textContent=`${GUARDIANS[state.openingGuardianId].name}に今夜の一湯を聞く`}
+    function recommend({change=false}={}){const freeText=$("free-text").value.trim();const scored=FACILITIES.filter(f=>f.area===state.area).map(f=>{let score=f.scoreBase;if(f.q1===state.q1)score+=25;if(f.q2===state.q2)score+=18;if(freeText){if(/海|風|夕日|空|ぼー|景色|夜景/.test(freeText)&&f.tags.includes("露天・絶景"))score+=12;if(/こも|漫画|休|寝|だら/.test(freeText)&&f.tags.includes("おこもり"))score+=12;if(/サウナ|水風呂|汗|熱/.test(freeText)&&f.tags.includes("サウナ"))score+=12;if(/肌|癒|やさ|ぬる|温泉/.test(freeText)&&f.tags.includes("美肌・泉質"))score+=12}if(change&&state.usedIds.has(f.id))score-=80;return{...f,score}}).sort((a,b)=>b.score-a.score);const facility=scored[0]||FACILITIES[0];state.usedIds.add(facility.id);const guardianId=chooseGuardian(facility,freeText);renderResult(facility,guardianId,freeText);logEvent(change?"change_result":"complete_diagnosis",{variant:state.variant,q1:state.q1,q2:state.q2,area:state.area,free_text_present:Boolean(freeText),facility_id:facility.id,guardian_id:guardianId,score:facility.score})}
+    function chooseGuardian(f,freeText){let c=[state.openingGuardianId,...f.guardians];if(freeText){if(/サウナ|熱|汗/.test(freeText))c.unshift("neppa");if(/肌|癒|やさ/.test(freeText))c.unshift("izumi");if(/こも|休|寝/.test(freeText))c.unshift("mido");if(/海|風|空|景色|夕日/.test(freeText))c.unshift("kurebayashi")}c.push("yukawa");c=[...new Set(c)];return Math.random()<.68?state.openingGuardianId:c[Math.floor(Math.random()*c.length)]}
+    function renderResult(f,gid,freeText){const g=GUARDIANS[gid];$("result-section").classList.remove("hidden");$("result-name").textContent=f.name;$("result-meta").textContent=`${f.area} / ${f.quality} / ${f.effects}`;$("result-guardian").textContent=`${g.name}の案内`;$("result-character-text").textContent=mockOpenAIText(gid,f,freeText);$("result-db-text").textContent=`facility_id=${f.id}、q1_type=${f.q1}、q2_type=${f.q2}、area_label=${f.area}、tags=${f.tags.join(" / ")}、source_point=${f.point}`;$("result-variant").textContent=state.variant==="A"?"A 選択式":"B 書き込み式";$("result-score").textContent=`${f.score}点`;document.documentElement.style.setProperty("--guardian-pos",g.pos);$("guardian-bubble").textContent=`${g.name}が最後まで案内します。`;if(gid!==state.openingGuardianId){$("guide-name").textContent=g.name;$("guide-line").textContent="途中で湯脈が反応しました。ここからは私が施設の魅力を読み上げます。"}else{updateGuide(3)}$("result-section").scrollIntoView({behavior:"smooth",block:"start"})}
+    function mockOpenAIText(gid,f,freeText){const suffix=freeText?`「${freeText}」という今の気分も、湯けむりに混ぜておきました。`:"";return{yukawa:`${f.name}なら、${f.point} 今日は変に冒険しすぎず、でもちゃんと気分が変わるラインです。${suffix}`,izumi:`${f.name}、いいねぇ。${f.effects}を感じたい夜に、湯ざわりからそっとほどけていけそう。お肌も心も、急がなくていいよぉ。${suffix}`,neppa:`${f.name}、来ましたッ！${f.tags.includes("サウナ")?"熱と水の切り替え":"湯のパワー"}で、仕事のノイズを一回ログアウトしましょう！ただし水分補給は絶対ですッ！${suffix}`,mido:`${f.name}が妥当です。${f.point} 設備と過ごし方の相性が良いので、今夜は回復時間をきちんと確保しましょう。${suffix}`,kurebayashi:`${f.name}。${f.point} 湯上がりの風まで含めて、今夜の余白になります。……帰り道、少しだけ静かになるはず。${suffix}`}[gid]}
+    function logEvent(type,payload={}){const logs=JSON.parse(localStorage.getItem("spajin_ab_logs")||"[]");logs.push({timestamp:new Date().toISOString(),type,...payload});localStorage.setItem("spajin_ab_logs",JSON.stringify(logs.slice(-500)))}
+    function exportLogs(){const logs=JSON.parse(localStorage.getItem("spajin_ab_logs")||"[]"),headers=["timestamp","type","variant","q1","q2","area","free_text_present","facility_id","guardian_id","score"],csv=[headers.join(","),...logs.map(r=>headers.map(h=>csvEscape(r[h]??"")).join(","))].join("\n"),blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=`spajin-ab-log-${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(url)}
+    function csvEscape(v){const t=String(v);return/[",\n\r]/.test(t)?`"${t.replace(/"/g,'""')}"`:t}
+    document.querySelectorAll("[data-question] .option").forEach(b=>{b.setAttribute("aria-pressed","false");b.addEventListener("click",()=>selectOption(b.closest("[data-question]").dataset.question,b.dataset.value,b))});document.querySelectorAll("[data-variant]").forEach(b=>b.addEventListener("click",()=>setVariant(b.dataset.variant)));$("submit-button").addEventListener("click",()=>recommend());$("change-button").addEventListener("click",()=>recommend({change:true}));$("reset-button").addEventListener("click",()=>location.reload());$("export-log").addEventListener("click",exportLogs);$("free-text").addEventListener("input",()=>logEvent("free_text_input",{variant:state.variant,length:$("free-text").value.length}));chooseOpeningGuardian();setVariant(localStorage.getItem("spajin_ab_variant")||state.variant);
+  </script>
+</body>
+</html>
+
