@@ -1,15 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>スパ人 A/Bモック｜選択式 vs 書き込み式</title>
+  <title>繧ｹ繝台ｺｺ A/B繝｢繝・け・憺∈謚槫ｼ・vs 譖ｸ縺崎ｾｼ縺ｿ蠑・/title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
       --ink:#243331; --muted:#6b746d; --night:#f8f4ea; --line:rgba(92,76,45,.16);
       --yuzu:#d9a93a; --yu:#65b8b7; --hinoki:#c98f52;
-      --character-sheet:url("../spajin-guardians-modern-cutout.png"); --guardian-pos:0% 50%;
+      --character-sheet:url("./spajin-guardians-modern-cutout.png"); --guardian-pos:0% 50%;
     }
     *{box-sizing:border-box} html{scroll-behavior:smooth}
     body{margin:0;min-height:100vh;color:var(--ink);font-family:"Hiragino Sans","Yu Gothic UI","Yu Gothic",sans-serif;background:radial-gradient(circle at 82% 5%,rgba(255,213,106,.26),transparent 21rem),radial-gradient(circle at 8% 28%,rgba(101,184,183,.20),transparent 24rem),linear-gradient(180deg,#fffdf6 0%,#f7f0e2 48%,#efe2c9 100%)}
@@ -75,81 +75,81 @@
 <body>
   <header class="shell flex items-center justify-between gap-3 py-5">
     <a href="../spajin.html" class="flex items-center gap-3 text-left no-underline text-inherit">
-      <span class="w-11 h-11 rounded-2xl grid place-items-center font-black text-xl" style="background:linear-gradient(135deg,var(--yuzu),#fff0b0);color:#173018">湯</span>
-      <span><strong class="block leading-tight">スパ人</strong><small class="text-stone-300">A/B MOCK</small></span>
+      <span class="w-11 h-11 rounded-2xl grid place-items-center font-black text-xl" style="background:linear-gradient(135deg,var(--yuzu),#fff0b0);color:#173018">貉ｯ</span>
+      <span><strong class="block leading-tight">繧ｹ繝台ｺｺ</strong><small class="text-stone-300">A/B MOCK</small></span>
     </a>
-    <div class="flex items-center gap-2"><button id="export-log" class="nav-button">ログCSV</button><a href="../spajin.html" class="nav-button">本編へ</a></div>
+    <div class="flex items-center gap-2"><button id="export-log" class="nav-button">繝ｭ繧ｰCSV</button><a href="../spajin.html" class="nav-button">譛ｬ邱ｨ縺ｸ</a></div>
   </header>
   <main class="shell pb-16">
     <section class="glass rounded-[30px] overflow-hidden">
       <div class="grid lg:grid-cols-[.95fr_1.05fr]">
         <div class="p-6 sm:p-9">
-          <div class="tag mb-5">モックABテスト / 選択式 vs 書き込み式</div>
-          <h1 class="text-3xl sm:text-5xl font-black leading-tight">今夜の一湯、<br>どう選ぶと楽しいか。</h1>
-          <p class="text-stone-300 leading-7 mt-5">今までのスパ神演出を引き継ぎつつ、診断入力の違いだけを比較します。A案は迷わないカード選択、B案は一言入力でAI占い感を足します。</p>
-          <div class="variant-toggle mt-6"><button id="variant-a" data-variant="A">A 選択式</button><button id="variant-b" data-variant="B">B 書き込み式</button></div>
-          <div class="grid grid-cols-3 gap-3 mt-5"><div class="metric"><small>主指標</small><strong>完走</strong></div><div class="metric"><small>副指標</small><strong>納得</strong></div><div class="metric"><small>観察</small><strong>面白さ</strong></div></div>
+          <div class="tag mb-5">繝｢繝・けAB繝・せ繝・/ 驕ｸ謚槫ｼ・vs 譖ｸ縺崎ｾｼ縺ｿ蠑・/div>
+          <h1 class="text-3xl sm:text-5xl font-black leading-tight">莉雁､懊・荳貉ｯ縲・br>縺ｩ縺・∈縺ｶ縺ｨ讌ｽ縺励＞縺九・/h1>
+          <p class="text-stone-300 leading-7 mt-5">莉翫∪縺ｧ縺ｮ繧ｹ繝醍･樊ｼ泌・繧貞ｼ輔″邯吶℃縺､縺､縲∬ｨｺ譁ｭ蜈･蜉帙・驕輔＞縺縺代ｒ豈碑ｼ・＠縺ｾ縺吶・譯医・霑ｷ繧上↑縺・き繝ｼ繝蛾∈謚槭。譯医・荳險蜈･蜉帙〒AI蜊縺・─繧定ｶｳ縺励∪縺吶・/p>
+          <div class="variant-toggle mt-6"><button id="variant-a" data-variant="A">A 驕ｸ謚槫ｼ・/button><button id="variant-b" data-variant="B">B 譖ｸ縺崎ｾｼ縺ｿ蠑・/button></div>
+          <div class="grid grid-cols-3 gap-3 mt-5"><div class="metric"><small>荳ｻ謖・ｨ・/small><strong>螳瑚ｵｰ</strong></div><div class="metric"><small>蜑ｯ謖・ｨ・/small><strong>邏榊ｾ・/strong></div><div class="metric"><small>隕ｳ蟇・/small><strong>髱｢逋ｽ縺・/strong></div></div>
         </div>
         <div class="guardian-stage">
-          <div class="absolute z-10 left-5 right-5 top-5"><div id="guardian-bubble" class="bubble">湯気が濃い夜ですね。今日は、あなたの選び方そのものを占ってみましょう。</div></div>
-          <div class="phone-portal"></div><div id="guardian" class="guardian" role="img" aria-label="湯気から登場するスパ神"></div>
+          <div class="absolute z-10 left-5 right-5 top-5"><div id="guardian-bubble" class="bubble">貉ｯ豌励′豼・＞螟懊〒縺吶・縲ゆｻ頑律縺ｯ縲√≠縺ｪ縺溘・驕ｸ縺ｳ譁ｹ縺昴・繧ゅ・繧貞頃縺｣縺ｦ縺ｿ縺ｾ縺励ｇ縺・・/div></div>
+          <div class="phone-portal"></div><div id="guardian" class="guardian" role="img" aria-label="貉ｯ豌励°繧臥匳蝣ｴ縺吶ｋ繧ｹ繝醍･・></div>
         </div>
       </div>
     </section>
     <section class="mt-6 glass rounded-[30px] p-5 sm:p-8">
       <div class="flex flex-wrap items-end justify-between gap-4"><div><div class="small-label">DIAGNOSIS INPUT</div><h2 id="variant-title" class="text-2xl sm:text-3xl font-black mt-1"></h2></div><span id="variant-note" class="tag"></span></div>
       <div class="guide-panel" aria-live="polite">
-        <div class="guide-avatar" role="img" aria-label="今夜の担当スパ神"></div>
+        <div class="guide-avatar" role="img" aria-label="莉雁､懊・諡・ｽ薙せ繝醍･・></div>
         <div>
           <div class="small-label">TONIGHT'S GUIDE</div>
-          <div class="guide-speech"><strong id="guide-name">湯川明神</strong><br><span id="guide-line">ここからは私が案内します。直感で選んでください。</span></div>
-          <p id="guide-progress" class="question-guide-line">まずは、今夜いちばん流してしまいたいものから。</p>
+          <div class="guide-speech"><strong id="guide-name">貉ｯ蟾晄・逾・/strong><br><span id="guide-line">縺薙％縺九ｉ縺ｯ遘√′譯亥・縺励∪縺吶ら峩諢溘〒驕ｸ繧薙〒縺上□縺輔＞縲・/span></div>
+          <p id="guide-progress" class="question-guide-line">縺ｾ縺壹・縲∽ｻ雁､懊＞縺｡縺ｰ繧捺ｵ√＠縺ｦ縺励∪縺・◆縺・ｂ縺ｮ縺九ｉ縲・/p>
         </div>
       </div>
-      <div class="chat-box" id="chat-box" aria-live="polite" aria-label="スパ神との会話">
+      <div class="chat-box" id="chat-box" aria-live="polite" aria-label="繧ｹ繝醍･槭→縺ｮ莨夊ｩｱ">
         <div class="chat-current">
-          <div class="chat-face" role="img" aria-label="スパ神の顔アップ"></div>
+          <div class="chat-face" role="img" aria-label="繧ｹ繝醍･槭・鬘斐い繝・・"></div>
           <div class="chat-bubble">
-            <span class="chat-name" id="chat-guardian-name">スパ神</span>
-            <span id="chat-guardian-reaction">湯気を読んでいます。</span>
+            <span class="chat-name" id="chat-guardian-name">繧ｹ繝醍･・/span>
+            <span id="chat-guardian-reaction">貉ｯ豌励ｒ隱ｭ繧薙〒縺・∪縺吶・/span>
           </div>
         </div>
-        <div class="chat-history" id="chat-history" aria-label="あなたの返答"></div>
+        <div class="chat-history" id="chat-history" aria-label="縺ゅ↑縺溘・霑皮ｭ・></div>
       </div>
       <form class="mt-7 space-y-6">
-        <fieldset><legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">01</span>今夜、いちばん流してしまいたいものは？</legend><div class="grid sm:grid-cols-3 gap-3" data-question="q1">
-          <button type="button" class="option" data-value="A" data-label="肌と心のカサつき"><span class="check">✓</span><span class="text-2xl">✧</span><strong class="block mt-2">肌と心のカサつき</strong><small class="text-stone-400">やわらかな湯で潤いたい</small></button>
-          <button type="button" class="option" data-value="A" data-label="今日はやさしく溶けたい"><span class="check">✓</span><span class="text-2xl">☁</span><strong class="block mt-2">今日はやさしく溶けたい</strong><small class="text-stone-400">刺激より、湯ざわりでほどきたい</small></button>
-          <button type="button" class="option" data-value="B" data-label="体に積もった重さ"><span class="check">✓</span><span class="text-2xl">◌</span><strong class="block mt-2">体に積もった重さ</strong><small class="text-stone-400">泡と仕掛けで巡らせたい</small></button>
-          <button type="button" class="option" data-value="B" data-label="足腰のだるさを抜きたい"><span class="check">✓</span><span class="text-2xl">◎</span><strong class="block mt-2">足腰のだるさを抜きたい</strong><small class="text-stone-400">炭酸泉や電気風呂でリセットしたい</small></button>
-          <button type="button" class="option" data-value="C" data-label="頭の中のノイズ"><span class="check">✓</span><span class="text-2xl">♨</span><strong class="block mt-2">頭の中のノイズ</strong><small class="text-stone-400">熱と水で切り替えたい</small></button>
-          <button type="button" class="option" data-value="C" data-label="汗で気分を入れ替えたい"><span class="check">✓</span><span class="text-2xl">🔥</span><strong class="block mt-2">汗で気分を入れ替えたい</strong><small class="text-stone-400">サウナで一回、頭を空にしたい</small></button>
+        <fieldset><legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">01</span>莉雁､懊√＞縺｡縺ｰ繧捺ｵ√＠縺ｦ縺励∪縺・◆縺・ｂ縺ｮ縺ｯ・・/legend><div class="grid sm:grid-cols-3 gap-3" data-question="q1">
+          <button type="button" class="option" data-value="A" data-label="閧後→蠢・・繧ｫ繧ｵ縺､縺・><span class="check">笨・/span><span class="text-2xl">笨ｧ</span><strong class="block mt-2">閧後→蠢・・繧ｫ繧ｵ縺､縺・/strong><small class="text-stone-400">繧・ｏ繧峨°縺ｪ貉ｯ縺ｧ貎､縺・◆縺・/small></button>
+          <button type="button" class="option" data-value="A" data-label="莉頑律縺ｯ繧・＆縺励￥貅ｶ縺代◆縺・><span class="check">笨・/span><span class="text-2xl">笘・/span><strong class="block mt-2">莉頑律縺ｯ繧・＆縺励￥貅ｶ縺代◆縺・/strong><small class="text-stone-400">蛻ｺ豼繧医ｊ縲∵ｹｯ縺悶ｏ繧翫〒縺ｻ縺ｩ縺阪◆縺・/small></button>
+          <button type="button" class="option" data-value="B" data-label="菴薙↓遨阪ｂ縺｣縺滄㍾縺・><span class="check">笨・/span><span class="text-2xl">笳・/span><strong class="block mt-2">菴薙↓遨阪ｂ縺｣縺滄㍾縺・/strong><small class="text-stone-400">豕｡縺ｨ莉墓寺縺代〒蟾｡繧峨○縺溘＞</small></button>
+          <button type="button" class="option" data-value="B" data-label="雜ｳ閻ｰ縺ｮ縺繧九＆繧呈栢縺阪◆縺・><span class="check">笨・/span><span class="text-2xl">笳・/span><strong class="block mt-2">雜ｳ閻ｰ縺ｮ縺繧九＆繧呈栢縺阪◆縺・/strong><small class="text-stone-400">轤ｭ驟ｸ豕峨ｄ髮ｻ豌鈴｢ｨ蜻ゅ〒繝ｪ繧ｻ繝・ヨ縺励◆縺・/small></button>
+          <button type="button" class="option" data-value="C" data-label="鬆ｭ縺ｮ荳ｭ縺ｮ繝弱う繧ｺ"><span class="check">笨・/span><span class="text-2xl">笙ｨ</span><strong class="block mt-2">鬆ｭ縺ｮ荳ｭ縺ｮ繝弱う繧ｺ</strong><small class="text-stone-400">辭ｱ縺ｨ豌ｴ縺ｧ蛻・ｊ譖ｿ縺医◆縺・/small></button>
+          <button type="button" class="option" data-value="C" data-label="豎励〒豌怜・繧貞・繧梧崛縺医◆縺・><span class="check">笨・/span><span class="text-2xl">櫨</span><strong class="block mt-2">豎励〒豌怜・繧貞・繧梧崛縺医◆縺・/strong><small class="text-stone-400">繧ｵ繧ｦ繝翫〒荳蝗槭・ｭ繧堤ｩｺ縺ｫ縺励◆縺・/small></button>
         </div></fieldset>
         <div id="reaction-after-q1" class="inline-reaction" aria-live="polite"></div>
-        <fieldset><legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">02</span>今のあなたを呼んでいる場所は？</legend><div class="grid sm:grid-cols-2 gap-3" data-question="q2">
-          <button type="button" class="option" data-value="A" data-label="空の下で息を抜く場所"><span class="check">✓</span><span class="text-2xl">☾</span><strong class="block mt-2">空の下で息を抜く場所</strong><small class="text-stone-400">露天・外気浴・絶景</small></button>
-          <button type="button" class="option" data-value="A" data-label="景色と風に預ける場所"><span class="check">✓</span><span class="text-2xl">𓆉</span><strong class="block mt-2">景色と風に預ける場所</strong><small class="text-stone-400">海風・山風・夜景で余白を作る</small></button>
-          <button type="button" class="option" data-value="B" data-label="湯気の奥にこもる場所"><span class="check">✓</span><span class="text-2xl">▤</span><strong class="block mt-2">湯気の奥にこもる場所</strong><small class="text-stone-400">岩盤浴・休憩・長時間滞在</small></button>
-          <button type="button" class="option" data-value="B" data-label="何時間でもだらっとする場所"><span class="check">✓</span><span class="text-2xl">☕</span><strong class="block mt-2">何時間でもだらっとする場所</strong><small class="text-stone-400">漫画・休憩処・館内着で籠もる</small></button>
+        <fieldset><legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">02</span>莉翫・縺ゅ↑縺溘ｒ蜻ｼ繧薙〒縺・ｋ蝣ｴ謇縺ｯ・・/legend><div class="grid sm:grid-cols-2 gap-3" data-question="q2">
+          <button type="button" class="option" data-value="A" data-label="遨ｺ縺ｮ荳九〒諱ｯ繧呈栢縺丞ｴ謇"><span class="check">笨・/span><span class="text-2xl">笘ｾ</span><strong class="block mt-2">遨ｺ縺ｮ荳九〒諱ｯ繧呈栢縺丞ｴ謇</strong><small class="text-stone-400">髴ｲ螟ｩ繝ｻ螟匁ｰ玲ｵｴ繝ｻ邨ｶ譎ｯ</small></button>
+          <button type="button" class="option" data-value="A" data-label="譎ｯ濶ｲ縺ｨ鬚ｨ縺ｫ鬆舌￠繧句ｴ謇"><span class="check">笨・/span><span class="text-2xl">・</span><strong class="block mt-2">譎ｯ濶ｲ縺ｨ鬚ｨ縺ｫ鬆舌￠繧句ｴ謇</strong><small class="text-stone-400">豬ｷ鬚ｨ繝ｻ螻ｱ鬚ｨ繝ｻ螟懈勹縺ｧ菴咏區繧剃ｽ懊ｋ</small></button>
+          <button type="button" class="option" data-value="B" data-label="貉ｯ豌励・螂･縺ｫ縺薙ｂ繧句ｴ謇"><span class="check">笨・/span><span class="text-2xl">笆､</span><strong class="block mt-2">貉ｯ豌励・螂･縺ｫ縺薙ｂ繧句ｴ謇</strong><small class="text-stone-400">蟯ｩ逶､豬ｴ繝ｻ莨第・繝ｻ髟ｷ譎る俣貊槫惠</small></button>
+          <button type="button" class="option" data-value="B" data-label="菴墓凾髢薙〒繧ゅ□繧峨▲縺ｨ縺吶ｋ蝣ｴ謇"><span class="check">笨・/span><span class="text-2xl">笘・/span><strong class="block mt-2">菴墓凾髢薙〒繧ゅ□繧峨▲縺ｨ縺吶ｋ蝣ｴ謇</strong><small class="text-stone-400">貍ｫ逕ｻ繝ｻ莨第・蜃ｦ繝ｻ鬢ｨ蜀・捩縺ｧ邀繧ゅｋ</small></button>
         </div></fieldset>
         <div id="reaction-after-q2" class="inline-reaction" aria-live="polite"></div>
-        <fieldset><legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">03</span>どの湯脈をひらきますか？</legend><div class="grid sm:grid-cols-4 gap-3" data-question="area">
-          <button type="button" class="option" data-value="横浜・川崎"><span class="check">✓</span><strong>港灯の都市湯脈</strong><small class="block text-stone-400 mt-1">横浜・川崎</small></button>
-          <button type="button" class="option" data-value="湘南・三浦"><span class="check">✓</span><strong>潮風の湘南湯脈</strong><small class="block text-stone-400 mt-1">湘南・三浦</small></button>
-          <button type="button" class="option" data-value="相模原・西湘"><span class="check">✓</span><strong>山風の西湘湯脈</strong><small class="block text-stone-400 mt-1">相模原・西湘</small></button>
-          <button type="button" class="option" data-value="箱根・湯河原"><span class="check">✓</span><strong>名湯の箱根湯脈</strong><small class="block text-stone-400 mt-1">箱根・湯河原</small></button>
+        <fieldset><legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">03</span>縺ｩ縺ｮ貉ｯ閼医ｒ縺ｲ繧峨″縺ｾ縺吶°・・/legend><div class="grid sm:grid-cols-4 gap-3" data-question="area">
+          <button type="button" class="option" data-value="讓ｪ豬懊・蟾晏ｴ・><span class="check">笨・/span><strong>貂ｯ轣ｯ縺ｮ驛ｽ蟶よｹｯ閼・/strong><small class="block text-stone-400 mt-1">讓ｪ豬懊・蟾晏ｴ・/small></button>
+          <button type="button" class="option" data-value="貉伜漉繝ｻ荳画ｵｦ"><span class="check">笨・/span><strong>貎ｮ鬚ｨ縺ｮ貉伜漉貉ｯ閼・/strong><small class="block text-stone-400 mt-1">貉伜漉繝ｻ荳画ｵｦ</small></button>
+          <button type="button" class="option" data-value="逶ｸ讓｡蜴溘・隘ｿ貉・><span class="check">笨・/span><strong>螻ｱ鬚ｨ縺ｮ隘ｿ貉俶ｹｯ閼・/strong><small class="block text-stone-400 mt-1">逶ｸ讓｡蜴溘・隘ｿ貉・/small></button>
+          <button type="button" class="option" data-value="邂ｱ譬ｹ繝ｻ貉ｯ豐ｳ蜴・><span class="check">笨・/span><strong>蜷肴ｹｯ縺ｮ邂ｱ譬ｹ貉ｯ閼・/strong><small class="block text-stone-400 mt-1">邂ｱ譬ｹ繝ｻ貉ｯ豐ｳ蜴・/small></button>
         </div></fieldset>
         <div id="reaction-after-area" class="inline-reaction" aria-live="polite"></div>
-        <fieldset id="free-text-block" class="hidden"><legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">04</span>最後に、今の気分を一言だけどうぞ</legend><textarea id="free-text" class="input-box" maxlength="140" placeholder="例：今日は何も考えず、海風を浴びてぼーっとしたい"></textarea><p class="text-stone-400 text-sm mt-2">B案のみ表示。入力が空でも診断できます。OpenAI本番接続時は、この一言をキャラ文生成の味付けに使います。</p></fieldset>
+        <fieldset id="free-text-block" class="hidden"><legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">04</span>譛蠕後↓縲∽ｻ翫・豌怜・繧剃ｸ險縺縺代←縺・◇</legend><textarea id="free-text" class="input-box" maxlength="140" placeholder="萓具ｼ壻ｻ頑律縺ｯ菴輔ｂ閠・∴縺壹∵ｵｷ鬚ｨ繧呈ｵｴ縺ｳ縺ｦ縺ｼ繝ｼ縺｣縺ｨ縺励◆縺・></textarea><p class="text-stone-400 text-sm mt-2">B譯医・縺ｿ陦ｨ遉ｺ縲ょ・蜉帙′遨ｺ縺ｧ繧りｨｺ譁ｭ縺ｧ縺阪∪縺吶０penAI譛ｬ逡ｪ謗･邯壽凾縺ｯ縲√％縺ｮ荳險繧偵く繝｣繝ｩ譁・函謌舌・蜻ｳ莉倥￠縺ｫ菴ｿ縺・∪縺吶・/p></fieldset>
         <div id="reaction-after-free" class="inline-reaction" aria-live="polite"></div>
-        <button id="submit-button" class="primary" type="button" disabled>今夜のスパ神に聞く</button>
+        <button id="submit-button" class="primary" type="button" disabled>莉雁､懊・繧ｹ繝醍･槭↓閨槭￥</button>
       </form>
     </section>
     <section id="result-section" class="mt-6 hidden">
       <div class="glass rounded-[30px] p-5 sm:p-8">
         <div class="small-label">RESULT / MOCK OPENAI CHARACTER TEXT</div><h2 id="result-name" class="text-3xl font-black mt-2"></h2><p id="result-meta" class="text-stone-300 mt-2"></p>
         <div class="grid md:grid-cols-[1fr_.72fr] gap-5 mt-6"><div><div class="bubble"><strong id="result-guardian" class="text-amber-200"></strong><p id="result-character-text" class="mt-2"></p></div><div class="mt-5 rounded-3xl p-4 bg-black/20 border border-white/10"><div class="small-label">DATABASE FIELDS USED</div><p id="result-db-text" class="text-stone-300 leading-7 mt-2"></p></div></div>
-        <div class="space-y-3"><div class="metric"><small>入力形式</small><strong id="result-variant"></strong></div><div class="metric"><small>候補抽出</small><strong id="result-score"></strong></div><div class="metric"><small>想定API</small><strong>Cloud Run</strong></div><a id="result-map-link" class="primary w-full" href="#" target="_blank" rel="noopener">Googleマップで見る</a><button id="change-button" class="nav-button w-full">別の施設にチェンジ</button><button id="reset-button" class="nav-button w-full">もう一度試す</button></div></div>
+        <div class="space-y-3"><div class="metric"><small>蜈･蜉帛ｽ｢蠑・/small><strong id="result-variant"></strong></div><div class="metric"><small>蛟呵｣懈歓蜃ｺ</small><strong id="result-score"></strong></div><div class="metric"><small>諠ｳ螳哂PI</small><strong>Cloud Run</strong></div><a id="result-map-link" class="primary w-full" href="#" target="_blank" rel="noopener">Google繝槭ャ繝励〒隕九ｋ</a><button id="change-button" class="nav-button w-full">蛻･縺ｮ譁ｽ險ｭ縺ｫ繝√ぉ繝ｳ繧ｸ</button><button id="reset-button" class="nav-button w-full">繧ゅ≧荳蠎ｦ隧ｦ縺・/button></div></div>
       </div>
     </section>
     <div id="result-modal" class="oracle-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-facility-name">
@@ -165,90 +165,90 @@
         <div class="ai-panel">
           <div class="small-label">DB + AI MOCK</div>
           <div class="ai-steps">
-            <div class="ai-step"><strong>DATABASE MATCH</strong><span id="ai-db-match">施設マスターを参照しています。</span></div>
-            <div class="ai-step"><strong>REVIEW SIGNAL</strong><span id="ai-review-signal">口コミ傾向を要約しています。</span></div>
-            <div class="ai-step"><strong>SPA GOD PROMPT</strong><span id="ai-prompt-signal">スパ神の口調に変換しています。</span></div>
+            <div class="ai-step"><strong>DATABASE MATCH</strong><span id="ai-db-match">譁ｽ險ｭ繝槭せ繧ｿ繝ｼ繧貞盾辣ｧ縺励※縺・∪縺吶・/span></div>
+            <div class="ai-step"><strong>REVIEW SIGNAL</strong><span id="ai-review-signal">蜿｣繧ｳ繝溷だ蜷代ｒ隕∫ｴ・＠縺ｦ縺・∪縺吶・/span></div>
+            <div class="ai-step"><strong>SPA GOD PROMPT</strong><span id="ai-prompt-signal">繧ｹ繝醍･槭・蜿｣隱ｿ縺ｫ螟画鋤縺励※縺・∪縺吶・/span></div>
           </div>
         </div>
         <div class="feedback-box">
           <div class="small-label">FEEDBACK</div>
-          <p class="text-sm text-stone-300 mt-1">この一湯、今夜の気分に合っていそうですか？</p>
+          <p class="text-sm text-stone-300 mt-1">縺薙・荳貉ｯ縲∽ｻ雁､懊・豌怜・縺ｫ蜷医▲縺ｦ縺・◎縺・〒縺吶°・・/p>
           <div class="feedback-grid" data-feedback>
-            <button type="button" class="feedback-button" data-feedback-value="fit">かなり合ってる</button>
-            <button type="button" class="feedback-button" data-feedback-value="maybe">少し気になる</button>
-            <button type="button" class="feedback-button" data-feedback-value="miss">今日は違うかも</button>
+            <button type="button" class="feedback-button" data-feedback-value="fit">縺九↑繧雁粋縺｣縺ｦ繧・/button>
+            <button type="button" class="feedback-button" data-feedback-value="maybe">蟆代＠豌励↓縺ｪ繧・/button>
+            <button type="button" class="feedback-button" data-feedback-value="miss">莉頑律縺ｯ驕輔≧縺九ｂ</button>
           </div>
           <div class="feedback-write">
-            <input id="feedback-text-input" type="text" maxlength="90" placeholder="例：混み具合が気になる / サウナも入りたい">
-            <button id="feedback-text-send" class="feedback-send" type="button">送る</button>
+            <input id="feedback-text-input" type="text" maxlength="90" placeholder="萓具ｼ壽ｷｷ縺ｿ蜈ｷ蜷医′豌励↓縺ｪ繧・/ 繧ｵ繧ｦ繝翫ｂ蜈･繧翫◆縺・>
+            <button id="feedback-text-send" class="feedback-send" type="button">騾√ｋ</button>
           </div>
           <div class="ai-suggestions">
-            <button type="button" class="ai-suggestion" data-ai-question="混み具合が気になる">混み具合が気になる</button>
-            <button type="button" class="ai-suggestion" data-ai-question="サウナも入りたい">サウナも入りたい</button>
-            <button type="button" class="ai-suggestion" data-ai-question="露天や外気浴は楽しめる？">露天や外気浴は？</button>
-            <button type="button" class="ai-suggestion" data-ai-question="長く過ごせる？">長く過ごせる？</button>
+            <button type="button" class="ai-suggestion" data-ai-question="豺ｷ縺ｿ蜈ｷ蜷医′豌励↓縺ｪ繧・>豺ｷ縺ｿ蜈ｷ蜷医′豌励↓縺ｪ繧・/button>
+            <button type="button" class="ai-suggestion" data-ai-question="繧ｵ繧ｦ繝翫ｂ蜈･繧翫◆縺・>繧ｵ繧ｦ繝翫ｂ蜈･繧翫◆縺・/button>
+            <button type="button" class="ai-suggestion" data-ai-question="髴ｲ螟ｩ繧・､匁ｰ玲ｵｴ縺ｯ讌ｽ縺励ａ繧具ｼ・>髴ｲ螟ｩ繧・､匁ｰ玲ｵｴ縺ｯ・・/button>
+            <button type="button" class="ai-suggestion" data-ai-question="髟ｷ縺城℃縺斐○繧具ｼ・>髟ｷ縺城℃縺斐○繧具ｼ・/button>
           </div>
         </div>
         <div id="modal-featured-reply" class="modal-featured-reply" aria-live="polite"></div>
         <div class="oracle-actions">
-          <a id="modal-map-link" class="primary" href="#" target="_blank" rel="noopener">Googleマップで見る</a>
-          <button id="modal-change-button" class="nav-button" type="button">別の一湯へ</button>
+          <a id="modal-map-link" class="primary" href="#" target="_blank" rel="noopener">Google繝槭ャ繝励〒隕九ｋ</a>
+          <button id="modal-change-button" class="nav-button" type="button">蛻･縺ｮ荳貉ｯ縺ｸ</button>
         </div>
-        <button id="modal-close-button" class="nav-button w-full mt-3" type="button">戻る</button>
+        <button id="modal-close-button" class="nav-button w-full mt-3" type="button">謌ｻ繧・/button>
       </div>
     </div>
-    <section class="mt-6 glass rounded-[30px] p-5 sm:p-8"><div class="small-label">HANDOFF NOTES</div><h2 class="text-2xl font-black mt-1">業者さんへの引継ぎメモ</h2>
-      <div class="grid md:grid-cols-3 gap-4 mt-5 text-sm leading-7 text-stone-300"><div class="rounded-3xl p-4 bg-white/5 border border-white/10"><strong class="text-amber-200">A/Bテスト対象</strong><br>施設DBやスパ神設定は共通。変えるのは入力UIだけ。</div><div class="rounded-3xl p-4 bg-white/5 border border-white/10"><strong class="text-amber-200">OpenAI API</strong><br>このモックでは擬似生成。本番ではCloud Runの <code>/api/character-text</code> に置き換える。</div><div class="rounded-3xl p-4 bg-white/5 border border-white/10"><strong class="text-amber-200">DB連携</strong><br>神奈川県_施設マスターの列名をAPIレスポンスに変換して使用。</div></div>
+    <section class="mt-6 glass rounded-[30px] p-5 sm:p-8"><div class="small-label">HANDOFF NOTES</div><h2 class="text-2xl font-black mt-1">讌ｭ閠・＆繧薙∈縺ｮ蠑慕ｶ吶℃繝｡繝｢</h2>
+      <div class="grid md:grid-cols-3 gap-4 mt-5 text-sm leading-7 text-stone-300"><div class="rounded-3xl p-4 bg-white/5 border border-white/10"><strong class="text-amber-200">A/B繝・せ繝亥ｯｾ雎｡</strong><br>譁ｽ險ｭDB繧・せ繝醍･櫁ｨｭ螳壹・蜈ｱ騾壹ょ､峨∴繧九・縺ｯ蜈･蜉婉I縺縺代・/div><div class="rounded-3xl p-4 bg-white/5 border border-white/10"><strong class="text-amber-200">OpenAI API</strong><br>縺薙・繝｢繝・け縺ｧ縺ｯ謫ｬ莨ｼ逕滓・縲よ悽逡ｪ縺ｧ縺ｯCloud Run縺ｮ <code>/api/character-text</code> 縺ｫ鄂ｮ縺肴鋤縺医ｋ縲・/div><div class="rounded-3xl p-4 bg-white/5 border border-white/10"><strong class="text-amber-200">DB騾｣謳ｺ</strong><br>逾槫･亥ｷ晉恁_譁ｽ險ｭ繝槭せ繧ｿ繝ｼ縺ｮ蛻怜錐繧但PI繝ｬ繧ｹ繝昴Φ繧ｹ縺ｫ螟画鋤縺励※菴ｿ逕ｨ縲・/div></div>
       <pre class="mt-5 overflow-auto rounded-3xl p-4 text-xs leading-6 bg-black/25 border border-white/10"><code>POST /api/recommend
 input:  { variant, q1_type, q2_type, area_label, free_text }
 output: { facility, guardian, character_text, ab_log_id }</code></pre></section>
   </main>
   <script>
-    const GUARDIANS={yukawa:{name:"湯川明神",pos:"0% 50%",face:"2% 8%",intro:"迷ったら、失敗しにくい一湯から行きましょう。仕事終わりの判断力は温存です。",guide:["まずは体の声から行きましょう。難しく考えなくて大丈夫です。","次は過ごし方です。サクッと抜くか、じっくり回復か。","最後に湯脈を選びましょう。今夜の移動気分に近いエリアで。","揃いました。かなり現実的にいい候補が出せます。"]},izumi:{name:"泉潤天",pos:"25% 50%",face:"25% 8%",intro:"お肌と心が、少し乾いている夜かもねぇ。湯ざわりの声を聞いてみよぉ。",guide:["最初は、今夜どこをやさしくほどきたいか教えてねぇ。","次はね、風にあたりたいか、湯気に包まれたいかだよぉ。","湯脈を選んでぇ。お湯の神様がそっちに流れていくからねぇ。","うん、見えてきたよぉ。今夜のお肌と心に合う一湯。"]},neppa:{name:"熱波大黒",pos:"50% 50%",face:"50% 8%",intro:"頭の中がモヤつく日は、熱と水で一回再起動ッ！でも無理は禁物ですッ！",guide:["一問目ッ！今日いちばん吹き飛ばしたい疲れはどれですかッ！","二問目ッ！外で風を浴びるか、館内で粘るか、勝負です！","エリア選択ッ！ここで今夜の導線が決まります！","よし、出ましたッ！今夜のリセット候補、いきます！"]},mido:{name:"御堂福禄",pos:"75% 50%",face:"75% 8%",intro:"今日は回復計画を立てましょう。短時間か、おこもりか。そこが分岐点です。",guide:["まず不調の種類を分類します。感覚で構いません。","次に滞在スタイルです。ここは満足度に直結します。","エリアを確定しましょう。候補施設を一気に絞れます。","条件は揃いました。あとは施設との相性を見ます。"]},kurebayashi:{name:"暮林恵比寿",pos:"100% 50%",face:"98% 8%",intro:"風のある湯は、帰り道まで効きます。……今夜の余韻を選びましょう。",guide:["最初の問いです。今夜、何を湯気に預けたいですか。","次は場所の気配。空か、湯気の奥か。","湯脈をひとつ。風景は、選んだあとから効いてきます。","……見えました。帰り道まで残る一湯です。"]}};
+    const GUARDIANS={yukawa:{name:"貉ｯ蟾晄・逾・,pos:"0% 50%",face:"2% 8%",intro:"霑ｷ縺｣縺溘ｉ縲∝､ｱ謨励＠縺ｫ縺上＞荳貉ｯ縺九ｉ陦後″縺ｾ縺励ｇ縺・ゆｻ穂ｺ狗ｵゅｏ繧翫・蛻､譁ｭ蜉帙・貂ｩ蟄倥〒縺吶・,guide:["縺ｾ縺壹・菴薙・螢ｰ縺九ｉ陦後″縺ｾ縺励ｇ縺・る屮縺励￥閠・∴縺ｪ縺上※螟ｧ荳亥､ｫ縺ｧ縺吶・,"谺｡縺ｯ驕弱＃縺玲婿縺ｧ縺吶ゅし繧ｯ繝・→謚懊￥縺九√§縺｣縺上ｊ蝗槫ｾｩ縺九・,"譛蠕後↓貉ｯ閼医ｒ驕ｸ縺ｳ縺ｾ縺励ｇ縺・ゆｻ雁､懊・遘ｻ蜍墓ｰ怜・縺ｫ霑代＞繧ｨ繝ｪ繧｢縺ｧ縲・,"謠・＞縺ｾ縺励◆縲ゅ°縺ｪ繧顔樟螳溽噪縺ｫ縺・＞蛟呵｣懊′蜃ｺ縺帙∪縺吶・]},izumi:{name:"豕画ｽ､螟ｩ",pos:"25% 50%",face:"25% 8%",intro:"縺願ｌ縺ｨ蠢・′縲∝ｰ代＠荵ｾ縺・※縺・ｋ螟懊°繧ゅ・縺・よｹｯ縺悶ｏ繧翫・螢ｰ繧定◇縺・※縺ｿ繧医♂縲・,guide:["譛蛻昴・縲∽ｻ雁､懊←縺薙ｒ繧・＆縺励￥縺ｻ縺ｩ縺阪◆縺・°謨吶∴縺ｦ縺ｭ縺・・,"谺｡縺ｯ縺ｭ縲・｢ｨ縺ｫ縺ゅ◆繧翫◆縺・°縲∵ｹｯ豌励↓蛹・∪繧後◆縺・°縺繧医♂縲・,"貉ｯ閼医ｒ驕ｸ繧薙〒縺・ゅ♀貉ｯ縺ｮ逾樊ｧ倥′縺昴▲縺｡縺ｫ豬√ｌ縺ｦ縺・￥縺九ｉ縺ｭ縺・・,"縺・ｓ縲∬ｦ九∴縺ｦ縺阪◆繧医♂縲ゆｻ雁､懊・縺願ｌ縺ｨ蠢・↓蜷医≧荳貉ｯ縲・]},neppa:{name:"辭ｱ豕｢螟ｧ鮟・,pos:"50% 50%",face:"50% 8%",intro:"鬆ｭ縺ｮ荳ｭ縺後Δ繝､縺､縺乗律縺ｯ縲∫・縺ｨ豌ｴ縺ｧ荳蝗槫・襍ｷ蜍輔ャ・√〒繧ら┌逅・・遖∫黄縺ｧ縺吶ャ・・,guide:["荳蝠冗岼繝・ｼ∽ｻ頑律縺・■縺ｰ繧灘聖縺埼｣帙・縺励◆縺・夢繧後・縺ｩ繧後〒縺吶°繝・ｼ・,"莠悟撫逶ｮ繝・ｼ∝､悶〒鬚ｨ繧呈ｵｴ縺ｳ繧九°縲・､ｨ蜀・〒邊倥ｋ縺九∝享雋縺ｧ縺呻ｼ・,"繧ｨ繝ｪ繧｢驕ｸ謚槭ャ・√％縺薙〒莉雁､懊・蟆守ｷ壹′豎ｺ縺ｾ繧翫∪縺呻ｼ・,"繧医＠縲∝・縺ｾ縺励◆繝・ｼ∽ｻ雁､懊・繝ｪ繧ｻ繝・ヨ蛟呵｣懊√＞縺阪∪縺呻ｼ・]},mido:{name:"蠕｡蝣らｦ冗ｦ・,pos:"75% 50%",face:"75% 8%",intro:"莉頑律縺ｯ蝗槫ｾｩ險育判繧堤ｫ九※縺ｾ縺励ｇ縺・ら洒譎る俣縺九√♀縺薙ｂ繧翫°縲ゅ◎縺薙′蛻・ｲ千せ縺ｧ縺吶・,guide:["縺ｾ縺壻ｸ崎ｪｿ縺ｮ遞ｮ鬘槭ｒ蛻・｡槭＠縺ｾ縺吶よ─隕壹〒讒九＞縺ｾ縺帙ｓ縲・,"谺｡縺ｫ貊槫惠繧ｹ繧ｿ繧､繝ｫ縺ｧ縺吶ゅ％縺薙・貅雜ｳ蠎ｦ縺ｫ逶ｴ邨舌＠縺ｾ縺吶・,"繧ｨ繝ｪ繧｢繧堤｢ｺ螳壹＠縺ｾ縺励ｇ縺・ょ呵｣懈命險ｭ繧剃ｸ豌励↓邨槭ｌ縺ｾ縺吶・,"譚｡莉ｶ縺ｯ謠・＞縺ｾ縺励◆縲ゅ≠縺ｨ縺ｯ譁ｽ險ｭ縺ｨ縺ｮ逶ｸ諤ｧ繧定ｦ九∪縺吶・]},kurebayashi:{name:"證ｮ譫玲・豈泌ｯｿ",pos:"100% 50%",face:"98% 8%",intro:"鬚ｨ縺ｮ縺ゅｋ貉ｯ縺ｯ縲∝ｸｰ繧企％縺ｾ縺ｧ蜉ｹ縺阪∪縺吶やｦ窶ｦ莉雁､懊・菴咎渊繧帝∈縺ｳ縺ｾ縺励ｇ縺・・,guide:["譛蛻昴・蝠上＞縺ｧ縺吶ゆｻ雁､懊∽ｽ輔ｒ貉ｯ豌励↓鬆舌￠縺溘＞縺ｧ縺吶°縲・,"谺｡縺ｯ蝣ｴ謇縺ｮ豌鈴・縲らｩｺ縺九∵ｹｯ豌励・螂･縺九・,"貉ｯ閼医ｒ縺ｲ縺ｨ縺､縲る｢ｨ譎ｯ縺ｯ縲・∈繧薙□縺ゅ→縺九ｉ蜉ｹ縺・※縺阪∪縺吶・,"窶ｦ窶ｦ隕九∴縺ｾ縺励◆縲ょｸｰ繧企％縺ｾ縺ｧ谿九ｋ荳貉ｯ縺ｧ縺吶・]}};
     const FACILITIES=[
-      {id:"kanagawa_001",area:"横浜・川崎",name:"RAKU SPA BAY 横浜",q1:"A",q2:"A",quality:"ナトリウム-塩化物温泉",effects:"温まり感",point:"みなとみらいの夜景を望むテラスと、リゾート感ある大人の隠れ家スパ。",tags:["露天・絶景","近場・日常"],guardians:["kurebayashi","yukawa"],scoreBase:80},
-      {id:"kanagawa_002",area:"横浜・川崎",name:"RAKU SPA 鶴見",q1:"A",q2:"B",quality:"弱アルカリ性温泉、プラネタリウム岩盤浴",effects:"肌ざわり・湯上がり感",point:"漫画と岩盤浴で、1日中だらだら籠もれるエンタメ型温浴施設。",tags:["美肌・泉質","おこもり"],guardians:["izumi","mido","yukawa"],scoreBase:86},
-      {id:"kanagawa_005",area:"横浜・川崎",name:"スカイスパYOKOHAMA",q1:"C",q2:"A",quality:"人工炭酸泉、サウナ特化",effects:"リセット感",point:"横浜の夜景と本格アウフグース環境が魅力のサウナー向け施設。",tags:["サウナ","露天・絶景"],guardians:["neppa","kurebayashi"],scoreBase:92},
-      {id:"kanagawa_017",area:"湘南・三浦",name:"横須賀温泉 湯楽の里",q1:"A",q2:"A",quality:"ナトリウム-塩化物強塩温泉",effects:"温まり感",point:"東京湾を眺める大パノラマ露天と、海風の外気浴が魅力。",tags:["露天・絶景","遠出・非日常"],guardians:["kurebayashi","izumi"],scoreBase:90},
-      {id:"kanagawa_020",area:"湘南・三浦",name:"湘南RESORT SPA 竜泉寺の湯",q1:"B",q2:"A",quality:"炭酸泉、各種機能風呂",effects:"めぐり・リセット感",point:"広大な露天風呂と高濃度炭酸泉、湘南の風が抜ける外気浴。",tags:["炭酸泉・機能風呂","露天・絶景"],guardians:["mido","kurebayashi"],scoreBase:88},
-      {id:"kanagawa_030",area:"相模原・西湘",name:"湯花楽 厚木店",q1:"C",q2:"B",quality:"高濃度炭酸泉、日本最大級の麦飯石サウナ",effects:"リセット感・温活",point:"サウナと温活に特化。広大なドーム型おこもりサウナが魅力。",tags:["サウナ","おこもり","炭酸泉・機能風呂"],guardians:["neppa","mido"],scoreBase:89},
-      {id:"kanagawa_031",area:"相模原・西湘",name:"湯楽おんりーゆー",q1:"A",q2:"B",quality:"単純温泉（弱アルカリ性・療養泉）",effects:"やさしい入り心地",point:"南足柄の森の奥深く。ぬる湯の露天で五感を静めるリトリート。",tags:["美肌・泉質","おこもり","露天・絶景"],guardians:["izumi","kurebayashi"],scoreBase:87},
-      {id:"kanagawa_070",area:"箱根・湯河原",name:"天山湯治郷",q1:"A",q2:"A",quality:"アルカリ性単純温泉・ナトリウム-塩化物泉",effects:"湯治感・やさしい入り心地",point:"木々と岩に囲まれた複数の野天風呂で、魂からリセットする湯治の聖地。",tags:["美肌・泉質","露天・絶景","遠出・非日常"],guardians:["izumi","kurebayashi","yukawa"],scoreBase:94},
-      {id:"kanagawa_073",area:"箱根・湯河原",name:"龍宮殿本館",q1:"A",q2:"A",quality:"カルシウム・ナトリウム-硫酸塩・塩化物温泉",effects:"湯治感・温まり感",point:"芦ノ湖と富士山の絶景が同時に広がる、日本最高峰クラスの絶景露天。",tags:["露天・絶景","遠出・非日常"],guardians:["kurebayashi","yukawa"],scoreBase:95}
+      {id:"kanagawa_001",area:"讓ｪ豬懊・蟾晏ｴ・,name:"RAKU SPA BAY 讓ｪ豬・,q1:"A",q2:"A",quality:"繝翫ヨ繝ｪ繧ｦ繝-蝪ｩ蛹也黄貂ｩ豕・,effects:"貂ｩ縺ｾ繧頑─",point:"縺ｿ縺ｪ縺ｨ縺ｿ繧峨＞縺ｮ螟懈勹繧呈悍繧繝・Λ繧ｹ縺ｨ縲√Μ繧ｾ繝ｼ繝域─縺ゅｋ螟ｧ莠ｺ縺ｮ髫繧悟ｮｶ繧ｹ繝代・,tags:["髴ｲ螟ｩ繝ｻ邨ｶ譎ｯ","霑大ｴ繝ｻ譌･蟶ｸ"],guardians:["kurebayashi","yukawa"],scoreBase:80},
+      {id:"kanagawa_002",area:"讓ｪ豬懊・蟾晏ｴ・,name:"RAKU SPA 鮓ｴ隕・,q1:"A",q2:"B",quality:"蠑ｱ繧｢繝ｫ繧ｫ繝ｪ諤ｧ貂ｩ豕峨√・繝ｩ繝阪ち繝ｪ繧ｦ繝蟯ｩ逶､豬ｴ",effects:"閧後＊繧上ｊ繝ｻ貉ｯ荳翫′繧頑─",point:"貍ｫ逕ｻ縺ｨ蟯ｩ逶､豬ｴ縺ｧ縲・譌･荳ｭ縺繧峨□繧臥ｱ繧ゅｌ繧九お繝ｳ繧ｿ繝｡蝙区ｸｩ豬ｴ譁ｽ險ｭ縲・,tags:["鄒手ｌ繝ｻ豕芽ｳｪ","縺翫％繧ゅｊ"],guardians:["izumi","mido","yukawa"],scoreBase:86},
+      {id:"kanagawa_005",area:"讓ｪ豬懊・蟾晏ｴ・,name:"繧ｹ繧ｫ繧､繧ｹ繝塑OKOHAMA",q1:"C",q2:"A",quality:"莠ｺ蟾･轤ｭ驟ｸ豕峨√し繧ｦ繝顔音蛹・,effects:"繝ｪ繧ｻ繝・ヨ諢・,point:"讓ｪ豬懊・螟懈勹縺ｨ譛ｬ譬ｼ繧｢繧ｦ繝輔げ繝ｼ繧ｹ迺ｰ蠅・′鬲・鴨縺ｮ繧ｵ繧ｦ繝翫・蜷代￠譁ｽ險ｭ縲・,tags:["繧ｵ繧ｦ繝・,"髴ｲ螟ｩ繝ｻ邨ｶ譎ｯ"],guardians:["neppa","kurebayashi"],scoreBase:92},
+      {id:"kanagawa_017",area:"貉伜漉繝ｻ荳画ｵｦ",name:"讓ｪ鬆郁ｳ貂ｩ豕・貉ｯ讌ｽ縺ｮ驥・,q1:"A",q2:"A",quality:"繝翫ヨ繝ｪ繧ｦ繝-蝪ｩ蛹也黄蠑ｷ蝪ｩ貂ｩ豕・,effects:"貂ｩ縺ｾ繧頑─",point:"譚ｱ莠ｬ貉ｾ繧堤惻繧√ｋ螟ｧ繝代ヮ繝ｩ繝樣愆螟ｩ縺ｨ縲∵ｵｷ鬚ｨ縺ｮ螟匁ｰ玲ｵｴ縺碁ｭ・鴨縲・,tags:["髴ｲ螟ｩ繝ｻ邨ｶ譎ｯ","驕蜃ｺ繝ｻ髱樊律蟶ｸ"],guardians:["kurebayashi","izumi"],scoreBase:90},
+      {id:"kanagawa_020",area:"貉伜漉繝ｻ荳画ｵｦ",name:"貉伜漉RESORT SPA 遶懈ｳ牙ｯｺ縺ｮ貉ｯ",q1:"B",q2:"A",quality:"轤ｭ驟ｸ豕峨∝推遞ｮ讖溯・鬚ｨ蜻・,effects:"繧√＄繧翫・繝ｪ繧ｻ繝・ヨ諢・,point:"蠎・､ｧ縺ｪ髴ｲ螟ｩ鬚ｨ蜻ゅ→鬮俶ｿ・ｺｦ轤ｭ驟ｸ豕峨∵ｹ伜漉縺ｮ鬚ｨ縺梧栢縺代ｋ螟匁ｰ玲ｵｴ縲・,tags:["轤ｭ驟ｸ豕峨・讖溯・鬚ｨ蜻・,"髴ｲ螟ｩ繝ｻ邨ｶ譎ｯ"],guardians:["mido","kurebayashi"],scoreBase:88},
+      {id:"kanagawa_030",area:"逶ｸ讓｡蜴溘・隘ｿ貉・,name:"貉ｯ闃ｱ讌ｽ 蜴壽惠蠎・,q1:"C",q2:"B",quality:"鬮俶ｿ・ｺｦ轤ｭ驟ｸ豕峨∵律譛ｬ譛螟ｧ邏壹・鮗ｦ鬟ｯ遏ｳ繧ｵ繧ｦ繝・,effects:"繝ｪ繧ｻ繝・ヨ諢溘・貂ｩ豢ｻ",point:"繧ｵ繧ｦ繝翫→貂ｩ豢ｻ縺ｫ迚ｹ蛹悶ょｺ・､ｧ縺ｪ繝峨・繝蝙九♀縺薙ｂ繧翫し繧ｦ繝翫′鬲・鴨縲・,tags:["繧ｵ繧ｦ繝・,"縺翫％繧ゅｊ","轤ｭ驟ｸ豕峨・讖溯・鬚ｨ蜻・],guardians:["neppa","mido"],scoreBase:89},
+      {id:"kanagawa_031",area:"逶ｸ讓｡蜴溘・隘ｿ貉・,name:"貉ｯ讌ｽ縺翫ｓ繧翫・繧・・",q1:"A",q2:"B",quality:"蜊倡ｴ疲ｸｩ豕会ｼ亥ｼｱ繧｢繝ｫ繧ｫ繝ｪ諤ｧ繝ｻ逋る､頑ｳ会ｼ・,effects:"繧・＆縺励＞蜈･繧雁ｿ・慍",point:"蜊苓ｶｳ譟・・譽ｮ縺ｮ螂･豺ｱ縺上ゅ〓繧区ｹｯ縺ｮ髴ｲ螟ｩ縺ｧ莠疲─繧帝撕繧√ｋ繝ｪ繝医Μ繝ｼ繝医・,tags:["鄒手ｌ繝ｻ豕芽ｳｪ","縺翫％繧ゅｊ","髴ｲ螟ｩ繝ｻ邨ｶ譎ｯ"],guardians:["izumi","kurebayashi"],scoreBase:87},
+      {id:"kanagawa_070",area:"邂ｱ譬ｹ繝ｻ貉ｯ豐ｳ蜴・,name:"螟ｩ螻ｱ貉ｯ豐ｻ驛ｷ",q1:"A",q2:"A",quality:"繧｢繝ｫ繧ｫ繝ｪ諤ｧ蜊倡ｴ疲ｸｩ豕峨・繝翫ヨ繝ｪ繧ｦ繝-蝪ｩ蛹也黄豕・,effects:"貉ｯ豐ｻ諢溘・繧・＆縺励＞蜈･繧雁ｿ・慍",point:"譛ｨ縲・→蟯ｩ縺ｫ蝗ｲ縺ｾ繧後◆隍・焚縺ｮ驥主､ｩ鬚ｨ蜻ゅ〒縲・ｭゅ°繧峨Μ繧ｻ繝・ヨ縺吶ｋ貉ｯ豐ｻ縺ｮ閨門慍縲・,tags:["鄒手ｌ繝ｻ豕芽ｳｪ","髴ｲ螟ｩ繝ｻ邨ｶ譎ｯ","驕蜃ｺ繝ｻ髱樊律蟶ｸ"],guardians:["izumi","kurebayashi","yukawa"],scoreBase:94},
+      {id:"kanagawa_073",area:"邂ｱ譬ｹ繝ｻ貉ｯ豐ｳ蜴・,name:"鮴榊ｮｮ谿ｿ譛ｬ鬢ｨ",q1:"A",q2:"A",quality:"繧ｫ繝ｫ繧ｷ繧ｦ繝繝ｻ繝翫ヨ繝ｪ繧ｦ繝-遑ｫ驟ｸ蝪ｩ繝ｻ蝪ｩ蛹也黄貂ｩ豕・,effects:"貉ｯ豐ｻ諢溘・貂ｩ縺ｾ繧頑─",point:"闃ｦ繝取ｹ悶→蟇悟｣ｫ螻ｱ縺ｮ邨ｶ譎ｯ縺悟酔譎ゅ↓蠎・′繧九∵律譛ｬ譛鬮伜ｳｰ繧ｯ繝ｩ繧ｹ縺ｮ邨ｶ譎ｯ髴ｲ螟ｩ縲・,tags:["髴ｲ螟ｩ繝ｻ邨ｶ譎ｯ","驕蜃ｺ繝ｻ髱樊律蟶ｸ"],guardians:["kurebayashi","yukawa"],scoreBase:95}
     ];
     const state={variant:new URLSearchParams(location.search).get("variant")?.toUpperCase()==="B"?"B":"A",q1:null,q2:null,area:null,usedIds:new Set(),openingGuardianId:"yukawa",chatStarted:false,freeTextReaction:"",currentFacility:null,currentGuardianId:null};const $=id=>document.getElementById(id);let freeTextTimer=null;
-    const CHOICE_LABELS={q1:{A:"肌と心のカサつき",B:"体に積もった重さ",C:"頭の中のノイズ"},q2:{A:"空の下で息を抜く場所",B:"湯気の奥にこもる場所"},area:{"横浜・川崎":"港灯の都市湯脈（横浜・川崎）","湘南・三浦":"潮風の湘南湯脈（湘南・三浦）","相模原・西湘":"山風の西湘湯脈（相模原・西湘）","箱根・湯河原":"名湯の箱根湯脈（箱根・湯河原）"}};
-    function chooseOpeningGuardian(){const ids=Object.keys(GUARDIANS),id=ids[Math.floor(Math.random()*ids.length)],g=GUARDIANS[id];state.openingGuardianId=id;document.documentElement.style.setProperty("--character-sheet",Math.random()>.5?"url('../spajin-guardians-mythic-cutout.png')":"url('../spajin-guardians-modern-cutout.png')");setGuardianVisual(g);$("guardian-bubble").textContent=g.intro;updateGuide(0);startChat()}
+    const CHOICE_LABELS={q1:{A:"閧後→蠢・・繧ｫ繧ｵ縺､縺・,B:"菴薙↓遨阪ｂ縺｣縺滄㍾縺・,C:"鬆ｭ縺ｮ荳ｭ縺ｮ繝弱う繧ｺ"},q2:{A:"遨ｺ縺ｮ荳九〒諱ｯ繧呈栢縺丞ｴ謇",B:"貉ｯ豌励・螂･縺ｫ縺薙ｂ繧句ｴ謇"},area:{"讓ｪ豬懊・蟾晏ｴ・:"貂ｯ轣ｯ縺ｮ驛ｽ蟶よｹｯ閼茨ｼ域ｨｪ豬懊・蟾晏ｴ趣ｼ・,"貉伜漉繝ｻ荳画ｵｦ":"貎ｮ鬚ｨ縺ｮ貉伜漉貉ｯ閼茨ｼ域ｹ伜漉繝ｻ荳画ｵｦ・・,"逶ｸ讓｡蜴溘・隘ｿ貉・:"螻ｱ鬚ｨ縺ｮ隘ｿ貉俶ｹｯ閼茨ｼ育嶌讓｡蜴溘・隘ｿ貉假ｼ・,"邂ｱ譬ｹ繝ｻ貉ｯ豐ｳ蜴・:"蜷肴ｹｯ縺ｮ邂ｱ譬ｹ貉ｯ閼茨ｼ育ｮｱ譬ｹ繝ｻ貉ｯ豐ｳ蜴滂ｼ・}};
+    function chooseOpeningGuardian(){const ids=Object.keys(GUARDIANS),id=ids[Math.floor(Math.random()*ids.length)],g=GUARDIANS[id];state.openingGuardianId=id;document.documentElement.style.setProperty("--character-sheet",Math.random()>.5?"url('./spajin-guardians-mythic-cutout.png')":"url('./spajin-guardians-modern-cutout.png')");setGuardianVisual(g);$("guardian-bubble").textContent=g.intro;updateGuide(0);startChat()}
     function setGuardianVisual(g){document.documentElement.style.setProperty("--guardian-pos",g.pos);document.documentElement.style.setProperty("--guardian-face-pos",g.face);document.documentElement.style.setProperty("--guardian-face-size","900% 180%")}
-    function updateGuide(step){const g=GUARDIANS[state.openingGuardianId];$("guide-name").textContent=g.name;$("guide-line").textContent=g.guide[Math.min(step,g.guide.length-1)];$("guide-progress").textContent=["まずは、今夜いちばん流してしまいたいものから。","いいですね。次は、どんな場所で回復したいかです。","あと少し。最後にエリアの湯脈を選びましょう。","準備完了です。スパ神が候補を読み解きます。"][Math.min(step,3)]}
+    function updateGuide(step){const g=GUARDIANS[state.openingGuardianId];$("guide-name").textContent=g.name;$("guide-line").textContent=g.guide[Math.min(step,g.guide.length-1)];$("guide-progress").textContent=["縺ｾ縺壹・縲∽ｻ雁､懊＞縺｡縺ｰ繧捺ｵ√＠縺ｦ縺励∪縺・◆縺・ｂ縺ｮ縺九ｉ縲・,"縺・＞縺ｧ縺吶・縲よｬ｡縺ｯ縲√←繧薙↑蝣ｴ謇縺ｧ蝗槫ｾｩ縺励◆縺・°縺ｧ縺吶・,"縺ゅ→蟆代＠縲よ怙蠕後↓繧ｨ繝ｪ繧｢縺ｮ貉ｯ閼医ｒ驕ｸ縺ｳ縺ｾ縺励ｇ縺・・,"貅門ｙ螳御ｺ・〒縺吶ゅせ繝醍･槭′蛟呵｣懊ｒ隱ｭ縺ｿ隗｣縺阪∪縺吶・][Math.min(step,3)]}
     function startChat(){if(state.chatStarted)return;state.chatStarted=true}
     function addChat(role,text,targetId="reaction-after-area"){if(role==="user"){return}setInlineReaction(targetId,text)}
     function reactionTargetFor(group){return group==="q1"?"reaction-after-q1":group==="q2"?"reaction-after-q2":group==="area"?"reaction-after-area":"reaction-after-free"}
-    function setInlineReaction(targetId,text,{typing=false}={}){const g=GUARDIANS[state.openingGuardianId];const target=$(targetId);if(!target)return;target.innerHTML=`<div class="chat-face" role="img" aria-label="${escapeHtml(g.name)}の顔アップ"></div><div class="chat-bubble"><span class="chat-name">${escapeHtml(g.name)}</span><span>${typing?`<span class="typing"><i></i><i></i><i></i></span>`:escapeHtml(text)}</span></div>`;target.classList.remove("show");void target.offsetWidth;target.classList.add("show")}
+    function setInlineReaction(targetId,text,{typing=false}={}){const g=GUARDIANS[state.openingGuardianId];const target=$(targetId);if(!target)return;target.innerHTML=`<div class="chat-face" role="img" aria-label="${escapeHtml(g.name)}縺ｮ鬘斐い繝・・"></div><div class="chat-bubble"><span class="chat-name">${escapeHtml(g.name)}</span><span>${typing?`<span class="typing"><i></i><i></i><i></i></span>`:escapeHtml(text)}</span></div>`;target.classList.remove("show");void target.offsetWidth;target.classList.add("show")}
     function setGuardianReaction(text){setInlineReaction("reaction-after-area",text)}
     function guardianReply(text,targetId="reaction-after-area"){setInlineReaction(targetId,"",{typing:true});setTimeout(()=>setInlineReaction(targetId,text),380)}
     function escapeHtml(text){return String(text).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
     function bumpChat(){}
-    function setVariant(v){state.variant=v;localStorage.setItem("spajin_ab_variant",v);$("variant-a").classList.toggle("active",v==="A");$("variant-b").classList.toggle("active",v==="B");$("free-text-block").classList.toggle("hidden",v!=="B");$("reaction-after-free").classList.toggle("show",v==="B"&&Boolean($("free-text").value.trim()));$("variant-title").textContent=v==="A"?"A案：選択カードだけで進む":"B案：選択＋一言入力で進む";$("variant-note").textContent=v==="A"?"スマホで迷わず完走できるかを検証":"AI占い感・自分ごと感が増えるかを検証";checkReady();logEvent("variant_view",{variant:v})}
+    function setVariant(v){state.variant=v;localStorage.setItem("spajin_ab_variant",v);$("variant-a").classList.toggle("active",v==="A");$("variant-b").classList.toggle("active",v==="B");$("free-text-block").classList.toggle("hidden",v!=="B");$("reaction-after-free").classList.toggle("show",v==="B"&&Boolean($("free-text").value.trim()));$("variant-title").textContent=v==="A"?"A譯茨ｼ夐∈謚槭き繝ｼ繝峨□縺代〒騾ｲ繧":"B譯茨ｼ夐∈謚橸ｼ倶ｸ險蜈･蜉帙〒騾ｲ繧";$("variant-note").textContent=v==="A"?"繧ｹ繝槭・縺ｧ霑ｷ繧上★螳瑚ｵｰ縺ｧ縺阪ｋ縺九ｒ讀懆ｨｼ":"AI蜊縺・─繝ｻ閾ｪ蛻・＃縺ｨ諢溘′蠅励∴繧九°繧呈､懆ｨｼ";checkReady();logEvent("variant_view",{variant:v})}
     function selectOption(group,value,button){const label=button.dataset.label||CHOICE_LABELS[group]?.[value]||value;state[group]=value;button.parentElement.querySelectorAll(".option").forEach(o=>{o.classList.toggle("selected",o===button);o.setAttribute("aria-pressed",o===button?"true":"false")});button.classList.add("pulse-next");setTimeout(()=>button.classList.remove("pulse-next"),520);const step=state.q1&&state.q2&&state.area?3:state.q1&&state.q2?2:state.q1?1:0;updateGuide(step);guardianReply(buildReply(group,value,step,label),reactionTargetFor(group));logEvent("select_option",{group,value,label,variant:state.variant});checkReady()}
-    function buildReply(group,value,step,label){const g=GUARDIANS[state.openingGuardianId];if(group==="q1"){return `${label}ですね。湯けむりに記録しました。内部判定は「${CHOICE_LABELS.q1[value]}」の系統なので、施設の絞り込みは複雑にしません。次は、どんな場所でほどけたいか選びましょう。`}if(group==="q2"){return `${label}。いい流れです。内部判定は「${CHOICE_LABELS.q2[value]}」の系統です。では最後に、今夜ひらく神奈川の湯脈を選んでください。`}if(group==="area"){return `${CHOICE_LABELS.area[value]}ですね。条件は揃いました。${state.variant==="B"?"一言あれば、そこに今夜の気分を混ぜて読み解きます。":"このまま私が候補を読み解きます。"}`}return g.guide[Math.min(step,3)]}
-    function checkReady(){const ready=state.q1&&state.q2&&state.area;$("submit-button").disabled=!ready;if(ready)$("submit-button").textContent=`${GUARDIANS[state.openingGuardianId].name}に今夜の一湯を聞く`}
+    function buildReply(group,value,step,label){const g=GUARDIANS[state.openingGuardianId];if(group==="q1"){return `${label}縺ｧ縺吶・縲よｹｯ縺代・繧翫↓險倬鹸縺励∪縺励◆縲ょ・驛ｨ蛻､螳壹・縲・{CHOICE_LABELS.q1[value]}縲阪・邉ｻ邨ｱ縺ｪ縺ｮ縺ｧ縲∵命險ｭ縺ｮ邨槭ｊ霎ｼ縺ｿ縺ｯ隍・尅縺ｫ縺励∪縺帙ｓ縲よｬ｡縺ｯ縲√←繧薙↑蝣ｴ謇縺ｧ縺ｻ縺ｩ縺代◆縺・°驕ｸ縺ｳ縺ｾ縺励ｇ縺・Ａ}if(group==="q2"){return `${label}縲ゅ＞縺・ｵ√ｌ縺ｧ縺吶ょ・驛ｨ蛻､螳壹・縲・{CHOICE_LABELS.q2[value]}縲阪・邉ｻ邨ｱ縺ｧ縺吶ゅ〒縺ｯ譛蠕後↓縲∽ｻ雁､懊・繧峨￥逾槫･亥ｷ昴・貉ｯ閼医ｒ驕ｸ繧薙〒縺上□縺輔＞縲Ａ}if(group==="area"){return `${CHOICE_LABELS.area[value]}縺ｧ縺吶・縲よ擅莉ｶ縺ｯ謠・＞縺ｾ縺励◆縲・{state.variant==="B"?"荳險縺ゅｌ縺ｰ縲√◎縺薙↓莉雁､懊・豌怜・繧呈ｷｷ縺懊※隱ｭ縺ｿ隗｣縺阪∪縺吶・:"縺薙・縺ｾ縺ｾ遘√′蛟呵｣懊ｒ隱ｭ縺ｿ隗｣縺阪∪縺吶・}`}return g.guide[Math.min(step,3)]}
+    function checkReady(){const ready=state.q1&&state.q2&&state.area;$("submit-button").disabled=!ready;if(ready)$("submit-button").textContent=`${GUARDIANS[state.openingGuardianId].name}縺ｫ莉雁､懊・荳貉ｯ繧定◇縺汁}
     function recommend({change=false}={}){const freeText=$("free-text").value.trim();if(!change){playSubmitMotion(freeText,()=>doRecommend({change,freeText}));return}doRecommend({change,freeText})}
-    function playSubmitMotion(freeText,done){$("submit-button").disabled=true;const targetId=state.variant==="B"&&freeText?"reaction-after-free":"reaction-after-area";const text=state.variant==="B"&&freeText?`なるほど。「${freeText}」って、今日はかなり本音が出ていますね。無理に元気を出すより、ちゃんと戻れる湯を選びましょう。`:"ここまでの答え、受け取りました。今夜は肩の力を抜いて、戻ってこられる一湯を探しましょう。";guardianReply(text,targetId);setTimeout(done,1120)}
-    function doRecommend({change=false,freeText=""}={}){const scored=FACILITIES.filter(f=>f.area===state.area).map(f=>{let score=f.scoreBase;if(f.q1===state.q1)score+=25;if(f.q2===state.q2)score+=18;if(freeText){if(/海|風|夕日|空|ぼー|景色|夜景/.test(freeText)&&f.tags.includes("露天・絶景"))score+=12;if(/こも|漫画|休|寝|だら/.test(freeText)&&f.tags.includes("おこもり"))score+=12;if(/サウナ|水風呂|汗|熱/.test(freeText)&&f.tags.includes("サウナ"))score+=12;if(/肌|癒|やさ|ぬる|温泉/.test(freeText)&&f.tags.includes("美肌・泉質"))score+=12}if(change&&state.usedIds.has(f.id))score-=80;return{...f,score}}).sort((a,b)=>b.score-a.score);const facility=scored[0]||FACILITIES[0];state.usedIds.add(facility.id);const guardianId=change&&state.currentGuardianId?state.currentGuardianId:chooseGuardian(facility,freeText);renderResult(facility,guardianId,freeText);logEvent(change?"change_result":"complete_diagnosis",{variant:state.variant,q1:state.q1,q2:state.q2,area:state.area,free_text_present:Boolean(freeText),facility_id:facility.id,guardian_id:guardianId,score:facility.score})}
-    function chooseGuardian(f,freeText){let c=[state.openingGuardianId,...f.guardians];if(freeText){if(/サウナ|熱|汗/.test(freeText))c.unshift("neppa");if(/肌|癒|やさ/.test(freeText))c.unshift("izumi");if(/こも|休|寝/.test(freeText))c.unshift("mido");if(/海|風|空|景色|夕日/.test(freeText))c.unshift("kurebayashi")}c.push("yukawa");c=[...new Set(c)];return Math.random()<.68?state.openingGuardianId:c[Math.floor(Math.random()*c.length)]}
-    function renderResult(f,gid,freeText){const g=GUARDIANS[gid];state.currentFacility=f;state.currentGuardianId=gid;$("result-section").classList.remove("hidden");$("result-name").textContent=f.name;$("result-meta").textContent=`${f.area} / ${f.quality} / ${f.effects}`;$("result-guardian").textContent=`${g.name}の案内`;$("result-character-text").textContent=mockOpenAIText(gid,f,freeText);$("result-db-text").textContent=`facility_id=${f.id}、q1_type=${f.q1}、q2_type=${f.q2}、area_label=${f.area}、tags=${f.tags.join(" / ")}、source_point=${f.point}`;$("result-variant").textContent=state.variant==="A"?"A 選択式":"B 書き込み式";$("result-score").textContent=`${f.score}点`;$("result-map-link").href=googleMapsUrl(f);setGuardianVisual(g);$("guardian-bubble").textContent=`${g.name}が最後まで案内します。`;if(gid!==state.openingGuardianId){$("guide-name").textContent=g.name;$("guide-line").textContent="途中で湯脈が反応しました。ここからは私が施設の魅力を読み上げます。";state.openingGuardianId=gid;guardianReply(`${f.name}、ここは私が案内しましょう。湯脈がこちらへ反応しました。`,"reaction-after-area")}else{updateGuide(3);guardianReply(`${f.name}が見えました。今夜の条件なら、ここをおすすめします。理由も私の口調でまとめますね。`,"reaction-after-area")}showResultModal(f,gid,freeText)}
-    function showResultModal(f,gid,freeText){$("modal-facility-name").textContent=f.name;$("modal-facility-meta").textContent=`${f.area} / ${f.quality} / ${f.effects}`;$("modal-facility-point").textContent=mockOpenAIText(gid,f,freeText);$("modal-facility-tags").innerHTML=f.tags.map(t=>`<span>${escapeHtml(t)}</span>`).join("");$("modal-map-link").href=googleMapsUrl(f);$("ai-db-match").textContent=`${f.area} / q1=${f.q1} / q2=${f.q2} / score=${f.score} / tags=${f.tags.join("・")}`;$("ai-review-signal").textContent=mockReviewSignal(f);$("ai-prompt-signal").textContent=`${GUARDIANS[gid].name}の口調で、効能・口コミ傾向・今夜の気分を会話文に変換。`;document.querySelectorAll("[data-feedback-value]").forEach(b=>b.classList.remove("selected"));$("modal-featured-reply").classList.remove("show");$("modal-featured-reply").textContent="";$("feedback-text-input").value="";$("result-modal").classList.add("show");$("submit-button").disabled=false}
-    function googleMapsUrl(f){return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${f.name} ${f.area} 温泉`)}`}
-    function showFeaturedReply(text){const box=$("modal-featured-reply");box.innerHTML=`<span class="chat-name">${escapeHtml(GUARDIANS[state.currentGuardianId||state.openingGuardianId].name)}の返答</span>${escapeHtml(text)}`;box.classList.remove("show");void box.offsetWidth;box.classList.add("show")}
-    function handleFeedback(value,button){const f=state.currentFacility;if(!f)return;button.parentElement.querySelectorAll(".feedback-button").forEach(b=>b.classList.toggle("selected",b===button));const replies={fit:`よし、湯脈が噛み合いました。${f.name}、今夜の気分にかなり寄り添えそうです。あとは地図で帰り道まで見ておきましょう。`,maybe:`その「少し気になる」、いい感覚です。${f.name}は候補に残しつつ、混み具合・サウナ・露天などを地図や口コミで確認してみましょう。`,miss:`正直な反応、助かります。今夜は湯脈が少しズレたかもしれません。同じ条件のまま、別の一湯へ切り替えましょう。`};const reply=replies[value]||replies.maybe;showFeaturedReply(reply);logEvent("result_feedback",{variant:state.variant,feedback:value,facility_id:f.id,guardian_id:state.currentGuardianId})}
+    function playSubmitMotion(freeText,done){$("submit-button").disabled=true;const targetId=state.variant==="B"&&freeText?"reaction-after-free":"reaction-after-area";const text=state.variant==="B"&&freeText?`縺ｪ繧九⊇縺ｩ縲ゅ・{freeText}縲阪▲縺ｦ縲∽ｻ頑律縺ｯ縺九↑繧頑悽髻ｳ縺悟・縺ｦ縺・∪縺吶・縲ら┌逅・↓蜈・ｰ励ｒ蜃ｺ縺吶ｈ繧翫√■繧・ｓ縺ｨ謌ｻ繧後ｋ貉ｯ繧帝∈縺ｳ縺ｾ縺励ｇ縺・Ａ:"縺薙％縺ｾ縺ｧ縺ｮ遲斐∴縲∝女縺大叙繧翫∪縺励◆縲ゆｻ雁､懊・閧ｩ縺ｮ蜉帙ｒ謚懊＞縺ｦ縲∵綾縺｣縺ｦ縺薙ｉ繧後ｋ荳貉ｯ繧呈爾縺励∪縺励ｇ縺・・;guardianReply(text,targetId);setTimeout(done,1120)}
+    function doRecommend({change=false,freeText=""}={}){const scored=FACILITIES.filter(f=>f.area===state.area).map(f=>{let score=f.scoreBase;if(f.q1===state.q1)score+=25;if(f.q2===state.q2)score+=18;if(freeText){if(/豬ｷ|鬚ｨ|螟墓律|遨ｺ|縺ｼ繝ｼ|譎ｯ濶ｲ|螟懈勹/.test(freeText)&&f.tags.includes("髴ｲ螟ｩ繝ｻ邨ｶ譎ｯ"))score+=12;if(/縺薙ｂ|貍ｫ逕ｻ|莨掃蟇掟縺繧・.test(freeText)&&f.tags.includes("縺翫％繧ゅｊ"))score+=12;if(/繧ｵ繧ｦ繝掛豌ｴ鬚ｨ蜻・豎慾辭ｱ/.test(freeText)&&f.tags.includes("繧ｵ繧ｦ繝・))score+=12;if(/閧芸逋竹繧・＆|縺ｬ繧弓貂ｩ豕・.test(freeText)&&f.tags.includes("鄒手ｌ繝ｻ豕芽ｳｪ"))score+=12}if(change&&state.usedIds.has(f.id))score-=80;return{...f,score}}).sort((a,b)=>b.score-a.score);const facility=scored[0]||FACILITIES[0];state.usedIds.add(facility.id);const guardianId=change&&state.currentGuardianId?state.currentGuardianId:chooseGuardian(facility,freeText);renderResult(facility,guardianId,freeText);logEvent(change?"change_result":"complete_diagnosis",{variant:state.variant,q1:state.q1,q2:state.q2,area:state.area,free_text_present:Boolean(freeText),facility_id:facility.id,guardian_id:guardianId,score:facility.score})}
+    function chooseGuardian(f,freeText){let c=[state.openingGuardianId,...f.guardians];if(freeText){if(/繧ｵ繧ｦ繝掛辭ｱ|豎・.test(freeText))c.unshift("neppa");if(/閧芸逋竹繧・＆/.test(freeText))c.unshift("izumi");if(/縺薙ｂ|莨掃蟇・.test(freeText))c.unshift("mido");if(/豬ｷ|鬚ｨ|遨ｺ|譎ｯ濶ｲ|螟墓律/.test(freeText))c.unshift("kurebayashi")}c.push("yukawa");c=[...new Set(c)];return Math.random()<.68?state.openingGuardianId:c[Math.floor(Math.random()*c.length)]}
+    function renderResult(f,gid,freeText){const g=GUARDIANS[gid];state.currentFacility=f;state.currentGuardianId=gid;$("result-section").classList.remove("hidden");$("result-name").textContent=f.name;$("result-meta").textContent=`${f.area} / ${f.quality} / ${f.effects}`;$("result-guardian").textContent=`${g.name}縺ｮ譯亥・`;$("result-character-text").textContent=mockOpenAIText(gid,f,freeText);$("result-db-text").textContent=`facility_id=${f.id}縲〈1_type=${f.q1}縲〈2_type=${f.q2}縲∥rea_label=${f.area}縲》ags=${f.tags.join(" / ")}縲《ource_point=${f.point}`;$("result-variant").textContent=state.variant==="A"?"A 驕ｸ謚槫ｼ・:"B 譖ｸ縺崎ｾｼ縺ｿ蠑・;$("result-score").textContent=`${f.score}轤ｹ`;$("result-map-link").href=googleMapsUrl(f);setGuardianVisual(g);$("guardian-bubble").textContent=`${g.name}縺梧怙蠕後∪縺ｧ譯亥・縺励∪縺吶Ａ;if(gid!==state.openingGuardianId){$("guide-name").textContent=g.name;$("guide-line").textContent="騾比ｸｭ縺ｧ貉ｯ閼医′蜿榊ｿ懊＠縺ｾ縺励◆縲ゅ％縺薙°繧峨・遘√′譁ｽ險ｭ縺ｮ鬲・鴨繧定ｪｭ縺ｿ荳翫￡縺ｾ縺吶・;state.openingGuardianId=gid;guardianReply(`${f.name}縲√％縺薙・遘√′譯亥・縺励∪縺励ｇ縺・よｹｯ閼医′縺薙■繧峨∈蜿榊ｿ懊＠縺ｾ縺励◆縲Ａ,"reaction-after-area")}else{updateGuide(3);guardianReply(`${f.name}縺瑚ｦ九∴縺ｾ縺励◆縲ゆｻ雁､懊・譚｡莉ｶ縺ｪ繧峨√％縺薙ｒ縺翫☆縺吶ａ縺励∪縺吶ら炊逕ｱ繧らｧ√・蜿｣隱ｿ縺ｧ縺ｾ縺ｨ繧√∪縺吶・縲Ａ,"reaction-after-area")}showResultModal(f,gid,freeText)}
+    function showResultModal(f,gid,freeText){$("modal-facility-name").textContent=f.name;$("modal-facility-meta").textContent=`${f.area} / ${f.quality} / ${f.effects}`;$("modal-facility-point").textContent=mockOpenAIText(gid,f,freeText);$("modal-facility-tags").innerHTML=f.tags.map(t=>`<span>${escapeHtml(t)}</span>`).join("");$("modal-map-link").href=googleMapsUrl(f);$("ai-db-match").textContent=`${f.area} / q1=${f.q1} / q2=${f.q2} / score=${f.score} / tags=${f.tags.join("繝ｻ")}`;$("ai-review-signal").textContent=mockReviewSignal(f);$("ai-prompt-signal").textContent=`${GUARDIANS[gid].name}縺ｮ蜿｣隱ｿ縺ｧ縲∝柑閭ｽ繝ｻ蜿｣繧ｳ繝溷だ蜷代・莉雁､懊・豌怜・繧剃ｼ夊ｩｱ譁・↓螟画鋤縲Ａ;document.querySelectorAll("[data-feedback-value]").forEach(b=>b.classList.remove("selected"));$("modal-featured-reply").classList.remove("show");$("modal-featured-reply").textContent="";$("feedback-text-input").value="";$("result-modal").classList.add("show");$("submit-button").disabled=false}
+    function googleMapsUrl(f){return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${f.name} ${f.area} 貂ｩ豕荏)}`}
+    function showFeaturedReply(text){const box=$("modal-featured-reply");box.innerHTML=`<span class="chat-name">${escapeHtml(GUARDIANS[state.currentGuardianId||state.openingGuardianId].name)}縺ｮ霑皮ｭ・/span>${escapeHtml(text)}`;box.classList.remove("show");void box.offsetWidth;box.classList.add("show")}
+    function handleFeedback(value,button){const f=state.currentFacility;if(!f)return;button.parentElement.querySelectorAll(".feedback-button").forEach(b=>b.classList.toggle("selected",b===button));const replies={fit:`繧医＠縲∵ｹｯ閼医′蝎帙∩蜷医＞縺ｾ縺励◆縲・{f.name}縲∽ｻ雁､懊・豌怜・縺ｫ縺九↑繧雁ｯ・ｊ豺ｻ縺医◎縺・〒縺吶ゅ≠縺ｨ縺ｯ蝨ｰ蝗ｳ縺ｧ蟶ｰ繧企％縺ｾ縺ｧ隕九※縺翫″縺ｾ縺励ｇ縺・Ａ,maybe:`縺昴・縲悟ｰ代＠豌励↓縺ｪ繧九阪√＞縺・─隕壹〒縺吶・{f.name}縺ｯ蛟呵｣懊↓谿九＠縺､縺､縲∵ｷｷ縺ｿ蜈ｷ蜷医・繧ｵ繧ｦ繝翫・髴ｲ螟ｩ縺ｪ縺ｩ繧貞慍蝗ｳ繧・哨繧ｳ繝溘〒遒ｺ隱阪＠縺ｦ縺ｿ縺ｾ縺励ｇ縺・Ａ,miss:`豁｣逶ｴ縺ｪ蜿榊ｿ懊∝勧縺九ｊ縺ｾ縺吶ゆｻ雁､懊・貉ｯ閼医′蟆代＠繧ｺ繝ｬ縺溘°繧ゅ＠繧後∪縺帙ｓ縲ょ酔縺俶擅莉ｶ縺ｮ縺ｾ縺ｾ縲∝挨縺ｮ荳貉ｯ縺ｸ蛻・ｊ譖ｿ縺医∪縺励ｇ縺・Ａ};const reply=replies[value]||replies.maybe;showFeaturedReply(reply);logEvent("result_feedback",{variant:state.variant,feedback:value,facility_id:f.id,guardian_id:state.currentGuardianId})}
     function handleFeedbackTextSend(){const input=$("feedback-text-input"),text=input.value.trim(),f=state.currentFacility;if(!text||!f)return;const reply=buildModalChatReply(text,f);showFeaturedReply(reply);input.value="";logEvent("result_feedback_text",{variant:state.variant,length:text.length,facility_id:f.id,guardian_id:state.currentGuardianId})}
     function askAiQuestion(text){$("feedback-text-input").value=text;handleFeedbackTextSend()}
-    function mockReviewSignal(f){const signals=[];if(f.tags.includes("露天・絶景"))signals.push("露天の開放感・外気浴・景色への期待が強い");if(f.tags.includes("サウナ"))signals.push("サウナ/水風呂/リセット感への口コミ反応が強い");if(f.tags.includes("おこもり"))signals.push("休憩・岩盤浴・長時間滞在の満足度が高い");if(f.tags.includes("美肌・泉質"))signals.push("湯ざわり・温泉効能・肌あたりの相性が良い");if(f.tags.includes("炭酸泉・機能風呂"))signals.push("炭酸泉や機能風呂で巡りを整える文脈が合う");return signals.join(" / ")||"施設説明とエリア条件から、今夜の気分に近い要素を抽出"}
-    function buildModalChatReply(text,f){const g=GUARDIANS[state.currentGuardianId||state.openingGuardianId],signal=mockReviewSignal(f);if(/混|空|人|待|並/.test(text))return `${g.name}です。DB上では「${signal}」が強い一湯。ただ、混み具合だけは当日の揺らぎが大きいです。Googleマップの現在情報を見て、ざわつきそうなら同じ条件で別の一湯へ逃がしましょう。`;if(/サウナ|水風呂|汗|熱/.test(text))return `${g.name}が口コミタグを読むと、${f.tags.includes("サウナ")?`${f.name}はサウナ目線でも十分候補です。熱で切って、水で戻す流れが作れます。`:`${f.name}はサウナ特化より、湯と過ごし方で整える寄りです。サウナ一点なら別候補もありです。`}`;if(/露天|外気|景色|海|風|夜景/.test(text))return `${f.tags.includes("露天・絶景")?`そこはかなり相性あり。口コミ傾向でも「${signal}」が出ています。${f.name}は湯上がりの風まで含めて選ぶタイプです。`:`外気浴を最優先にするなら、DB上では少し別の湯脈も見たいところです。`}`;if(/岩盤|休|寝|漫画|だら|こも|長/.test(text))return `${f.tags.includes("おこもり")?`おこもり気分なら、${f.name}は良い線です。DB上でも「${signal}」が拾えています。滞在時間を長めに取る前提で行きましょう。`:`今日は長居したい気分なら、岩盤浴や休憩処が強い別候補も出せます。`}`;return `${g.name}です。その一言をDBの施設タグと口コミ傾向に重ねると、${f.name}は「${signal}」の方向で合っています。少しでも違和感があれば、同じスパ神のまま別の一湯に切り替えます。`}
+    function mockReviewSignal(f){const signals=[];if(f.tags.includes("髴ｲ螟ｩ繝ｻ邨ｶ譎ｯ"))signals.push("髴ｲ螟ｩ縺ｮ髢区叛諢溘・螟匁ｰ玲ｵｴ繝ｻ譎ｯ濶ｲ縺ｸ縺ｮ譛溷ｾ・′蠑ｷ縺・);if(f.tags.includes("繧ｵ繧ｦ繝・))signals.push("繧ｵ繧ｦ繝・豌ｴ鬚ｨ蜻・繝ｪ繧ｻ繝・ヨ諢溘∈縺ｮ蜿｣繧ｳ繝溷渚蠢懊′蠑ｷ縺・);if(f.tags.includes("縺翫％繧ゅｊ"))signals.push("莨第・繝ｻ蟯ｩ逶､豬ｴ繝ｻ髟ｷ譎る俣貊槫惠縺ｮ貅雜ｳ蠎ｦ縺碁ｫ倥＞");if(f.tags.includes("鄒手ｌ繝ｻ豕芽ｳｪ"))signals.push("貉ｯ縺悶ｏ繧翫・貂ｩ豕牙柑閭ｽ繝ｻ閧後≠縺溘ｊ縺ｮ逶ｸ諤ｧ縺瑚憶縺・);if(f.tags.includes("轤ｭ驟ｸ豕峨・讖溯・鬚ｨ蜻・))signals.push("轤ｭ驟ｸ豕峨ｄ讖溯・鬚ｨ蜻ゅ〒蟾｡繧翫ｒ謨ｴ縺医ｋ譁・ц縺悟粋縺・);return signals.join(" / ")||"譁ｽ險ｭ隱ｬ譏弱→繧ｨ繝ｪ繧｢譚｡莉ｶ縺九ｉ縲∽ｻ雁､懊・豌怜・縺ｫ霑代＞隕∫ｴ繧呈歓蜃ｺ"}
+    function buildModalChatReply(text,f){const g=GUARDIANS[state.currentGuardianId||state.openingGuardianId],signal=mockReviewSignal(f);if(/豺ｷ|遨ｺ|莠ｺ|蠕・荳ｦ/.test(text))return `${g.name}縺ｧ縺吶・B荳翫〒縺ｯ縲・{signal}縲阪′蠑ｷ縺・ｸ貉ｯ縲ゅ◆縺縲∵ｷｷ縺ｿ蜈ｷ蜷医□縺代・蠖捺律縺ｮ謠ｺ繧峨℃縺悟､ｧ縺阪＞縺ｧ縺吶・oogle繝槭ャ繝励・迴ｾ蝨ｨ諠・ｱ繧定ｦ九※縲√＊繧上▽縺阪◎縺・↑繧牙酔縺俶擅莉ｶ縺ｧ蛻･縺ｮ荳貉ｯ縺ｸ騾・′縺励∪縺励ｇ縺・Ａ;if(/繧ｵ繧ｦ繝掛豌ｴ鬚ｨ蜻・豎慾辭ｱ/.test(text))return `${g.name}縺悟哨繧ｳ繝溘ち繧ｰ繧定ｪｭ繧縺ｨ縲・{f.tags.includes("繧ｵ繧ｦ繝・)?`${f.name}縺ｯ繧ｵ繧ｦ繝顔岼邱壹〒繧ょ香蛻・呵｣懊〒縺吶ら・縺ｧ蛻・▲縺ｦ縲∵ｰｴ縺ｧ謌ｻ縺呎ｵ√ｌ縺御ｽ懊ｌ縺ｾ縺吶Ａ:`${f.name}縺ｯ繧ｵ繧ｦ繝顔音蛹悶ｈ繧翫∵ｹｯ縺ｨ驕弱＃縺玲婿縺ｧ謨ｴ縺医ｋ蟇・ｊ縺ｧ縺吶ゅし繧ｦ繝贋ｸ轤ｹ縺ｪ繧牙挨蛟呵｣懊ｂ縺ゅｊ縺ｧ縺吶Ａ}`;if(/髴ｲ螟ｩ|螟匁ｰ慾譎ｯ濶ｲ|豬ｷ|鬚ｨ|螟懈勹/.test(text))return `${f.tags.includes("髴ｲ螟ｩ繝ｻ邨ｶ譎ｯ")?`縺昴％縺ｯ縺九↑繧顔嶌諤ｧ縺ゅｊ縲ょ哨繧ｳ繝溷だ蜷代〒繧ゅ・{signal}縲阪′蜃ｺ縺ｦ縺・∪縺吶・{f.name}縺ｯ貉ｯ荳翫′繧翫・鬚ｨ縺ｾ縺ｧ蜷ｫ繧√※驕ｸ縺ｶ繧ｿ繧､繝励〒縺吶Ａ:`螟匁ｰ玲ｵｴ繧呈怙蜆ｪ蜈医↓縺吶ｋ縺ｪ繧峨．B荳翫〒縺ｯ蟆代＠蛻･縺ｮ貉ｯ閼医ｂ隕九◆縺・→縺薙ｍ縺ｧ縺吶Ａ}`;if(/蟯ｩ逶､|莨掃蟇掟貍ｫ逕ｻ|縺繧榎縺薙ｂ|髟ｷ/.test(text))return `${f.tags.includes("縺翫％繧ゅｊ")?`縺翫％繧ゅｊ豌怜・縺ｪ繧峨・{f.name}縺ｯ濶ｯ縺・ｷ壹〒縺吶・B荳翫〒繧ゅ・{signal}縲阪′諡ｾ縺医※縺・∪縺吶よｻ槫惠譎る俣繧帝聞繧√↓蜿悶ｋ蜑肴署縺ｧ陦後″縺ｾ縺励ｇ縺・Ａ:`莉頑律縺ｯ髟ｷ螻・＠縺溘＞豌怜・縺ｪ繧峨∝ｲｩ逶､豬ｴ繧・ｼ第・蜃ｦ縺悟ｼｷ縺・挨蛟呵｣懊ｂ蜃ｺ縺帙∪縺吶Ａ}`;return `${g.name}縺ｧ縺吶ゅ◎縺ｮ荳險繧奪B縺ｮ譁ｽ險ｭ繧ｿ繧ｰ縺ｨ蜿｣繧ｳ繝溷だ蜷代↓驥阪・繧九→縲・{f.name}縺ｯ縲・{signal}縲阪・譁ｹ蜷代〒蜷医▲縺ｦ縺・∪縺吶ょｰ代＠縺ｧ繧る＆蜥梧─縺後≠繧後・縲∝酔縺倥せ繝醍･槭・縺ｾ縺ｾ蛻･縺ｮ荳貉ｯ縺ｫ蛻・ｊ譖ｿ縺医∪縺吶Ａ}
     function closeResultModal(){$("result-modal").classList.remove("show");$("result-section").scrollIntoView({behavior:"smooth",block:"start"})}
-    function handleFreeTextInput(){const text=$("free-text").value.trim();logEvent("free_text_input",{variant:state.variant,length:text.length});clearTimeout(freeTextTimer);if(state.variant!=="B")return;if(!text){state.freeTextReaction="";$("reaction-after-free").classList.remove("show");return}freeTextTimer=setTimeout(()=>{if(text===state.freeTextReaction)return;state.freeTextReaction=text;guardianReply(`「${text}」ですね。その一言、ちゃんと受け取りました。最後の神託では、この気分も湯けむりに混ぜます。`,"reaction-after-free")},520)}
-    function mockOpenAIText(gid,f,freeText){const suffix=freeText?`「${freeText}」という今の気分も、湯けむりに混ぜておきました。`:"";return{yukawa:`${f.name}なら、${f.point} 今日は変に冒険しすぎず、でもちゃんと気分が変わるラインです。${suffix}`,izumi:`${f.name}、いいねぇ。${f.effects}を感じたい夜に、湯ざわりからそっとほどけていけそう。お肌も心も、急がなくていいよぉ。${suffix}`,neppa:`${f.name}、来ましたッ！${f.tags.includes("サウナ")?"熱と水の切り替え":"湯のパワー"}で、仕事のノイズを一回ログアウトしましょう！ただし水分補給は絶対ですッ！${suffix}`,mido:`${f.name}が妥当です。${f.point} 設備と過ごし方の相性が良いので、今夜は回復時間をきちんと確保しましょう。${suffix}`,kurebayashi:`${f.name}。${f.point} 湯上がりの風まで含めて、今夜の余白になります。……帰り道、少しだけ静かになるはず。${suffix}`}[gid]}
+    function handleFreeTextInput(){const text=$("free-text").value.trim();logEvent("free_text_input",{variant:state.variant,length:text.length});clearTimeout(freeTextTimer);if(state.variant!=="B")return;if(!text){state.freeTextReaction="";$("reaction-after-free").classList.remove("show");return}freeTextTimer=setTimeout(()=>{if(text===state.freeTextReaction)return;state.freeTextReaction=text;guardianReply(`縲・{text}縲阪〒縺吶・縲ゅ◎縺ｮ荳險縲√■繧・ｓ縺ｨ蜿励￠蜿悶ｊ縺ｾ縺励◆縲よ怙蠕後・逾櫁ｨ励〒縺ｯ縲√％縺ｮ豌怜・繧よｹｯ縺代・繧翫↓豺ｷ縺懊∪縺吶Ａ,"reaction-after-free")},520)}
+    function mockOpenAIText(gid,f,freeText){const suffix=freeText?`縲・{freeText}縲阪→縺・≧莉翫・豌怜・繧ゅ∵ｹｯ縺代・繧翫↓豺ｷ縺懊※縺翫″縺ｾ縺励◆縲Ａ:"";return{yukawa:`${f.name}縺ｪ繧峨・{f.point} 莉頑律縺ｯ螟峨↓蜀帝匱縺励☆縺弱★縲√〒繧ゅ■繧・ｓ縺ｨ豌怜・縺悟､峨ｏ繧九Λ繧､繝ｳ縺ｧ縺吶・{suffix}`,izumi:`${f.name}縲√＞縺・・縺・・{f.effects}繧呈─縺倥◆縺・､懊↓縲∵ｹｯ縺悶ｏ繧翫°繧峨◎縺｣縺ｨ縺ｻ縺ｩ縺代※縺・￠縺昴≧縲ゅ♀閧後ｂ蠢・ｂ縲∵･縺後↑縺上※縺・＞繧医♂縲・{suffix}`,neppa:`${f.name}縲∵擂縺ｾ縺励◆繝・ｼ・{f.tags.includes("繧ｵ繧ｦ繝・)?"辭ｱ縺ｨ豌ｴ縺ｮ蛻・ｊ譖ｿ縺・:"貉ｯ縺ｮ繝代Ρ繝ｼ"}縺ｧ縲∽ｻ穂ｺ九・繝弱う繧ｺ繧剃ｸ蝗槭Ο繧ｰ繧｢繧ｦ繝医＠縺ｾ縺励ｇ縺・ｼ√◆縺縺玲ｰｴ蛻・｣懃ｵｦ縺ｯ邨ｶ蟇ｾ縺ｧ縺吶ャ・・{suffix}`,mido:`${f.name}縺悟ｦ･蠖薙〒縺吶・{f.point} 險ｭ蛯吶→驕弱＃縺玲婿縺ｮ逶ｸ諤ｧ縺瑚憶縺・・縺ｧ縲∽ｻ雁､懊・蝗槫ｾｩ譎る俣繧偵″縺｡繧薙→遒ｺ菫昴＠縺ｾ縺励ｇ縺・・{suffix}`,kurebayashi:`${f.name}縲・{f.point} 貉ｯ荳翫′繧翫・鬚ｨ縺ｾ縺ｧ蜷ｫ繧√※縲∽ｻ雁､懊・菴咏區縺ｫ縺ｪ繧翫∪縺吶やｦ窶ｦ蟶ｰ繧企％縲∝ｰ代＠縺縺鷹撕縺九↓縺ｪ繧九・縺壹・{suffix}`}[gid]}
     function logEvent(type,payload={}){const logs=JSON.parse(localStorage.getItem("spajin_ab_logs")||"[]");logs.push({timestamp:new Date().toISOString(),type,...payload});localStorage.setItem("spajin_ab_logs",JSON.stringify(logs.slice(-500)))}
     function exportLogs(){const logs=JSON.parse(localStorage.getItem("spajin_ab_logs")||"[]"),headers=["timestamp","type","variant","q1","q2","area","free_text_present","facility_id","guardian_id","score"],csv=[headers.join(","),...logs.map(r=>headers.map(h=>csvEscape(r[h]??"")).join(","))].join("\n"),blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=`spajin-ab-log-${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(url)}
     function csvEscape(v){const t=String(v);return/[",\n\r]/.test(t)?`"${t.replace(/"/g,'""')}"`:t}
@@ -256,3 +256,4 @@ output: { facility, guardian, character_text, ab_log_id }</code></pre></section>
   </script>
 </body>
 </html>
+
