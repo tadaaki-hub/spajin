@@ -321,6 +321,36 @@
       .guardian{width:158%!important;height:158%!important;bottom:-36px!important;left:50%!important}
       .sticky-reaction{top:188px!important}
     }
+
+    /* header copy balance: logo is the hero, copy is a calm sub-line */
+    main>section:first-child h1{
+      font-size:clamp(12px,2.35vw,18px)!important;
+      line-height:1.7!important;
+      letter-spacing:.07em!important;
+      font-weight:600!important;
+      color:#2f2a20!important;
+      padding:0 6px 8px!important;
+    }
+    @media(max-width:720px){
+      main>section:first-child h1{
+        font-size:13px!important;
+        line-height:1.68!important;
+        letter-spacing:.055em!important;
+        padding-bottom:8px!important;
+      }
+    }
+
+    /* keep Spa-god artwork crisp: no intentional blur/soft-focus on character images */
+    .guardian,
+    .opening-guardian,
+    .modal-guardian,
+    .chat-face,
+    .guide-avatar{
+      filter:none!important;
+      image-rendering:auto;
+      backface-visibility:hidden;
+      transform-style:flat;
+    }
   </style>
 </head>
 <body>
