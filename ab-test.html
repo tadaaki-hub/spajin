@@ -9,7 +9,7 @@
     :root {
       --ink:#243331; --muted:#6b746d; --night:#f8f4ea; --line:rgba(92,76,45,.16);
       --yuzu:#d9a93a; --yu:#65b8b7; --hinoki:#c98f52;
-      --character-sheet:url("../spajin-guardians-modern-cutout.png"); --guardian-pos:0% 50%;
+      --character-sheet:url("./spajin-guardians-modern-cutout.png"); --guardian-pos:0% 50%;
     }
     *{box-sizing:border-box} html{scroll-behavior:smooth}
     body{margin:0;min-height:100vh;color:var(--ink);font-family:"Hiragino Sans","Yu Gothic UI","Yu Gothic",sans-serif;background:radial-gradient(circle at 82% 5%,rgba(255,213,106,.26),transparent 21rem),radial-gradient(circle at 8% 28%,rgba(101,184,183,.20),transparent 24rem),linear-gradient(180deg,#fffdf6 0%,#f7f0e2 48%,#efe2c9 100%)}
@@ -309,34 +309,40 @@
     main>section:first-child .p-6{min-height:188px!important;padding:6px 0 8px!important;display:flex;align-items:flex-end;justify-content:center}
     main>section:first-child h1{position:relative;margin:0!important;width:100%;max-width:none!important;height:188px;font-size:clamp(15px,3.1vw,24px)!important;line-height:1.55!important;letter-spacing:.08em;text-align:center;display:flex;align-items:flex-end;justify-content:center;padding:0 5px 10px}
     main>section:first-child h1:before{width:100%!important;height:108px!important;left:0!important;top:0!important;background-position:center center!important;background-size:contain!important}
+    .about-link-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:34px;padding:8px 14px;border:1px solid rgba(177,126,22,.28);border-radius:999px;background:linear-gradient(135deg,rgba(255,255,255,.86),rgba(255,242,189,.82));color:#5a3b00!important;text-decoration:none;font-size:12px;font-weight:900;letter-spacing:.04em;box-shadow:0 8px 18px rgba(92,76,45,.10)}
+    .about-link-button:after{content:"›";font-size:16px;line-height:1;color:#b77b00}
+    .about-link-button:hover{border-color:rgba(217,169,58,.70);background:linear-gradient(135deg,#fffdf7,#ffeaa2);color:#2f2a20!important}
     .guardian-stage{position:relative!important;inset:auto!important;width:100%!important;height:188px!important;min-height:188px!important;border-radius:0!important;background:radial-gradient(circle at 53% 65%,rgba(255,255,255,.56),transparent 5rem),linear-gradient(180deg,rgba(255,249,229,.48),rgba(235,222,187,.18))!important}
     .guardian{width:148%!important;height:148%!important;bottom:-30px!important;left:50%!important;transform:translateX(-50%)!important}
     .sticky-reaction{top:188px!important;border-radius:0 0 18px 18px;margin-bottom:8px!important}
     @media(max-width:720px){
       main>section:first-child>.grid{grid-template-columns:1fr 1fr!important;min-height:188px}
       main>section:first-child .p-6{min-height:188px!important}
-      main>section:first-child h1{height:188px;font-size:15px!important;line-height:1.55!important;padding:0 4px 10px}
+      main>section:first-child h1{height:188px;font-size:15px!important;line-height:1.55!important;padding:0 4px 42px}
       main>section:first-child h1:before{width:100%!important;height:106px!important;left:0!important;top:0!important}
+      .about-link-button{min-height:32px;padding:7px 12px;font-size:11px}
       .guardian-stage{height:188px!important;min-height:188px!important}
       .guardian{width:158%!important;height:158%!important;bottom:-36px!important;left:50%!important}
       .sticky-reaction{top:188px!important}
     }
 
     /* header copy balance: logo is the hero, copy is a calm sub-line */
-    main>section:first-child h1{
-      font-size:clamp(12px,2.35vw,18px)!important;
-      line-height:1.7!important;
-      letter-spacing:.07em!important;
-      font-weight:600!important;
+    main>section:first-child h1,
+    .hero-copy{
+      font-size:clamp(10px,2vw,15px)!important;
+      line-height:1.62!important;
+      letter-spacing:.055em!important;
+      font-weight:500!important;
       color:#2f2a20!important;
-      padding:0 6px 8px!important;
+      padding:0 6px 40px!important;
     }
     @media(max-width:720px){
-      main>section:first-child h1{
-        font-size:13px!important;
-        line-height:1.68!important;
-        letter-spacing:.055em!important;
-        padding-bottom:8px!important;
+      main>section:first-child h1,
+      .hero-copy{
+        font-size:11px!important;
+        line-height:1.58!important;
+        letter-spacing:.035em!important;
+        padding-bottom:40px!important;
       }
     }
 
@@ -347,10 +353,14 @@
     .chat-face,
     .guide-avatar{
       filter:none!important;
+      box-shadow:none!important;
+      text-shadow:none!important;
       image-rendering:auto;
       backface-visibility:hidden;
       transform-style:flat;
     }
+    .site-footer{width:min(960px,calc(100% - 34px));margin:0 auto;padding:28px 0 38px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;color:#7b725f;font-size:12px}
+    .footer-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
   </style>
 </head>
 <body>
@@ -378,7 +388,7 @@
       <div class="grid lg:grid-cols-[.95fr_1.05fr]">
         <div class="p-6 sm:p-9">
           <div class="tag mb-5">モックABテスト / 選択式 vs 書き込み式</div>
-          <h1 class="text-3xl sm:text-5xl font-black leading-tight">いつものお風呂選びを<br>スパの神様に選んでもらって<br>リフレッシュのご利益を</h1>
+          <h1 class="hero-copy">いつものお風呂選びを<br>スパの神様に選んでもらって<br>リフレッシュのご利益を</h1>
           <p class="text-stone-300 leading-7 mt-5">今夜の気分を少しだけ選ぶと、湯けむりの奥から現れたスパ神が、あなたに合いそうな一湯を案内します。</p>
           <div class="variant-toggle mt-6 hidden"><button id="variant-a" data-variant="A">A 選択式</button><button id="variant-b" data-variant="B">B 書き込み式</button></div>
         </div>
@@ -497,13 +507,19 @@
 input:  { variant, q1_type, q2_type, area_label, free_text }
 output: { facility, guardian, character_text, ab_log_id }</code></pre></section>
   </main>
+  <footer class="site-footer">
+    <span>© スパ人 / 湯けむり診断モック</span>
+    <div class="footer-actions">
+      <a class="about-link-button" href="./spajin.html#about">スパ神とは</a>
+    </div>
+  </footer>
   <script>
     const GUARDIANS={yukawa:{name:"湯川明神",pos:"0% 50%",face:"2% 8%",intro:"迷ったら、失敗しにくい一湯から行きましょう。仕事終わりの判断力は温存です。",guide:["まずは体の声から行きましょう。難しく考えなくて大丈夫です。","次は過ごし方です。サクッと抜くか、じっくり回復か。","最後に湯脈を選びましょう。今夜の移動気分に近いエリアで。","揃いました。かなり現実的にいい候補が出せます。"]},izumi:{name:"泉潤天",pos:"25% 50%",face:"25% 8%",intro:"お肌と心が、少し乾いている夜かもねぇ。湯ざわりの声を聞いてみよぉ。",guide:["最初は、今夜どこをやさしくほどきたいか教えてねぇ。","次はね、風にあたりたいか、湯気に包まれたいかだよぉ。","湯脈を選んでぇ。お湯の神様がそっちに流れていくからねぇ。","うん、見えてきたよぉ。今夜のお肌と心に合う一湯。"]},neppa:{name:"熱波大黒",pos:"50% 50%",face:"50% 8%",intro:"頭の中がモヤつく日は、熱と水で一回再起動ッ！でも無理は禁物ですッ！",guide:["一問目ッ！今日いちばん吹き飛ばしたい疲れはどれですかッ！","二問目ッ！外で風を浴びるか、館内で粘るか、勝負です！","エリア選択ッ！ここで今夜の導線が決まります！","よし、出ましたッ！今夜のリセット候補、いきます！"]},mido:{name:"御堂福禄",pos:"75% 50%",face:"75% 8%",intro:"今日は回復計画を立てましょう。短時間か、おこもりか。そこが分岐点です。",guide:["まず不調の種類を分類します。感覚で構いません。","次に滞在スタイルです。ここは満足度に直結します。","エリアを確定しましょう。候補施設を一気に絞れます。","条件は揃いました。あとは施設との相性を見ます。"]},kurebayashi:{name:"暮林恵比寿",pos:"100% 50%",face:"98% 8%",intro:"風のある湯は、帰り道まで効きます。……今夜の余韻を選びましょう。",guide:["最初の問いです。今夜、何を湯気に預けたいですか。","次は場所の気配。空か、湯気の奥か。","湯脈をひとつ。風景は、選んだあとから効いてきます。","……見えました。帰り道まで残る一湯です。"]}};
-    Object.assign(GUARDIANS.yukawa,{img:"./spajin-guardian-yukawa.png",bust:"./spajin-guardian-yukawa-bust.png",outfits:[{label:"神様衣装",img:"./spajin-guardian-yukawa.png",bust:"./spajin-guardian-yukawa-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-yukawa-alt.png",bust:"./spajin-guardian-yukawa-alt-bust.png"}]});
-    Object.assign(GUARDIANS.izumi,{img:"./spajin-guardian-izumi.png",bust:"./spajin-guardian-izumi-bust.png",outfits:[{label:"神様衣装",img:"./spajin-guardian-izumi.png",bust:"./spajin-guardian-izumi-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-izumi-alt.png",bust:"./spajin-guardian-izumi-alt-bust.png"}]});
-    Object.assign(GUARDIANS.neppa,{img:"./spajin-guardian-neppa.png",bust:"./spajin-guardian-neppa-bust.png",outfits:[{label:"神様衣装",img:"./spajin-guardian-neppa.png",bust:"./spajin-guardian-neppa-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-neppa-alt.png",bust:"./spajin-guardian-neppa-alt-bust.png"}]});
-    Object.assign(GUARDIANS.mido,{img:"./spajin-guardian-mido.png",bust:"./spajin-guardian-mido-bust.png",outfits:[{label:"神様衣装",img:"./spajin-guardian-mido.png",bust:"./spajin-guardian-mido-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-mido-alt.png",bust:"./spajin-guardian-mido-alt-bust.png"}]});
-    Object.assign(GUARDIANS.kurebayashi,{img:"./spajin-guardian-kurebayashi.png",bust:"./spajin-guardian-kurebayashi-bust.png",outfits:[{label:"神様衣装",img:"./spajin-guardian-kurebayashi.png",bust:"./spajin-guardian-kurebayashi-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-kurebayashi-alt.png",bust:"./spajin-guardian-kurebayashi-alt-bust.png"}]});
+    Object.assign(GUARDIANS.yukawa,{img:"./spajin-guardian-yukawa.png",bust:"./spajin-guardian-yukawa-bust.png",tired:{label:"お疲れモード",img:"./spajin-guardian-yukawa-tired.png",bust:"./spajin-guardian-yukawa-tired-bust.png"},outfits:[{label:"神様衣装",img:"./spajin-guardian-yukawa.png",bust:"./spajin-guardian-yukawa-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-yukawa-alt.png",bust:"./spajin-guardian-yukawa-alt-bust.png"}]});
+    Object.assign(GUARDIANS.izumi,{img:"./spajin-guardian-izumi.png",bust:"./spajin-guardian-izumi-bust.png",tired:{label:"お疲れモード",img:"./spajin-guardian-izumi-tired.png",bust:"./spajin-guardian-izumi-tired-bust.png"},outfits:[{label:"神様衣装",img:"./spajin-guardian-izumi.png",bust:"./spajin-guardian-izumi-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-izumi-alt.png",bust:"./spajin-guardian-izumi-alt-bust.png"}]});
+    Object.assign(GUARDIANS.neppa,{img:"./spajin-guardian-neppa.png",bust:"./spajin-guardian-neppa-bust.png",tired:{label:"お疲れモード",img:"./spajin-guardian-neppa-tired.png",bust:"./spajin-guardian-neppa-tired-bust.png"},outfits:[{label:"神様衣装",img:"./spajin-guardian-neppa.png",bust:"./spajin-guardian-neppa-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-neppa-alt.png",bust:"./spajin-guardian-neppa-alt-bust.png"}]});
+    Object.assign(GUARDIANS.mido,{img:"./spajin-guardian-mido.png",bust:"./spajin-guardian-mido-bust.png",tired:{label:"お疲れモード",img:"./spajin-guardian-mido-tired.png",bust:"./spajin-guardian-mido-tired-bust.png"},outfits:[{label:"神様衣装",img:"./spajin-guardian-mido.png",bust:"./spajin-guardian-mido-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-mido-alt.png",bust:"./spajin-guardian-mido-alt-bust.png"}]});
+    Object.assign(GUARDIANS.kurebayashi,{img:"./spajin-guardian-kurebayashi.png",bust:"./spajin-guardian-kurebayashi-bust.png",tired:{label:"お疲れモード",img:"./spajin-guardian-kurebayashi-tired.png",bust:"./spajin-guardian-kurebayashi-tired-bust.png"},outfits:[{label:"神様衣装",img:"./spajin-guardian-kurebayashi.png",bust:"./spajin-guardian-kurebayashi-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-kurebayashi-alt.png",bust:"./spajin-guardian-kurebayashi-alt-bust.png"}]});
     const FACILITIES=[
       {id:"kanagawa_001",area:"横浜・川崎",name:"RAKU SPA BAY 横浜",q1:"A",q2:"A",quality:"ナトリウム-塩化物温泉",effects:"温まり感",point:"みなとみらいの夜景を望むテラスと、リゾート感ある大人の隠れ家スパ。",tags:["露天・絶景","近場・日常"],guardians:["kurebayashi","yukawa"],scoreBase:80},
       {id:"kanagawa_002",area:"横浜・川崎",name:"RAKU SPA 鶴見",q1:"A",q2:"B",quality:"弱アルカリ性温泉、プラネタリウム岩盤浴",effects:"肌ざわり・湯上がり感",point:"漫画と岩盤浴で、1日中だらだら籠もれるエンタメ型温浴施設。",tags:["美肌・泉質","おこもり"],guardians:["izumi","mido","yukawa"],scoreBase:86},
@@ -520,8 +536,8 @@ output: { facility, guardian, character_text, ab_log_id }</code></pre></section>
     if(params.get("api"))localStorage.setItem("spajin_api_endpoint",params.get("api"));
     const state={variant:params.get("variant")?.toUpperCase()==="B"?"B":"A",apiEndpoint:configuredApi,q1:null,q2:null,area:null,usedIds:new Set(),openingGuardianId:"yukawa",openingGuardianLook:null,tiredMode:false,chatStarted:false,freeTextReaction:"",currentFacility:null,currentGuardianId:null};const $=id=>document.getElementById(id);let freeTextTimer=null;
     const CHOICE_LABELS={q1:{A:"肌と心のカサつき",B:"体に積もった重さ",C:"頭の中のノイズ"},q2:{A:"空の下で息を抜く場所",B:"湯気の奥にこもる場所"},area:{"横浜・川崎":"港灯の都市湯脈（横浜・川崎）","湘南・三浦":"潮風の湘南湯脈（湘南・三浦）","相模原・西湘":"山風の西湘湯脈（相模原・西湘）","箱根・湯河原":"名湯の箱根湯脈（箱根・湯河原）"}};
-    function chooseOpeningGuardian(){const ids=Object.keys(GUARDIANS),id=ids[Math.floor(Math.random()*ids.length)],g=GUARDIANS[id];state.openingGuardianId=id;state.openingGuardianLook=chooseGuardianLook(g);state.tiredMode=Math.random()<.6;document.documentElement.style.setProperty("--character-sheet",Math.random()>.5?"url('../spajin-guardians-mythic-cutout.png')":"url('../spajin-guardians-modern-cutout.png')");setGuardianVisual(g);$("summon-precomment").textContent=state.tiredMode?tiredOpening(id):g.intro;$("guardian-bubble").textContent=state.tiredMode?tiredOpening(id):g.intro;updateGuide(0);startChat()}
-    function chooseGuardianLook(g){const looks=g.outfits&&g.outfits.length?g.outfits:[{label:"通常衣装",img:g.img,bust:g.bust}];return looks[Math.floor(Math.random()*looks.length)]}
+    function chooseOpeningGuardian(){const ids=Object.keys(GUARDIANS),id=ids[Math.floor(Math.random()*ids.length)],g=GUARDIANS[id];state.openingGuardianId=id;state.tiredMode=Math.random()<.6;state.openingGuardianLook=chooseGuardianLook(g);document.documentElement.style.setProperty("--character-sheet",Math.random()>.5?"url('./spajin-guardians-mythic-cutout.png')":"url('./spajin-guardians-modern-cutout.png')");setGuardianVisual(g);$("summon-precomment").textContent=state.tiredMode?tiredOpening(id):g.intro;$("guardian-bubble").textContent=state.tiredMode?tiredOpening(id):g.intro;updateGuide(0);startChat()}
+    function chooseGuardianLook(g){if(state.tiredMode&&g.tired)return g.tired;const looks=g.outfits&&g.outfits.length?g.outfits:[{label:"通常衣装",img:g.img,bust:g.bust}];return looks[Math.floor(Math.random()*looks.length)]}
     function setGuardianVisual(g){const look=state.openingGuardianLook||chooseGuardianLook(g);document.documentElement.style.setProperty("--guardian-pos",g.pos);document.documentElement.style.setProperty("--guardian-face-pos",g.face);document.documentElement.style.setProperty("--guardian-face-size","900% 180%");document.documentElement.style.setProperty("--guardian-image",`url(${look.img})`);document.documentElement.style.setProperty("--guardian-bust-image",`url(${look.bust})`);$("guardian-bubble")?.setAttribute("data-name",g.name)}
     function updateGuide(step){const g=GUARDIANS[state.openingGuardianId];$("guide-name").textContent=g.name;$("guide-line").textContent=g.guide[Math.min(step,g.guide.length-1)];$("guide-progress").textContent=["まずは、今夜いちばん流してしまいたいものから。","いいですね。次は、どんな場所で回復したいかです。","あと少し。最後にエリアの湯脈を選びましょう。","準備完了です。スパ神が候補を読み解きます。"][Math.min(step,3)]}
     function startChat(){if(state.chatStarted)return;state.chatStarted=true}

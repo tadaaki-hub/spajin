@@ -623,7 +623,7 @@
       </span>
     </button>
     <div class="flex items-center gap-2">
-      <button id="about-button" class="nav-button">スパ人とは</button>
+      <button id="about-button" class="nav-button">スパ神とは</button>
       <div class="tag"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span id="clock">17:30</span> 業務終了</div>
     </div>
   </header>
@@ -680,10 +680,10 @@
           <div class="flex flex-wrap items-end justify-between gap-5 mb-8">
             <div>
               <div class="text-xs font-black tracking-[.16em] text-amber-300">ABOUT SPAJIN</div>
-              <h1 class="text-3xl sm:text-5xl font-black mt-2">スパ人とは</h1>
+              <h1 class="text-3xl sm:text-5xl font-black mt-2">スパ神とは</h1>
           <p class="text-stone-300 leading-7 mt-4 max-w-2xl">定時後になると、給湯室より温浴施設の話が長くなる社内愛好会。温浴への偏愛が神格化した「五神」が、湯けむりの向こうから今夜の一湯を提案します。</p>
             </div>
-            <button id="about-back-button" class="ghost-btn">← 診断へ戻る</button>
+            <a id="about-back-button" class="ghost-btn no-underline inline-flex" href="./ab-test.html">← 診断へ戻る</a>
           </div>
           <div class="cast-gallery">
             <figure class="cast-visual" aria-label="社内温浴愛好会スパ人の5人・仕事帰り版">
@@ -1279,9 +1279,9 @@
       history.pushState({ view: "about" }, "", "#about");
       showAbout();
     });
-    document.getElementById("about-back-button").addEventListener("click", () => {
-      history.pushState({ view: "home" }, "", location.pathname);
-      showOpening();
+    document.getElementById("about-back-button").addEventListener("click", event => {
+      event.preventDefault();
+      window.location.href = "./ab-test.html";
     });
     window.addEventListener("popstate", () => location.hash === "#about" ? showAbout() : showOpening());
     document.querySelectorAll("[data-question] .option").forEach(button => {
