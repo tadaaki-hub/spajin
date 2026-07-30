@@ -9,7 +9,7 @@
     :root {
       --ink:#243331; --muted:#6b746d; --night:#f8f4ea; --line:rgba(92,76,45,.16);
       --yuzu:#d9a93a; --yu:#65b8b7; --hinoki:#c98f52;
-      --character-sheet:url("./spajin-guardians-modern-cutout.png"); --guardian-pos:0% 50%;
+      --character-sheet:url("../spajin-guardians-modern-cutout.png"); --guardian-pos:0% 50%;
     }
     *{box-sizing:border-box} html{scroll-behavior:smooth}
     body{margin:0;min-height:100vh;color:var(--ink);font-family:"Hiragino Sans","Yu Gothic UI","Yu Gothic",sans-serif;background:radial-gradient(circle at 82% 5%,rgba(255,213,106,.26),transparent 21rem),radial-gradient(circle at 8% 28%,rgba(101,184,183,.20),transparent 24rem),linear-gradient(180deg,#fffdf6 0%,#f7f0e2 48%,#efe2c9 100%)}
@@ -24,6 +24,12 @@
     .guardian-stage{position:relative;min-height:410px;overflow:hidden;border-radius:28px;background:radial-gradient(circle at 50% 78%,rgba(255,213,106,.22),transparent 13rem),linear-gradient(180deg,rgba(255,255,255,.06),rgba(0,0,0,.18))}
     .guardian-stage:before,.guardian-stage:after{content:"";position:absolute;inset:auto -20% 0;height:68%;background:radial-gradient(ellipse at 20% 70%,rgba(255,255,255,.32),transparent 22rem),radial-gradient(ellipse at 60% 72%,rgba(255,255,255,.24),transparent 24rem);filter:blur(16px);animation:steam 6s ease-in-out infinite alternate;pointer-events:none}
     .guardian-stage:after{opacity:.6;transform:translateY(35px) scale(1.08);animation-duration:8s;animation-delay:-2s}@keyframes steam{from{transform:translate3d(-18px,18px,0) scale(1);opacity:.46}to{transform:translate3d(20px,-18px,0) scale(1.05);opacity:.78}}
+    .summon-curtain{position:absolute;z-index:20;inset:0;background:radial-gradient(circle at 50% 58%,#193233 0,#091314 45%,#030606 78%);pointer-events:none;animation:abCurtainOpen 1.15s .12s cubic-bezier(.72,0,.22,1) both}
+    .summon-title-sigil{position:absolute;z-index:21;inset:0;display:grid;place-content:center;text-align:center;color:#fff1bd;pointer-events:none;text-shadow:0 0 12px #ffd85e,0 0 32px rgba(255,197,67,.68);animation:abSigil 1.05s .1s ease both}.summon-title-sigil strong{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:clamp(26px,8vw,42px);letter-spacing:.18em}.summon-title-sigil span{display:block;margin-top:7px;font-size:9px;font-weight:900;letter-spacing:.36em;color:rgba(255,244,204,.78)}
+    .summon-precomment{position:absolute;z-index:17;left:22px;right:22px;top:76px;margin:auto;max-width:330px;padding:13px 15px;opacity:0;color:#fffdf2;font-size:13px;font-weight:900;line-height:1.7;text-align:center;border:1px solid rgba(255,238,185,.48);border-radius:17px;background:rgba(8,25,27,.82);backdrop-filter:blur(9px);box-shadow:0 18px 44px rgba(0,0,0,.34);animation:abPrecomment 1.5s .82s ease both}.summon-precomment:before{content:"VOICE";display:block;margin-bottom:3px;color:#ffd66a;font-size:8px;letter-spacing:.34em}
+    .summon-flash{position:absolute;z-index:19;inset:0;background:radial-gradient(circle at 50% 62%,rgba(255,244,190,.86),transparent 22%,transparent 100%);opacity:0;pointer-events:none;animation:abFlash 1.35s 2.05s ease-out both}.summon-speedlines{position:absolute;z-index:0;inset:-30%;opacity:0;pointer-events:none;background:repeating-conic-gradient(from 0deg at 50% 63%,rgba(255,232,153,.34) 0deg 1deg,transparent 1.3deg 9deg);mask-image:radial-gradient(circle at 50% 63%,transparent 0 12%,#000 42%,transparent 72%);animation:abSpeedline 1.8s 1.05s cubic-bezier(.16,.8,.24,1) both}
+    .steam-field{position:absolute;inset:0;z-index:8;pointer-events:none}.steam-wisp{position:absolute;bottom:-20%;left:var(--x);width:95px;height:150px;border-radius:999px;background:radial-gradient(ellipse at 50% 88%,rgba(255,255,255,.75),rgba(255,255,255,.06) 66%,transparent 72%);filter:blur(11px);opacity:0;transform:translateY(80px) scale(.6);animation:abSteamBurst var(--duration,2.35s) var(--delay,0s) cubic-bezier(.2,.72,.25,1) both}.steam-wisp:nth-child(1){--x:9%;--drift:-38px;--scale:1.35;--delay:.72s;--duration:2.7s}.steam-wisp:nth-child(2){--x:27%;--drift:-52px;--scale:1.05;--delay:.84s;--duration:2.45s}.steam-wisp:nth-child(3){--x:43%;--drift:-20px;--scale:1.5;--delay:.74s;--duration:2.85s}.steam-wisp:nth-child(4){--x:58%;--drift:28px;--scale:1.25;--delay:.88s;--duration:2.55s}.steam-wisp:nth-child(5){--x:74%;--drift:52px;--scale:1.1;--delay:.78s;--duration:2.7s}.steam-wisp:nth-child(6){--x:93%;--drift:38px;--scale:1.4;--delay:.92s;--duration:2.5s}
+    @keyframes abCurtainOpen{0%,58%{opacity:1;clip-path:inset(0)}100%{opacity:0;clip-path:inset(0 0 100% 0)}}@keyframes abSigil{0%{opacity:0;transform:scale(.92)}38%,72%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.08)}}@keyframes abPrecomment{0%{opacity:0;transform:translateY(10px) scale(.96)}18%,76%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-8px) scale(.99)}}@keyframes abFlash{0%,100%{opacity:0}28%{opacity:.95}55%{opacity:.25}}@keyframes abSpeedline{0%{opacity:0;transform:scale(.75) rotate(0deg)}40%{opacity:.55}100%{opacity:0;transform:scale(1.18) rotate(16deg)}}@keyframes abSteamBurst{0%{opacity:0;transform:translateY(90px) translateX(0) scale(.55)}24%{opacity:.85}100%{opacity:0;transform:translateY(-82px) translateX(var(--drift)) scale(var(--scale))}}
     .phone-portal{position:absolute;left:50%;bottom:22px;width:118px;height:214px;transform:translateX(-50%) perspective(700px) rotateX(4deg);border-radius:28px;border:4px solid rgba(255,255,255,.16);background:radial-gradient(circle at 50% 22%,rgba(255,255,255,.26),transparent 4rem),linear-gradient(180deg,#1b454b,#071e22);box-shadow:0 24px 50px rgba(0,0,0,.36),inset 0 0 40px rgba(95,199,201,.18)}
     .guardian{position:absolute;z-index:2;left:50%;bottom:-28px;width:min(76vw,270px);height:min(135vw,500px);transform:translateX(-50%);background-image:var(--character-sheet);background-repeat:no-repeat;background-size:500% 100%;background-position:var(--guardian-pos);filter:drop-shadow(0 30px 34px rgba(0,0,0,.45));animation:popGuardian 1.5s cubic-bezier(.15,.86,.19,1) both}
     @keyframes popGuardian{0%{opacity:0;transform:translateX(-50%) translateY(110px) scale(.68);clip-path:inset(70% 0 0 0 round 34px)}58%{opacity:1;transform:translateX(-50%) translateY(-14px) scale(1.04);clip-path:inset(0)}100%{opacity:1;transform:translateX(-50%) translateY(0) scale(1);clip-path:inset(0)}}
@@ -59,7 +65,7 @@
     @keyframes oraclePop{from{opacity:0;transform:translateY(18px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
     .facility-cell{border:1px solid rgba(92,76,45,.14);border-radius:24px;background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(255,247,224,.74));padding:17px}
     .facility-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.facility-tags span{border:1px solid rgba(177,126,22,.36);border-radius:999px;padding:6px 9px;background:rgba(255,239,192,.82);color:#5a3b00;font-size:12px;font-weight:900;text-shadow:0 1px 0 rgba(255,255,255,.7)}
-    .ai-panel{margin-top:14px;border:1px solid rgba(101,184,183,.24);border-radius:24px;background:linear-gradient(145deg,rgba(236,255,253,.82),rgba(255,255,255,.72));padding:14px}
+    .ai-panel{display:none!important;margin-top:14px;border:1px solid rgba(101,184,183,.24);border-radius:24px;background:linear-gradient(145deg,rgba(236,255,253,.82),rgba(255,255,255,.72));padding:14px}
     .ai-steps{display:grid;gap:8px;margin-top:10px}.ai-step{border:1px solid rgba(92,76,45,.10);border-radius:16px;background:rgba(255,255,255,.72);padding:10px 11px;line-height:1.65;font-size:13px}.ai-step strong{display:block;color:#11615f;font-size:12px;letter-spacing:.08em;margin-bottom:2px}
     .feedback-box{margin-top:14px;border:1px solid rgba(92,76,45,.12);border-radius:22px;background:rgba(255,255,255,.70);padding:13px}
     .feedback-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.feedback-button{border:1px solid rgba(92,76,45,.14);border-radius:16px;background:rgba(255,255,255,.82);color:var(--ink);padding:11px 8px;font-weight:900;cursor:pointer}.feedback-button:hover,.feedback-button.selected{border-color:rgba(217,169,58,.82);background:rgba(255,226,148,.55)}
@@ -70,9 +76,266 @@
     .oracle-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
     @media(max-width:640px){.guide-panel{grid-template-columns:72px 1fr;padding:12px}.guide-avatar{width:72px;height:72px}.guide-speech{font-size:14px}.inline-reaction{grid-template-columns:56px 1fr;gap:9px;padding:10px;border-radius:20px}.inline-reaction .chat-face{width:56px;height:56px}.chat-bubble{font-size:13px;min-height:58px;padding:10px 12px}.chat-history{display:none}.chat-chip{font-size:12px}.feedback-grid{grid-template-columns:1fr}.feedback-write{grid-template-columns:1fr}.feedback-send{padding:12px}.oracle-actions{grid-template-columns:1fr}}
     code{color:#fff3b8}
+
+    /* 2026-07-30 redesign: 和紙 × 金縁 × スパ神案内UI */
+    :root{--paper-url:url("./spajin-paper-bg.png");--logo-url:url("./spajin-logo-new.png");--dialog:#315f59;--dialog2:#789080;--gold:#d9a93a;--soft-gold:#fff2bd}
+    body{background-color:#efe3c4;background-image:var(--paper-url);background-size:cover;background-attachment:fixed;background-position:center top;color:#203130}
+    body.opening-lock{overflow:hidden}
+    body:before{display:none}
+    header.shell{display:none}
+    .shell{width:min(960px,calc(100% - 34px));position:relative}
+    main.shell{padding-top:24px}
+    .glass{background:rgba(255,252,242,.86);border:0;box-shadow:none;backdrop-filter:none}
+    main>section:first-child{background:transparent!important;box-shadow:none!important;border-radius:0!important;overflow:visible!important}
+    main>section:first-child>.grid{display:block}
+    main>section:first-child .p-6{padding:28px 20px 34px!important;min-height:320px;position:relative}
+    main>section:first-child .tag{display:none}
+    main>section:first-child h1{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-weight:500;font-size:clamp(30px,7vw,60px);line-height:1.55;letter-spacing:.08em;color:#0b0b09;max-width:62%;margin-top:110px}
+    main>section:first-child h1:before{content:"スパ人";position:absolute;left:18px;top:18px;font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:clamp(70px,15vw,142px);font-weight:900;letter-spacing:-.12em;color:#060604;text-shadow:0 1px 0 rgba(255,255,255,.18)}
+    main>section:first-child h1:after{content:"♨  SPA ZINE";position:absolute;left:260px;top:84px;font-family:Georgia,serif;font-size:17px;font-weight:900;letter-spacing:.04em;color:#111}
+    main>section:first-child p{display:none}
+    .guardian-stage{position:absolute;right:-22px;top:16px;width:min(38vw,360px);height:460px;min-height:0;overflow:visible;border-radius:0;background:transparent;z-index:12;pointer-events:none}
+    .guardian-stage:before,.guardian-stage:after,.phone-portal{display:none}
+    .guardian-stage .absolute{left:-360px!important;right:130px!important;top:205px!important;z-index:14!important}
+    #guardian-bubble.bubble,.inline-reaction{border:0;border-radius:0;background:linear-gradient(135deg,rgba(24,65,66,.97),rgba(81,99,90,.95));box-shadow:0 14px 30px rgba(40,45,30,.25);color:#fff8e5}
+    #guardian-bubble.bubble{min-height:88px;padding:19px 24px;border:1px solid rgba(255,255,255,.22);border-radius:5px}
+    #guardian-bubble.bubble:before{content:attr(data-name);display:block;color:#ffe69b;font-size:14px;font-weight:900;margin-bottom:6px}
+    .summon-curtain{border-radius:0;background:radial-gradient(circle at 65% 60%,rgba(255,231,158,.95),rgba(29,61,62,.96) 40%,rgba(10,22,22,.98) 78%);animation:abCurtainOpen 1.2s .08s cubic-bezier(.72,0,.22,1) both}
+    .summon-title-sigil{display:none}
+    .summon-precomment{left:-360px;right:130px;top:102px;max-width:520px;border-radius:0;background:linear-gradient(135deg,rgba(24,65,66,.98),rgba(81,99,90,.96));border:1px solid rgba(255,255,255,.22);box-shadow:0 18px 34px rgba(40,45,30,.26);font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:18px;line-height:1.85}
+    .guardian{left:auto;right:0;bottom:-18px;transform:none;width:min(35vw,330px);height:460px;filter:drop-shadow(0 18px 18px rgba(42,36,18,.22));animation:popGuardian 1.2s cubic-bezier(.15,.86,.19,1) both}
+    @keyframes popGuardian{0%{opacity:0;transform:translateY(80px) scale(.82);clip-path:inset(70% 0 0 0)}55%{opacity:1;transform:translateY(-12px) scale(1.04);clip-path:inset(0)}100%{opacity:1;transform:translateY(0) scale(1);clip-path:inset(0)}}
+    main>section:nth-of-type(2){margin-top:-12px!important;border-radius:0!important;background:rgba(255,255,255,.86)!important;padding:24px 26px!important;box-shadow:10px 12px 0 rgba(130,111,72,.10)!important;position:relative;z-index:3}
+    main>section:nth-of-type(2)>.flex{display:none}
+    form{margin-top:0!important}
+    fieldset{position:relative}
+    legend{font-size:clamp(20px,4.5vw,30px)!important;color:#263635;letter-spacing:.01em}
+    legend span{color:#b77b00!important}
+    form .grid{grid-template-columns:1fr!important;gap:18px!important}
+    .option{min-height:132px;border:2px solid rgba(35,43,38,.08);border-radius:22px;background:rgba(255,255,255,.92);padding:26px 28px;color:#243331;box-shadow:0 2px 8px rgba(72,58,34,.06)}
+    .option strong{font-size:clamp(19px,4.2vw,26px);line-height:1.35}
+    .option small{font-size:clamp(13px,3vw,17px);margin-top:8px;display:block;color:#83908b!important}
+    .option.selected{border-color:rgba(217,169,58,.88);background:linear-gradient(135deg,#fffdf9,#fff1bd 58%,#f6fffa);box-shadow:0 8px 22px rgba(217,169,58,.14)}
+    .check{top:20px;right:20px;background:rgba(35,51,49,.14)}
+    .selected .check{background:var(--gold);color:#273733}
+    .inline-reaction{margin:18px -34px 28px;grid-template-columns:74px 1fr;align-items:center;padding:18px 20px;border:1px solid rgba(255,255,255,.18)}
+    .inline-reaction .chat-face{width:62px;height:62px;margin-left:4px}
+    .chat-bubble{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.18);border-radius:18px;padding:15px 18px;color:#fff9e9;font-weight:800}
+    .chat-name{color:#ffe69b!important}
+    .input-box{min-height:190px;border:2px solid rgba(217,169,58,.46);border-radius:22px;background:#fff;color:#243331;font-size:18px}
+    #free-text-block p{display:none}
+    .primary{border-radius:22px;background:linear-gradient(135deg,#dbad32,#fff0a5);color:#153533;box-shadow:none;font-size:18px}
+    .nav-button{border-radius:999px;background:rgba(255,255,255,.94);border-color:rgba(35,43,38,.14);color:#263635}
+    #result-section{display:none!important}
+    .oracle-overlay{background:rgba(32,44,40,.64);padding:10px 14px 28px;align-items:start;scroll-padding-top:8px}
+    .oracle-card{position:relative;width:min(840px,100%);margin:0 auto 18px;padding:22px 28px 28px;border-radius:34px;background:rgba(255,253,244,.95);box-shadow:0 26px 70px rgba(62,49,27,.22);overflow:visible}
+    .modal-guardian{position:absolute;right:-18px;top:-26px;width:min(34vw,280px);height:440px;background-image:var(--character-sheet);background-repeat:no-repeat;background-size:500% 100%;background-position:var(--guardian-pos);filter:drop-shadow(0 16px 16px rgba(42,36,18,.2));pointer-events:none;z-index:4}
+    .facility-cell{position:relative;z-index:2;border:1px solid rgba(92,76,45,.12);border-radius:24px;background:rgba(255,255,255,.84);padding:28px;min-height:270px;padding-right:min(34vw,290px)}
+    #modal-facility-name{font-size:clamp(32px,7vw,48px);line-height:1.15}
+    #modal-facility-point{font-size:clamp(16px,3vw,22px);line-height:1.85}
+    .feedback-box{position:relative;z-index:2;background:rgba(255,255,255,.78);border-radius:22px;padding:20px}
+    .feedback-grid{grid-template-columns:1fr!important}
+    .feedback-button{font-size:18px;border-radius:18px;padding:16px;background:#fff}
+    .modal-featured-reply{position:relative;z-index:5;background:linear-gradient(135deg,#fffbe8,#f7fffb);font-size:18px;color:#263635}
+    .ai-suggestions{justify-content:center}
+    .oracle-actions{grid-template-columns:1fr!important}
+    main>section:last-of-type{display:none}
+    @media(max-width:720px){
+      .shell{width:min(100% - 22px,460px)}
+      main.shell{padding-top:10px}
+      main>section:first-child .p-6{min-height:330px;padding:18px 12px 24px!important}
+      main>section:first-child h1{max-width:68%;font-size:29px;margin-top:128px}
+      main>section:first-child h1:before{font-size:78px;top:22px;left:4px}
+      main>section:first-child h1:after{left:235px;top:88px;font-size:14px}
+      .guardian-stage{right:-24px;top:18px;width:220px;height:390px}
+      .guardian{width:210px;height:390px}
+      .guardian-stage .absolute{left:-250px!important;right:122px!important;top:162px!important}
+      #guardian-bubble.bubble{font-size:14px;min-height:74px;padding:14px 16px}
+      .summon-precomment{left:-250px;right:122px;top:104px;font-size:14px;padding:12px 14px}
+      main>section:nth-of-type(2){padding:20px 12px!important}
+      .option{min-height:122px;padding:22px 22px}
+      .inline-reaction{margin-left:-20px;margin-right:-20px;grid-template-columns:54px 1fr;padding:14px 12px}
+      .inline-reaction .chat-face{width:50px;height:50px}
+      .oracle-overlay{padding:6px 8px 22px}
+      .oracle-card{padding:14px 10px 20px;margin-top:0}
+      .modal-guardian{right:-28px;top:-12px;width:190px;height:330px}
+      .facility-cell{padding:18px 14px;padding-right:132px;min-height:300px}
+      .feedback-button{font-size:16px}
+      .modal-featured-reply{font-size:16px}
+    }
+    .opening-screen{position:fixed;inset:0;z-index:120;display:grid;place-items:center;overflow:hidden;background:#efe3c4;background-image:var(--paper-url);background-size:cover;background-position:center;transition:opacity .7s ease,visibility .7s ease}
+    .opening-screen.is-done{opacity:0;visibility:hidden;pointer-events:none}
+    .opening-screen:before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 50% 62%,rgba(255,242,181,.86),transparent 20rem),radial-gradient(circle at 48% 72%,rgba(255,255,255,.9),transparent 17rem),linear-gradient(180deg,rgba(30,64,64,.12),rgba(255,255,255,.08));animation:openingSteamGlow 3.4s ease both}
+    .opening-screen:after{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 62%,rgba(255,228,146,.25) 0deg 1deg,transparent 1.4deg 10deg);mask-image:radial-gradient(circle at 50% 62%,transparent 0 13%,#000 34%,transparent 66%);opacity:0;animation:openingLines 2.7s .4s ease both}
+    .opening-inner{position:relative;width:min(920px,100%);height:min(100svh,880px);min-height:680px}
+    .opening-brand{position:absolute;left:clamp(18px,7vw,70px);top:clamp(28px,8vh,82px);z-index:4;color:#050504}
+    .opening-logo{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:clamp(84px,18vw,166px);font-weight:900;letter-spacing:-.12em;line-height:.95}
+    .opening-logo small{font-family:Georgia,serif;font-size:clamp(14px,2.5vw,24px);letter-spacing:.04em;margin-left:10px;vertical-align:middle}
+    .opening-copy{margin-top:22px;font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:clamp(28px,6vw,58px);line-height:1.6;letter-spacing:.08em}
+    .opening-name{position:absolute;right:clamp(34px,14vw,190px);top:clamp(42px,8vh,92px);z-index:4;font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:clamp(32px,7vw,62px);line-height:1.65;letter-spacing:.1em;color:#050504;text-align:center}
+    .opening-guardian{position:absolute;right:clamp(-18px,3vw,48px);bottom:clamp(28px,6vh,70px);z-index:5;width:min(46vw,420px);height:min(76vh,640px);background-image:var(--character-sheet);background-repeat:no-repeat;background-size:500% 100%;background-position:var(--guardian-pos);filter:drop-shadow(0 24px 28px rgba(39,32,17,.28));opacity:0;animation:openingGuardianIn 2.1s .72s cubic-bezier(.15,.86,.19,1) both}
+    .opening-dialog{position:absolute;left:clamp(18px,5vw,58px);right:clamp(18px,34vw,390px);bottom:clamp(54px,12vh,125px);z-index:8;padding:22px 26px;border:1px solid rgba(255,255,255,.25);border-radius:4px;background:linear-gradient(135deg,rgba(24,65,66,.98),rgba(81,99,90,.96));box-shadow:0 18px 38px rgba(40,45,30,.28);color:#fff8e5;font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:clamp(18px,3.2vw,27px);line-height:1.85;opacity:0;animation:openingDialogIn 1.1s 1.45s ease both}
+    .opening-dialog strong{display:block;margin-bottom:5px;color:#ffe69b;font-family:"Hiragino Sans","Yu Gothic UI","Yu Gothic",sans-serif;font-size:clamp(13px,2.5vw,18px)}
+    .opening-skip{position:absolute;right:18px;bottom:18px;z-index:12;border:1px solid rgba(35,43,38,.16);border-radius:999px;background:rgba(255,255,255,.72);padding:9px 13px;color:#263635;font-size:12px;font-weight:900}
+    main.shell{opacity:0;transform:translateY(20px);transition:opacity .75s ease,transform .75s ease}
+    body.opening-complete main.shell{opacity:1;transform:translateY(0)}
+    .guardian-stage .summon-curtain,.guardian-stage .summon-precomment,.guardian-stage .summon-speedlines,.guardian-stage .summon-flash,.guardian-stage .steam-field{display:none!important}
+    @keyframes openingGuardianIn{0%{opacity:0;transform:translateY(120px) scale(.72);clip-path:inset(70% 0 0 0)}58%{opacity:1;transform:translateY(-14px) scale(1.04);clip-path:inset(0)}100%{opacity:1;transform:translateY(0) scale(1);clip-path:inset(0)}}
+    @keyframes openingDialogIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes openingSteamGlow{0%{opacity:.2;filter:blur(22px);transform:scale(.92)}45%{opacity:1;filter:blur(10px);transform:scale(1.03)}100%{opacity:.64;filter:blur(18px);transform:scale(1.08)}}
+    @keyframes openingLines{0%,100%{opacity:0;transform:scale(.84) rotate(0deg)}35%{opacity:.68}70%{opacity:.18;transform:scale(1.18) rotate(14deg)}}
+    @media(max-width:720px){
+      .opening-inner{min-height:100svh;height:100svh}
+      .opening-brand{left:24px;top:34px}
+      .opening-logo{font-size:86px}
+      .opening-logo small{display:inline-block;width:52px;font-size:14px;letter-spacing:.02em}
+      .opening-copy{font-size:29px;margin-top:26px}
+      .opening-name{right:24px;top:58px;font-size:32px;text-align:right}
+      .opening-guardian{right:-34px;bottom:170px;width:260px;height:460px}
+      .opening-dialog{left:22px;right:22px;bottom:82px;font-size:18px;padding:18px 20px}
+    }
+
+    /* opening sequence v2: blank paper -> typed oracle -> god appears -> diagnosis */
+    .opening-brand,.opening-name{display:none!important}
+    .opening-screen:before,.opening-screen:after{display:none}
+    .opening-inner{width:100%;height:100svh;min-height:100svh}
+    .opening-dialog{left:50%;right:auto;top:44%;bottom:auto;width:min(86vw,820px);transform:translate(-50%,-50%);padding:0;border:0;background:transparent;box-shadow:none;color:#080807;text-align:center;font-size:clamp(28px,5.2vw,54px);line-height:1.9;letter-spacing:.13em;opacity:1;animation:none}
+    .opening-dialog strong{display:none}
+    .opening-dialog span{white-space:pre-line}
+    .opening-dialog span:after{content:"";display:inline-block;width:.08em;height:1.05em;margin-left:.08em;background:#080807;vertical-align:-.12em;animation:typingCaret .85s step-end infinite}
+    .opening-guardian{right:50%;bottom:8svh;width:min(58vw,460px);height:min(72svh,680px);transform:translateX(50%) translateY(90px) scale(.86);opacity:0;animation:none}
+    .opening-screen.guardian-revealed .opening-dialog{top:27%;font-size:clamp(20px,3.8vw,36px);transition:top .75s ease,font-size .75s ease}
+    .opening-screen.guardian-revealed .opening-guardian{animation:openingGuardianCenterIn 1.25s cubic-bezier(.15,.86,.19,1) both}
+    @keyframes openingGuardianCenterIn{0%{opacity:0;transform:translateX(50%) translateY(110px) scale(.72);clip-path:inset(72% 0 0 0)}62%{opacity:1;transform:translateX(50%) translateY(-10px) scale(1.04);clip-path:inset(0)}100%{opacity:1;transform:translateX(50%) translateY(0) scale(1);clip-path:inset(0)}}
+    @keyframes typingCaret{50%{opacity:0}}
+
+    /* diagnosis header v2 */
+    main.shell{width:min(960px,calc(100% - 28px));padding-top:0}
+    main>section:first-child{position:sticky;top:0;z-index:60;margin:0 auto;padding-top:10px;padding-bottom:8px;background:rgba(239,227,196,.86)!important;backdrop-filter:blur(9px);box-shadow:0 14px 24px rgba(70,55,30,.08)!important}
+    main>section:first-child .p-6{min-height:245px!important;padding:18px 18px 12px!important}
+    main>section:first-child h1{margin-top:112px!important;max-width:66%;font-size:clamp(25px,4.9vw,43px)!important;line-height:1.45;text-align:center}
+    main>section:first-child h1:before{left:32px;top:12px;font-size:clamp(72px,13vw,128px)}
+    main>section:first-child h1:after{left:min(50vw,520px);top:78px;font-size:18px}
+    .guardian-stage{top:8px!important;right:12px!important;width:min(28vw,250px)!important;height:260px!important}
+    .guardian{width:100%!important;height:100%!important;right:0!important;bottom:-2px!important}
+    .guardian-stage .absolute{display:none!important}
+    .sticky-reaction{position:sticky;top:calc(245px + 10px);z-index:55;margin:0 auto 16px!important;width:min(900px,100%);display:none;border:1px solid rgba(255,255,255,.2);border-radius:0;background:linear-gradient(135deg,rgba(24,65,66,.98),rgba(81,99,90,.96));box-shadow:0 14px 30px rgba(40,45,30,.22);color:#fff8e5;grid-template-columns:74px 1fr;align-items:center;padding:16px 18px}
+    .sticky-reaction.show{display:grid;animation:reactionIn .34s cubic-bezier(.2,.86,.2,1) both}
+    form .inline-reaction{display:none!important}
+    main>section:nth-of-type(2){margin-top:16px!important}
+    @media(max-width:720px){
+      main.shell{width:min(100% - 18px,460px)}
+      main>section:first-child .p-6{min-height:210px!important;padding:12px 8px 8px!important}
+      main>section:first-child h1{margin-top:106px!important;max-width:72%;font-size:23px!important;line-height:1.45}
+      main>section:first-child h1:before{left:6px;top:16px;font-size:76px}
+      main>section:first-child h1:after{left:248px;top:78px;font-size:13px}
+      .guardian-stage{right:-14px!important;top:8px!important;width:145px!important;height:215px!important}
+      .sticky-reaction{top:218px;grid-template-columns:52px 1fr;padding:12px 12px;margin-bottom:12px!important}
+      .sticky-reaction .chat-face{width:48px;height:48px}
+      .sticky-reaction .chat-bubble{font-size:13px;padding:10px 12px}
+      main>section:nth-of-type(2){margin-top:10px!important}
+    }
+
+    /* diagnosis compact balance fix */
+    main.shell{width:100%;max-width:960px;padding-left:0;padding-right:0}
+    main>section:first-child{width:100%;padding-left:10px;padding-right:10px}
+    main>section:first-child .p-6{min-height:190px!important;padding:10px 10px 6px!important}
+    main>section:first-child h1{margin-top:88px!important;max-width:68%;font-size:clamp(22px,4.2vw,34px)!important;line-height:1.35}
+    main>section:first-child h1:before{left:18px;top:6px;font-size:clamp(62px,11vw,104px)}
+    main>section:first-child h1:after{left:min(48vw,470px);top:62px;font-size:15px}
+    .guardian-stage{top:4px!important;right:10px!important;width:min(24vw,210px)!important;height:205px!important}
+    .sticky-reaction{top:198px;width:100%;margin-bottom:10px!important;grid-template-columns:58px 1fr;padding:10px 12px}
+    .sticky-reaction .chat-face{width:52px;height:52px}
+    .sticky-reaction .chat-bubble{min-height:auto;font-size:13px;line-height:1.55;padding:10px 12px}
+    main>section:nth-of-type(2){width:100%;margin-top:8px!important;padding:16px 12px!important}
+    form{gap:18px!important}
+    fieldset{margin:0}
+    legend{font-size:20px!important;margin-bottom:10px!important}
+    form .grid{gap:10px!important}
+    .option{min-height:88px!important;padding:14px 16px!important;border-radius:18px}
+    .option span.text-2xl{font-size:18px!important}
+    .option strong{font-size:16px!important;line-height:1.35}
+    .option small{font-size:12px!important;line-height:1.35;margin-top:4px!important}
+    .check{top:10px;right:10px;width:22px;height:22px}
+    .input-box{min-height:118px;font-size:15px}
+    .primary{padding:14px 16px;font-size:16px}
+    @media(max-width:720px){
+      main.shell{width:100%;max-width:none}
+      main>section:first-child{padding-left:8px;padding-right:8px}
+      main>section:first-child .p-6{min-height:168px!important}
+      main>section:first-child h1{margin-top:82px!important;max-width:70%;font-size:20px!important}
+      main>section:first-child h1:before{left:4px;top:8px;font-size:62px}
+      main>section:first-child h1:after{left:196px;top:58px;font-size:11px}
+      .guardian-stage{right:-6px!important;top:4px!important;width:122px!important;height:168px!important}
+      .sticky-reaction{top:174px}
+      main>section:nth-of-type(2){padding:14px 8px!important}
+      legend{font-size:18px!important}
+      .option{min-height:82px!important;padding:13px 14px!important;border-radius:16px}
+      .option strong{font-size:15px!important}
+      .option small{font-size:11px!important}
+    }
+
+    /* softer visual tuning + supplied logo */
+    body{background-color:#f3ead3}
+    main>section:first-child{background:linear-gradient(180deg,rgba(246,236,210,.92),rgba(246,236,210,.78))!important;box-shadow:0 10px 24px rgba(124,91,42,.09)!important;border-bottom:1px solid rgba(179,139,64,.12)}
+    main>section:first-child h1:before{content:""!important;width:clamp(150px,38vw,360px);height:clamp(64px,12vw,120px);left:14px;top:8px;background-image:var(--logo-url);background-repeat:no-repeat;background-size:contain;background-position:left center;letter-spacing:0;text-shadow:none}
+    main>section:first-child h1:after{display:none!important}
+    main>section:first-child h1{color:#342c22;text-shadow:0 1px 0 rgba(255,255,255,.55)}
+    .guardian-stage{border-radius:28px!important;overflow:hidden!important;background:radial-gradient(circle at 50% 70%,rgba(255,255,255,.58),transparent 4.8rem),linear-gradient(180deg,rgba(255,252,238,.55),rgba(255,252,238,.04))!important}
+    .guardian{left:50%!important;right:auto!important;bottom:-54px!important;width:172%!important;height:178%!important;transform:translateX(-50%)!important;background-size:900% 180%!important;background-position:var(--guardian-face-pos)!important;filter:drop-shadow(0 10px 12px rgba(73,54,28,.18))!important}
+    .sticky-reaction{border-radius:20px;background:linear-gradient(135deg,rgba(54,101,95,.94),rgba(105,126,111,.92));box-shadow:0 10px 22px rgba(80,70,45,.16);border:1px solid rgba(255,255,255,.28)}
+    .sticky-reaction .chat-bubble{border-radius:16px;background:rgba(255,255,255,.13)}
+    main>section:nth-of-type(2){background:rgba(255,253,247,.9)!important;border-radius:24px!important;box-shadow:0 12px 28px rgba(112,86,43,.10)!important}
+    .option{background:rgba(255,255,255,.9);border:1px solid rgba(181,151,94,.18);border-radius:20px;box-shadow:0 5px 14px rgba(106,82,42,.06)}
+    .option:hover{transform:translateY(-1px);box-shadow:0 9px 18px rgba(106,82,42,.09)}
+    .option.selected{background:linear-gradient(135deg,#fffaf0,#fff1bf 60%,#f6fffb);box-shadow:0 8px 18px rgba(217,169,58,.16)}
+    .primary{border-radius:999px;background:linear-gradient(135deg,#e1b544,#fff1ad);box-shadow:0 8px 18px rgba(217,169,58,.16)}
+    .input-box{border-radius:20px;background:rgba(255,255,255,.9)}
+    @media(max-width:720px){
+      main>section:first-child h1:before{width:210px;height:72px;left:4px;top:10px}
+      main>section:first-child h1{margin-top:78px!important}
+      .guardian{bottom:-44px!important;width:185%!important;height:185%!important}
+      main>section:nth-of-type(2){border-radius:20px!important}
+    }
+
+    /* individual guardian images reloaded from separated PNGs */
+    .guardian{background-image:var(--guardian-bust-image)!important;background-size:contain!important;background-position:center bottom!important;background-repeat:no-repeat!important}
+    .opening-guardian,.modal-guardian{background-image:var(--guardian-image)!important;background-size:contain!important;background-position:center bottom!important;background-repeat:no-repeat!important}
+    .chat-face,.guide-avatar{background-image:var(--guardian-bust-image)!important;background-size:cover!important;background-position:center 18%!important}
+
+    /* requested header column layout: left logo/copy 2 quarters, right guardian 2 quarters */
+    main>section:first-child{padding:0!important;border-radius:0 0 22px 22px!important;overflow:hidden!important}
+    main>section:first-child>.grid{display:grid!important;grid-template-columns:1fr 1fr!important;align-items:stretch;min-height:188px}
+    main>section:first-child .p-6{min-height:188px!important;padding:6px 0 8px!important;display:flex;align-items:flex-end;justify-content:center}
+    main>section:first-child h1{position:relative;margin:0!important;width:100%;max-width:none!important;height:188px;font-size:clamp(15px,3.1vw,24px)!important;line-height:1.55!important;letter-spacing:.08em;text-align:center;display:flex;align-items:flex-end;justify-content:center;padding:0 5px 10px}
+    main>section:first-child h1:before{width:100%!important;height:108px!important;left:0!important;top:0!important;background-position:center center!important;background-size:contain!important}
+    .guardian-stage{position:relative!important;inset:auto!important;width:100%!important;height:188px!important;min-height:188px!important;border-radius:0!important;background:radial-gradient(circle at 53% 65%,rgba(255,255,255,.56),transparent 5rem),linear-gradient(180deg,rgba(255,249,229,.48),rgba(235,222,187,.18))!important}
+    .guardian{width:148%!important;height:148%!important;bottom:-30px!important;left:50%!important;transform:translateX(-50%)!important}
+    .sticky-reaction{top:188px!important;border-radius:0 0 18px 18px;margin-bottom:8px!important}
+    @media(max-width:720px){
+      main>section:first-child>.grid{grid-template-columns:1fr 1fr!important;min-height:188px}
+      main>section:first-child .p-6{min-height:188px!important}
+      main>section:first-child h1{height:188px;font-size:15px!important;line-height:1.55!important;padding:0 4px 10px}
+      main>section:first-child h1:before{width:100%!important;height:106px!important;left:0!important;top:0!important}
+      .guardian-stage{height:188px!important;min-height:188px!important}
+      .guardian{width:158%!important;height:158%!important;bottom:-36px!important;left:50%!important}
+      .sticky-reaction{top:188px!important}
+    }
   </style>
 </head>
 <body>
+  <div id="opening-screen" class="opening-screen" aria-label="スパ神の登場シーン">
+    <div class="opening-inner">
+      <div class="opening-brand">
+        <div class="opening-logo">スパ人<small>♨ SPA<br>ZINE</small></div>
+        <div class="opening-copy">いつものお風呂選びを<br>スパの神様に選んでもらって<br>リフレッシュのご利益を</div>
+      </div>
+      <div id="opening-name" class="opening-name">スパ神<br>湯川明神</div>
+      <div class="opening-guardian" aria-hidden="true"></div>
+      <div class="opening-dialog"><strong id="opening-dialog-name">湯川明神</strong><span id="opening-dialog-text">迷ったら、失敗しにくい一湯から行きましょう。</span></div>
+      <button id="opening-skip" class="opening-skip" type="button">すぐ選ぶ</button>
+    </div>
+  </div>
   <header class="shell flex items-center justify-between gap-3 py-5">
     <a href="./spajin.html" class="flex items-center gap-3 text-left no-underline text-inherit">
       <span class="w-11 h-11 rounded-2xl grid place-items-center font-black text-xl" style="background:linear-gradient(135deg,var(--yuzu),#fff0b0);color:#173018">湯</span>
@@ -85,17 +348,17 @@
       <div class="grid lg:grid-cols-[.95fr_1.05fr]">
         <div class="p-6 sm:p-9">
           <div class="tag mb-5">モックABテスト / 選択式 vs 書き込み式</div>
-          <h1 class="text-3xl sm:text-5xl font-black leading-tight">今夜の一湯、<br>どう選ぶと楽しいか。</h1>
-          <p class="text-stone-300 leading-7 mt-5">今までのスパ神演出を引き継ぎつつ、診断入力の違いだけを比較します。A案は迷わないカード選択、B案は一言入力でAI占い感を足します。</p>
-          <div class="variant-toggle mt-6"><button id="variant-a" data-variant="A">A 選択式</button><button id="variant-b" data-variant="B">B 書き込み式</button></div>
-          <div class="grid grid-cols-3 gap-3 mt-5"><div class="metric"><small>主指標</small><strong>完走</strong></div><div class="metric"><small>副指標</small><strong>納得</strong></div><div class="metric"><small>観察</small><strong>面白さ</strong></div></div>
+          <h1 class="text-3xl sm:text-5xl font-black leading-tight">いつものお風呂選びを<br>スパの神様に選んでもらって<br>リフレッシュのご利益を</h1>
+          <p class="text-stone-300 leading-7 mt-5">今夜の気分を少しだけ選ぶと、湯けむりの奥から現れたスパ神が、あなたに合いそうな一湯を案内します。</p>
+          <div class="variant-toggle mt-6 hidden"><button id="variant-a" data-variant="A">A 選択式</button><button id="variant-b" data-variant="B">B 書き込み式</button></div>
         </div>
         <div class="guardian-stage">
-          <div class="absolute z-10 left-5 right-5 top-5"><div id="guardian-bubble" class="bubble">湯気が濃い夜ですね。今日は、あなたの選び方そのものを占ってみましょう。</div></div>
-          <div class="phone-portal"></div><div id="guardian" class="guardian" role="img" aria-label="湯気から登場するスパ神"></div>
+          <div class="summon-curtain" aria-hidden="true"></div><div class="summon-title-sigil" aria-hidden="true"><strong>湯の守護神</strong><span>SPAJIN ORACLE</span></div><div id="summon-precomment" class="summon-precomment">今夜の湯けむり、少し濃いです。</div><div class="summon-speedlines" aria-hidden="true"></div><div class="summon-flash" aria-hidden="true"></div><div class="absolute z-10 left-5 right-5 top-5"><div id="guardian-bubble" class="bubble">湯気が濃い夜ですね。今日は、あなたの選び方そのものを占ってみましょう。</div></div>
+          <div class="phone-portal"></div><div id="guardian" class="guardian" role="img" aria-label="湯気から登場するスパ神"></div><div class="steam-field" aria-hidden="true"><i class="steam-wisp"></i><i class="steam-wisp"></i><i class="steam-wisp"></i><i class="steam-wisp"></i><i class="steam-wisp"></i><i class="steam-wisp"></i></div>
         </div>
       </div>
     </section>
+    <div id="sticky-reaction" class="sticky-reaction" aria-live="polite"></div>
     <section class="mt-6 glass rounded-[30px] p-5 sm:p-8">
       <div class="flex flex-wrap items-end justify-between gap-4"><div><div class="small-label">DIAGNOSIS INPUT</div><h2 id="variant-title" class="text-2xl sm:text-3xl font-black mt-1"></h2></div><span id="variant-note" class="tag"></span></div>
       <div class="guide-panel" aria-live="polite">
@@ -140,20 +403,21 @@
           <button type="button" class="option" data-value="箱根・湯河原"><span class="check">✓</span><strong>名湯の箱根湯脈</strong><small class="block text-stone-400 mt-1">箱根・湯河原</small></button>
         </div></fieldset>
         <div id="reaction-after-area" class="inline-reaction" aria-live="polite"></div>
-        <fieldset id="free-text-block" class="hidden"><legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">04</span>最後に、今の気分を一言だけどうぞ</legend><textarea id="free-text" class="input-box" maxlength="140" placeholder="例：今日は何も考えず、海風を浴びてぼーっとしたい"></textarea><p class="text-stone-400 text-sm mt-2">B案のみ表示。入力が空でも診断できます。OpenAI本番接続時は、この一言をキャラ文生成の味付けに使います。</p></fieldset>
+        <fieldset id="free-text-block" class="hidden"><legend class="font-black text-lg mb-3"><span class="text-amber-300 mr-2">04</span>最後に、今の気分を一言だけどうぞ</legend><textarea id="free-text" class="input-box" maxlength="140" placeholder="例：今日は何も考えず、海風を浴びてぼーっとしたい"></textarea><p class="text-stone-400 text-sm mt-2">入力は空でも大丈夫です。ひとことあると、スパ神の案内が少しだけあなた寄りになります。</p></fieldset>
         <div id="reaction-after-free" class="inline-reaction" aria-live="polite"></div>
         <button id="submit-button" class="primary" type="button" disabled>今夜のスパ神に聞く</button>
       </form>
     </section>
     <section id="result-section" class="mt-6 hidden">
       <div class="glass rounded-[30px] p-5 sm:p-8">
-        <div class="small-label">RESULT / MOCK OPENAI CHARACTER TEXT</div><h2 id="result-name" class="text-3xl font-black mt-2"></h2><p id="result-meta" class="text-stone-300 mt-2"></p>
-        <div class="grid md:grid-cols-[1fr_.72fr] gap-5 mt-6"><div><div class="bubble"><strong id="result-guardian" class="text-amber-200"></strong><p id="result-character-text" class="mt-2"></p></div><div class="mt-5 rounded-3xl p-4 bg-black/20 border border-white/10"><div class="small-label">DATABASE FIELDS USED</div><p id="result-db-text" class="text-stone-300 leading-7 mt-2"></p></div></div>
-        <div class="space-y-3"><div class="metric"><small>入力形式</small><strong id="result-variant"></strong></div><div class="metric"><small>候補抽出</small><strong id="result-score"></strong></div><div class="metric"><small>想定API</small><strong>Cloud Run</strong></div><a id="result-map-link" class="primary w-full" href="#" target="_blank" rel="noopener">Googleマップで見る</a><button id="change-button" class="nav-button w-full">別の施設にチェンジ</button><button id="reset-button" class="nav-button w-full">もう一度試す</button></div></div>
+        <div class="small-label">今夜の一湯</div><h2 id="result-name" class="text-3xl font-black mt-2"></h2><p id="result-meta" class="text-stone-300 mt-2"></p>
+        <div class="grid md:grid-cols-[1fr_.72fr] gap-5 mt-6"><div><div class="bubble"><strong id="result-guardian" class="text-amber-200"></strong><p id="result-character-text" class="mt-2"></p></div><p id="result-db-text" class="hidden"></p></div>
+        <div class="space-y-3"><div class="hidden"><strong id="result-variant"></strong><strong id="result-score"></strong></div><a id="result-map-link" class="primary w-full" href="#" target="_blank" rel="noopener">Googleマップで見る</a><button id="change-button" class="nav-button w-full">別の施設にチェンジ</button><button id="reset-button" class="nav-button w-full">もう一度試す</button></div></div>
       </div>
     </section>
     <div id="result-modal" class="oracle-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-facility-name">
       <div class="oracle-card">
+        <div id="modal-guardian" class="modal-guardian" aria-hidden="true"></div>
         <div class="small-label mb-2">TONIGHT'S ORACLE</div>
         <div class="facility-cell">
           <div class="small-label">FACILITY CELL</div>
@@ -163,7 +427,7 @@
           <div id="modal-facility-tags" class="facility-tags"></div>
         </div>
         <div class="ai-panel hidden">
-          <div class="small-label">DB + AI MOCK</div>
+          <div class="small-label">DEBUG INFO</div>
           <div class="ai-steps">
             <div class="ai-step"><strong>DATABASE MATCH</strong><span id="ai-db-match">施設マスターを参照しています。</span></div>
             <div class="ai-step"><strong>REVIEW SIGNAL</strong><span id="ai-review-signal">口コミ傾向を要約しています。</span></div>
@@ -205,6 +469,11 @@ output: { facility, guardian, character_text, ab_log_id }</code></pre></section>
   </main>
   <script>
     const GUARDIANS={yukawa:{name:"湯川明神",pos:"0% 50%",face:"2% 8%",intro:"迷ったら、失敗しにくい一湯から行きましょう。仕事終わりの判断力は温存です。",guide:["まずは体の声から行きましょう。難しく考えなくて大丈夫です。","次は過ごし方です。サクッと抜くか、じっくり回復か。","最後に湯脈を選びましょう。今夜の移動気分に近いエリアで。","揃いました。かなり現実的にいい候補が出せます。"]},izumi:{name:"泉潤天",pos:"25% 50%",face:"25% 8%",intro:"お肌と心が、少し乾いている夜かもねぇ。湯ざわりの声を聞いてみよぉ。",guide:["最初は、今夜どこをやさしくほどきたいか教えてねぇ。","次はね、風にあたりたいか、湯気に包まれたいかだよぉ。","湯脈を選んでぇ。お湯の神様がそっちに流れていくからねぇ。","うん、見えてきたよぉ。今夜のお肌と心に合う一湯。"]},neppa:{name:"熱波大黒",pos:"50% 50%",face:"50% 8%",intro:"頭の中がモヤつく日は、熱と水で一回再起動ッ！でも無理は禁物ですッ！",guide:["一問目ッ！今日いちばん吹き飛ばしたい疲れはどれですかッ！","二問目ッ！外で風を浴びるか、館内で粘るか、勝負です！","エリア選択ッ！ここで今夜の導線が決まります！","よし、出ましたッ！今夜のリセット候補、いきます！"]},mido:{name:"御堂福禄",pos:"75% 50%",face:"75% 8%",intro:"今日は回復計画を立てましょう。短時間か、おこもりか。そこが分岐点です。",guide:["まず不調の種類を分類します。感覚で構いません。","次に滞在スタイルです。ここは満足度に直結します。","エリアを確定しましょう。候補施設を一気に絞れます。","条件は揃いました。あとは施設との相性を見ます。"]},kurebayashi:{name:"暮林恵比寿",pos:"100% 50%",face:"98% 8%",intro:"風のある湯は、帰り道まで効きます。……今夜の余韻を選びましょう。",guide:["最初の問いです。今夜、何を湯気に預けたいですか。","次は場所の気配。空か、湯気の奥か。","湯脈をひとつ。風景は、選んだあとから効いてきます。","……見えました。帰り道まで残る一湯です。"]}};
+    Object.assign(GUARDIANS.yukawa,{img:"./spajin-guardian-yukawa.png",bust:"./spajin-guardian-yukawa-bust.png",outfits:[{label:"神様衣装",img:"./spajin-guardian-yukawa.png",bust:"./spajin-guardian-yukawa-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-yukawa-alt.png",bust:"./spajin-guardian-yukawa-alt-bust.png"}]});
+    Object.assign(GUARDIANS.izumi,{img:"./spajin-guardian-izumi.png",bust:"./spajin-guardian-izumi-bust.png",outfits:[{label:"神様衣装",img:"./spajin-guardian-izumi.png",bust:"./spajin-guardian-izumi-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-izumi-alt.png",bust:"./spajin-guardian-izumi-alt-bust.png"}]});
+    Object.assign(GUARDIANS.neppa,{img:"./spajin-guardian-neppa.png",bust:"./spajin-guardian-neppa-bust.png",outfits:[{label:"神様衣装",img:"./spajin-guardian-neppa.png",bust:"./spajin-guardian-neppa-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-neppa-alt.png",bust:"./spajin-guardian-neppa-alt-bust.png"}]});
+    Object.assign(GUARDIANS.mido,{img:"./spajin-guardian-mido.png",bust:"./spajin-guardian-mido-bust.png",outfits:[{label:"神様衣装",img:"./spajin-guardian-mido.png",bust:"./spajin-guardian-mido-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-mido-alt.png",bust:"./spajin-guardian-mido-alt-bust.png"}]});
+    Object.assign(GUARDIANS.kurebayashi,{img:"./spajin-guardian-kurebayashi.png",bust:"./spajin-guardian-kurebayashi-bust.png",outfits:[{label:"神様衣装",img:"./spajin-guardian-kurebayashi.png",bust:"./spajin-guardian-kurebayashi-bust.png"},{label:"ビジネス衣装",img:"./spajin-guardian-kurebayashi-alt.png",bust:"./spajin-guardian-kurebayashi-alt-bust.png"}]});
     const FACILITIES=[
       {id:"kanagawa_001",area:"横浜・川崎",name:"RAKU SPA BAY 横浜",q1:"A",q2:"A",quality:"ナトリウム-塩化物温泉",effects:"温まり感",point:"みなとみらいの夜景を望むテラスと、リゾート感ある大人の隠れ家スパ。",tags:["露天・絶景","近場・日常"],guardians:["kurebayashi","yukawa"],scoreBase:80},
       {id:"kanagawa_002",area:"横浜・川崎",name:"RAKU SPA 鶴見",q1:"A",q2:"B",quality:"弱アルカリ性温泉、プラネタリウム岩盤浴",effects:"肌ざわり・湯上がり感",point:"漫画と岩盤浴で、1日中だらだら籠もれるエンタメ型温浴施設。",tags:["美肌・泉質","おこもり"],guardians:["izumi","mido","yukawa"],scoreBase:86},
@@ -216,43 +485,54 @@ output: { facility, guardian, character_text, ab_log_id }</code></pre></section>
       {id:"kanagawa_070",area:"箱根・湯河原",name:"天山湯治郷",q1:"A",q2:"A",quality:"アルカリ性単純温泉・ナトリウム-塩化物泉",effects:"湯治感・やさしい入り心地",point:"木々と岩に囲まれた複数の野天風呂で、魂からリセットする湯治の聖地。",tags:["美肌・泉質","露天・絶景","遠出・非日常"],guardians:["izumi","kurebayashi","yukawa"],scoreBase:94},
       {id:"kanagawa_073",area:"箱根・湯河原",name:"龍宮殿本館",q1:"A",q2:"A",quality:"カルシウム・ナトリウム-硫酸塩・塩化物温泉",effects:"湯治感・温まり感",point:"芦ノ湖と富士山の絶景が同時に広がる、日本最高峰クラスの絶景露天。",tags:["露天・絶景","遠出・非日常"],guardians:["kurebayashi","yukawa"],scoreBase:95}
     ];
-    const state={variant:new URLSearchParams(location.search).get("variant")?.toUpperCase()==="B"?"B":"A",q1:null,q2:null,area:null,usedIds:new Set(),openingGuardianId:"yukawa",tiredMode:false,chatStarted:false,freeTextReaction:"",currentFacility:null,currentGuardianId:null};const $=id=>document.getElementById(id);let freeTextTimer=null;
+    const params=new URLSearchParams(location.search);
+    const configuredApi=params.get("api")||localStorage.getItem("spajin_api_endpoint")||"";
+    if(params.get("api"))localStorage.setItem("spajin_api_endpoint",params.get("api"));
+    const state={variant:params.get("variant")?.toUpperCase()==="B"?"B":"A",apiEndpoint:configuredApi,q1:null,q2:null,area:null,usedIds:new Set(),openingGuardianId:"yukawa",openingGuardianLook:null,tiredMode:false,chatStarted:false,freeTextReaction:"",currentFacility:null,currentGuardianId:null};const $=id=>document.getElementById(id);let freeTextTimer=null;
     const CHOICE_LABELS={q1:{A:"肌と心のカサつき",B:"体に積もった重さ",C:"頭の中のノイズ"},q2:{A:"空の下で息を抜く場所",B:"湯気の奥にこもる場所"},area:{"横浜・川崎":"港灯の都市湯脈（横浜・川崎）","湘南・三浦":"潮風の湘南湯脈（湘南・三浦）","相模原・西湘":"山風の西湘湯脈（相模原・西湘）","箱根・湯河原":"名湯の箱根湯脈（箱根・湯河原）"}};
-    function chooseOpeningGuardian(){const ids=Object.keys(GUARDIANS),id=ids[Math.floor(Math.random()*ids.length)],g=GUARDIANS[id];state.openingGuardianId=id;state.tiredMode=Math.random()<.6;document.documentElement.style.setProperty("--character-sheet",Math.random()>.5?"url('./spajin-guardians-mythic-cutout.png')":"url('./spajin-guardians-modern-cutout.png')");setGuardianVisual(g);$("guardian-bubble").textContent=state.tiredMode?tiredOpening(id):g.intro;updateGuide(0);startChat()}
-    function setGuardianVisual(g){document.documentElement.style.setProperty("--guardian-pos",g.pos);document.documentElement.style.setProperty("--guardian-face-pos",g.face);document.documentElement.style.setProperty("--guardian-face-size","900% 180%")}
+    function chooseOpeningGuardian(){const ids=Object.keys(GUARDIANS),id=ids[Math.floor(Math.random()*ids.length)],g=GUARDIANS[id];state.openingGuardianId=id;state.openingGuardianLook=chooseGuardianLook(g);state.tiredMode=Math.random()<.6;document.documentElement.style.setProperty("--character-sheet",Math.random()>.5?"url('../spajin-guardians-mythic-cutout.png')":"url('../spajin-guardians-modern-cutout.png')");setGuardianVisual(g);$("summon-precomment").textContent=state.tiredMode?tiredOpening(id):g.intro;$("guardian-bubble").textContent=state.tiredMode?tiredOpening(id):g.intro;updateGuide(0);startChat()}
+    function chooseGuardianLook(g){const looks=g.outfits&&g.outfits.length?g.outfits:[{label:"通常衣装",img:g.img,bust:g.bust}];return looks[Math.floor(Math.random()*looks.length)]}
+    function setGuardianVisual(g){const look=state.openingGuardianLook||chooseGuardianLook(g);document.documentElement.style.setProperty("--guardian-pos",g.pos);document.documentElement.style.setProperty("--guardian-face-pos",g.face);document.documentElement.style.setProperty("--guardian-face-size","900% 180%");document.documentElement.style.setProperty("--guardian-image",`url(${look.img})`);document.documentElement.style.setProperty("--guardian-bust-image",`url(${look.bust})`);$("guardian-bubble")?.setAttribute("data-name",g.name)}
     function updateGuide(step){const g=GUARDIANS[state.openingGuardianId];$("guide-name").textContent=g.name;$("guide-line").textContent=g.guide[Math.min(step,g.guide.length-1)];$("guide-progress").textContent=["まずは、今夜いちばん流してしまいたいものから。","いいですね。次は、どんな場所で回復したいかです。","あと少し。最後にエリアの湯脈を選びましょう。","準備完了です。スパ神が候補を読み解きます。"][Math.min(step,3)]}
     function startChat(){if(state.chatStarted)return;state.chatStarted=true}
-    function addChat(role,text,targetId="reaction-after-area"){if(role==="user"){return}setInlineReaction(targetId,text)}
-    function reactionTargetFor(group){return group==="q1"?"reaction-after-q1":group==="q2"?"reaction-after-q2":group==="area"?"reaction-after-area":"reaction-after-free"}
+    function addChat(role,text,targetId="sticky-reaction"){if(role==="user"){return}setInlineReaction(targetId,text)}
+    function reactionTargetFor(group){return "sticky-reaction"}
     function setInlineReaction(targetId,text,{typing=false}={}){const g=GUARDIANS[state.openingGuardianId];const target=$(targetId);if(!target)return;target.innerHTML=`<div class="chat-face" role="img" aria-label="${escapeHtml(g.name)}の顔アップ"></div><div class="chat-bubble"><span class="chat-name">${escapeHtml(g.name)}</span><span>${typing?`<span class="typing"><i></i><i></i><i></i></span>`:escapeHtml(text)}</span></div>`;target.classList.remove("show");void target.offsetWidth;target.classList.add("show")}
-    function setGuardianReaction(text){setInlineReaction("reaction-after-area",text)}
-    function guardianReply(text,targetId="reaction-after-area"){setInlineReaction(targetId,"",{typing:true});setTimeout(()=>setInlineReaction(targetId,text),380)}
+    function setGuardianReaction(text){setInlineReaction("sticky-reaction",text)}
+    function guardianReply(text,targetId="sticky-reaction"){setInlineReaction(targetId,"",{typing:true});setTimeout(()=>setInlineReaction(targetId,text),380)}
     function escapeHtml(text){return String(text).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
     function bumpChat(){}
     function setVariant(v){state.variant=v;localStorage.setItem("spajin_ab_variant",v);$("variant-a").classList.toggle("active",v==="A");$("variant-b").classList.toggle("active",v==="B");$("free-text-block").classList.toggle("hidden",v!=="B");$("reaction-after-free").classList.toggle("show",v==="B"&&Boolean($("free-text").value.trim()));$("variant-title").textContent=v==="A"?"A案：選択カードだけで進む":"B案：選択＋一言入力で進む";$("variant-note").textContent=v==="A"?"スマホで迷わず完走できるかを検証":"AI占い感・自分ごと感が増えるかを検証";checkReady();logEvent("variant_view",{variant:v})}
     function selectOption(group,value,button){const label=button.dataset.label||CHOICE_LABELS[group]?.[value]||value;state[group]=value;button.parentElement.querySelectorAll(".option").forEach(o=>{o.classList.toggle("selected",o===button);o.setAttribute("aria-pressed",o===button?"true":"false")});button.classList.add("pulse-next");setTimeout(()=>button.classList.remove("pulse-next"),520);const step=state.q1&&state.q2&&state.area?3:state.q1&&state.q2?2:state.q1?1:0;updateGuide(step);guardianReply(buildReply(group,value,step,label),reactionTargetFor(group));logEvent("select_option",{group,value,label,variant:state.variant});checkReady()}
-    function tiredOpening(gid){return{yukawa:"今日は案内しすぎました。短めに、でも外さずいきます。",izumi:"ふわぁ……湯気で少し眠いけど、ちゃんと見るねぇ。",neppa:"熱波出しすぎましたッ！省エネで的確にいきますッ！",mido:"本日はお疲れモードです。要点だけ整理します。",kurebayashi:"……少し省電力です。でも湯脈は見えます。"}[gid]}function tiredTiny(){return state.tiredMode?{yukawa:"短めにいきます。",izumi:"うん、見えたよぉ。",neppa:"了解ッ！",mido:"把握しました。",kurebayashi:"……了解。"}[state.openingGuardianId]:""}function buildReply(group,value,step,label){const short=tiredTiny();if(group==="q1")return short||`${label}ですね。次は場所の気分です。`;if(group==="q2")return short||`${label}。最後に湯脈を選びましょう。`;if(group==="area")return short||`${CHOICE_LABELS.area[value]}ですね。条件は揃いました。`;return GUARDIANS[state.openingGuardianId].guide[Math.min(step,3)]}
+    function tiredOpening(gid){return{yukawa:"案内しすぎました。今日は外さない湯だけ、短くいきます。",izumi:"ふわぁ……湯気で眠いけど、お肌の声は聞こえるよぉ。",neppa:"熱波出しすぎましたッ！でも魂の温度は下げませんッ！",mido:"お疲れモードです。無駄話を省き、要点だけ出します。",kurebayashi:"……省電力中です。でも湯脈は、まだ青く光っています。"}[gid]}function guardianShort(kind,label,value){const gid=state.openingGuardianId,area=CHOICE_LABELS.area[value]||label;const normal={q1:{yukawa:label+"ですね。現実的にいい入口です。",izumi:label+"ねぇ。湯ざわりが呼んでるよぉ。",neppa:label+"ッ！熱か水か、見えてきました！",mido:label+"。分類しました。次へ進みます。",kurebayashi:label+"。……湯気に預けました。"},q2:{yukawa:label+"ですね。過ごし方、固まりました。",izumi:label+"。ふわっと合ってきたねぇ。",neppa:label+"ッ！導線、いい感じです！",mido:label+"。滞在設計に反映します。",kurebayashi:label+"。空気の温度が決まりました。"},area:{yukawa:area+"ですね。候補、絞れました。",izumi:area+"へ流すねぇ。見えてきたよぉ。",neppa:area+"ッ！今夜の一湯、出します！",mido:area+"。条件は揃いました。",kurebayashi:area+"。……湯脈がつながりました。"}};const tired={q1:{yukawa:"了解、外さず行きます。",izumi:"うん、見えたよぉ。",neppa:"了解ッ！",mido:"分類完了。",kurebayashi:"……記録。"},q2:{yukawa:"過ごし方OKです。",izumi:"ふわっとOK。",neppa:"導線OKッ！",mido:"滞在条件、把握。",kurebayashi:"……空気、決定。"},area:{yukawa:"候補、絞ります。",izumi:"湯脈、流すねぇ。",neppa:"一湯、出しますッ！",mido:"条件成立です。",kurebayashi:"……つながった。"}};return(state.tiredMode?tired:normal)[kind]?.[gid]||label}function buildReply(group,value,step,label){if(group==="q1")return guardianShort("q1",label,value);if(group==="q2")return guardianShort("q2",label,value);if(group==="area")return guardianShort("area",label,value);return GUARDIANS[state.openingGuardianId].guide[Math.min(step,3)]}
     function checkReady(){const ready=state.q1&&state.q2&&state.area;$("submit-button").disabled=!ready;if(ready)$("submit-button").textContent=`${GUARDIANS[state.openingGuardianId].name}に今夜の一湯を聞く`}
     function recommend({change=false}={}){const freeText=$("free-text").value.trim();if(!change){playSubmitMotion(freeText,()=>doRecommend({change,freeText}));return}doRecommend({change,freeText})}
-    function playSubmitMotion(freeText,done){$("submit-button").disabled=true;const targetId=state.variant==="B"&&freeText?"reaction-after-free":"reaction-after-area";const text=state.variant==="B"&&freeText?buildFreeTextReaction(freeText,{final:true}):state.tiredMode?"よし、要点は揃いました。短く読みます。":"ここまでの答え、受け取りました。今夜は肩の力を抜いて、戻ってこられる一湯を探しましょう。";guardianReply(text,targetId);setTimeout(done,1120)}
-    function doRecommend({change=false,freeText=""}={}){const scored=FACILITIES.filter(f=>f.area===state.area).map(f=>{let score=f.scoreBase;if(f.q1===state.q1)score+=25;if(f.q2===state.q2)score+=18;if(freeText){if(/海|風|夕日|空|ぼー|景色|夜景/.test(freeText)&&f.tags.includes("露天・絶景"))score+=12;if(/こも|漫画|休|寝|だら/.test(freeText)&&f.tags.includes("おこもり"))score+=12;if(/サウナ|水風呂|汗|熱/.test(freeText)&&f.tags.includes("サウナ"))score+=12;if(/肌|癒|やさ|ぬる|温泉/.test(freeText)&&f.tags.includes("美肌・泉質"))score+=12}if(change&&state.usedIds.has(f.id))score-=80;return{...f,score}}).sort((a,b)=>b.score-a.score);const facility=scored[0]||FACILITIES[0];state.usedIds.add(facility.id);const guardianId=change&&state.currentGuardianId?state.currentGuardianId:chooseGuardian(facility,freeText);renderResult(facility,guardianId,freeText);logEvent(change?"change_result":"complete_diagnosis",{variant:state.variant,q1:state.q1,q2:state.q2,area:state.area,free_text_present:Boolean(freeText),facility_id:facility.id,guardian_id:guardianId,score:facility.score})}
+    function playSubmitMotion(freeText,done){$("submit-button").disabled=true;const targetId="sticky-reaction";const text=state.variant==="B"&&freeText?buildFreeTextReaction(freeText,{final:true}):submitOracleLine();guardianReply(text,targetId);setTimeout(done,1120)}
+    function submitOracleLine(){const gid=state.openingGuardianId;return(state.tiredMode?{yukawa:"よし、省エネで外さず読みます。",izumi:"ふわぁ……でも一湯は見えたよぉ。",neppa:"燃料少なめ、熱量高めで出しますッ！",mido:"要点は揃いました。最短で判定します。",kurebayashi:"……条件は揃った。静かに出します。"}:{yukawa:"よし、今夜の現実解を出します。",izumi:"湯ざわりの神託、ひらくねぇ。",neppa:"今夜のリセット湯、いきますッ！",mido:"条件を照合します。最適候補を出します。",kurebayashi:"……湯脈が光りました。"})[gid]}
+    function doRecommend({change=false,freeText=""}={}){const scored=FACILITIES.filter(f=>f.area===state.area).map(f=>{let score=f.scoreBase;if(f.q1===state.q1)score+=25;if(f.q2===state.q2)score+=18;if(freeText){if(/海|風|夕日|空|ぼー|景色|夜景/.test(freeText)&&f.tags.includes("露天・絶景"))score+=12;if(/こも|漫画|休|寝|だら/.test(freeText)&&f.tags.includes("おこもり"))score+=12;if(/サウナ|水風呂|汗|熱/.test(freeText)&&f.tags.includes("サウナ"))score+=12;if(/肌|癒|やさ|ぬる|温泉/.test(freeText)&&f.tags.includes("美肌・泉質"))score+=12}if(change&&state.usedIds.has(f.id))score-=80;return{...f,score}}).sort((a,b)=>b.score-a.score);const facility=scored[0]||FACILITIES[0];state.usedIds.add(facility.id);const guardianId=state.currentGuardianId||state.openingGuardianId;renderResult(facility,guardianId,freeText);logEvent(change?"change_result":"complete_diagnosis",{variant:state.variant,q1:state.q1,q2:state.q2,area:state.area,free_text_present:Boolean(freeText),facility_id:facility.id,guardian_id:guardianId,score:facility.score})}
     function chooseGuardian(f,freeText){let c=[state.openingGuardianId,...f.guardians];if(freeText){if(/サウナ|熱|汗/.test(freeText))c.unshift("neppa");if(/肌|癒|やさ/.test(freeText))c.unshift("izumi");if(/こも|休|寝/.test(freeText))c.unshift("mido");if(/海|風|空|景色|夕日/.test(freeText))c.unshift("kurebayashi")}c.push("yukawa");c=[...new Set(c)];return Math.random()<.68?state.openingGuardianId:c[Math.floor(Math.random()*c.length)]}
-    function renderResult(f,gid,freeText){const g=GUARDIANS[gid];state.currentFacility=f;state.currentGuardianId=gid;$("result-section").classList.remove("hidden");$("result-name").textContent=f.name;$("result-meta").textContent=`${f.area} / ${f.quality} / ${f.effects}`;$("result-guardian").textContent=`${g.name}の案内`;$("result-character-text").textContent=mockOpenAIText(gid,f,freeText);$("result-db-text").textContent=`facility_id=${f.id}、q1_type=${f.q1}、q2_type=${f.q2}、area_label=${f.area}、tags=${f.tags.join(" / ")}、source_point=${f.point}`;$("result-variant").textContent=state.variant==="A"?"A 選択式":"B 書き込み式";$("result-score").textContent=`${f.score}点`;$("result-map-link").href=googleMapsUrl(f);setGuardianVisual(g);$("guardian-bubble").textContent=`${g.name}が最後まで案内します。`;if(gid!==state.openingGuardianId){$("guide-name").textContent=g.name;$("guide-line").textContent="途中で湯脈が反応しました。ここからは私が施設の魅力を読み上げます。";state.openingGuardianId=gid;guardianReply(`${f.name}、ここは私が案内しましょう。湯脈がこちらへ反応しました。`,"reaction-after-area")}else{updateGuide(3);guardianReply(`${f.name}が見えました。今夜の条件なら、ここをおすすめします。理由も私の口調でまとめますね。`,"reaction-after-area")}showResultModal(f,gid,freeText)}
-    function showResultModal(f,gid,freeText){$("modal-facility-name").textContent=f.name;$("modal-facility-meta").textContent=`${f.area} / ${f.quality} / ${f.effects}`;$("modal-facility-point").textContent=mockOpenAIText(gid,f,freeText);$("modal-facility-tags").innerHTML=f.tags.map(t=>`<span>${escapeHtml(t)}</span>`).join("");$("modal-map-link").href=googleMapsUrl(f);$("ai-db-match").textContent=`${f.area} / q1=${f.q1} / q2=${f.q2} / score=${f.score} / tags=${f.tags.join("・")}`;$("ai-review-signal").textContent=mockReviewSignal(f);$("ai-prompt-signal").textContent=`${GUARDIANS[gid].name}の口調で、効能・口コミ傾向・今夜の気分を会話文に変換。`;document.querySelectorAll("[data-feedback-value]").forEach(b=>b.classList.remove("selected"));$("modal-featured-reply").classList.remove("show");$("modal-featured-reply").textContent="";$("feedback-text-input").value="";$("result-modal").classList.add("show");$("submit-button").disabled=false}
+    function renderResult(f,gid,freeText){gid=state.openingGuardianId;const g=GUARDIANS[gid];state.currentFacility=f;state.currentGuardianId=gid;$("result-section").classList.remove("hidden");$("result-name").textContent=f.name;$("result-meta").textContent=`${f.area} / ${f.quality} / ${f.effects}`;$("result-guardian").textContent=`${g.name}の案内`;$("result-character-text").textContent=mockOpenAIText(gid,f,freeText);$("result-db-text").textContent=`facility_id=${f.id}、q1_type=${f.q1}、q2_type=${f.q2}、area_label=${f.area}、tags=${f.tags.join(" / ")}、source_point=${f.point}`;$("result-variant").textContent=state.variant==="A"?"A 選択式":"B 書き込み式";$("result-score").textContent=`${f.score}点`;$("result-map-link").href=googleMapsUrl(f);setGuardianVisual(g);$("guardian-bubble").textContent=`${g.name}が最後まで案内します。`;updateGuide(3);guardianReply(`${f.name}が見えました。今夜の条件なら、ここをおすすめします。理由も私の口調でまとめますね。`,"sticky-reaction");showResultModal(f,gid,freeText)}
+    function resultRevealLine(gid,f){return{yukawa:f.name+"。今夜の現実解です。",izumi:f.name+"、湯ざわりがやさしそうだよぉ。",neppa:f.name+"、来ましたッ！リセット候補です！",mido:f.name+"。条件適合、良好です。",kurebayashi:f.name+"。……余韻まで見えます。"}[gid]}
+    function showResultModal(f,gid,freeText){setGuardianVisual(GUARDIANS[gid]);$("modal-facility-name").textContent=f.name;$("modal-facility-meta").textContent=`${f.area} / ${f.quality} / ${f.effects}`;$("modal-facility-point").textContent=mockOpenAIText(gid,f,freeText);$("modal-facility-tags").innerHTML=f.tags.map(t=>`<span>${escapeHtml(t)}</span>`).join("");$("modal-map-link").href=googleMapsUrl(f);$("ai-db-match").textContent=`${f.area} / q1=${f.q1} / q2=${f.q2} / score=${f.score} / tags=${f.tags.join("・")}`;$("ai-review-signal").textContent=mockReviewSignal(f);$("ai-prompt-signal").textContent=state.apiEndpoint?`LIVE API接続中：${GUARDIANS[gid].name}の口調でOpenAI APIへ問い合わせます。`:`MOCK：${GUARDIANS[gid].name}の口調で、効能・口コミ傾向・今夜の気分を会話文に変換。`;document.querySelectorAll("[data-feedback-value]").forEach(b=>b.classList.remove("selected"));$("modal-featured-reply").classList.remove("show");$("modal-featured-reply").textContent="";$("feedback-text-input").value="";const modal=$("result-modal");modal.scrollTop=0;modal.classList.add("show");requestAnimationFrame(()=>{modal.scrollTop=0;modal.querySelector(".facility-cell")?.scrollIntoView({block:"start",behavior:"auto"})});$("submit-button").disabled=false}
     function googleMapsUrl(f){return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${f.name} ${f.area} 温泉`)}`}
     function showFeaturedReply(text){const box=$("modal-featured-reply");box.innerHTML=`<span class="chat-name">${escapeHtml(GUARDIANS[state.currentGuardianId||state.openingGuardianId].name)}の返答</span>${escapeHtml(text)}`;box.classList.remove("show");void box.offsetWidth;box.classList.add("show")}
     function handleFeedback(value,button){const f=state.currentFacility;if(!f)return;button.parentElement.querySelectorAll(".feedback-button").forEach(b=>b.classList.toggle("selected",b===button));const replies={fit:`よし、湯脈が噛み合いました。${f.name}、今夜の気分にかなり寄り添えそうです。あとは地図で帰り道まで見ておきましょう。`,maybe:`その「少し気になる」、いい感覚です。${f.name}は候補に残しつつ、混み具合・サウナ・露天などを地図や口コミで確認してみましょう。`,miss:`正直な反応、助かります。今夜は湯脈が少しズレたかもしれません。同じ条件のまま、別の一湯へ切り替えましょう。`};const reply=replies[value]||replies.maybe;showFeaturedReply(reply);logEvent("result_feedback",{variant:state.variant,feedback:value,facility_id:f.id,guardian_id:state.currentGuardianId})}
-    function handleFeedbackTextSend(){const input=$("feedback-text-input"),text=input.value.trim(),f=state.currentFacility;if(!text||!f)return;const reply=buildModalChatReply(text,f);showFeaturedReply(reply);input.value="";logEvent("result_feedback_text",{variant:state.variant,length:text.length,facility_id:f.id,guardian_id:state.currentGuardianId})}
+    async function handleFeedbackTextSend(){const input=$("feedback-text-input"),text=input.value.trim(),f=state.currentFacility;if(!text||!f)return;input.value="";if(state.apiEndpoint)showFeaturedReply("スパ神が施設DBと口コミ傾向を読み込んでいます……");try{const reply=state.apiEndpoint?await callSpaGodApi(text,f):buildModalChatReply(text,f);showFeaturedReply(reply);logEvent("result_feedback_text",{variant:state.variant,length:text.length,facility_id:f.id,guardian_id:state.currentGuardianId,api:Boolean(state.apiEndpoint)})}catch(err){console.warn(err);showFeaturedReply(`${GUARDIANS[state.currentGuardianId||state.openingGuardianId].name}です。APIの湯脈が少し乱れました。いったんモック返答で続けます。${buildModalChatReply(text,f)}`);logEvent("result_feedback_api_error",{variant:state.variant,message:String(err),facility_id:f.id,guardian_id:state.currentGuardianId})}}
     function askAiQuestion(text){$("feedback-text-input").value=text;handleFeedbackTextSend()}
+    async function callSpaGodApi(userText,f){const gid=state.currentGuardianId||state.openingGuardianId;const res=await fetch(state.apiEndpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({guardian:GUARDIANS[gid],guardian_id:gid,facility:f,review_signal:mockReviewSignal(f),user_text:userText,selection:{variant:state.variant,q1:state.q1,q2:state.q2,area:state.area}})});if(!res.ok)throw new Error(`API ${res.status}`);const data=await res.json();return data.reply||data.text||buildModalChatReply(userText,f)}
     function mockReviewSignal(f){const signals=[];if(f.tags.includes("露天・絶景"))signals.push("露天の開放感・外気浴・景色への期待が強い");if(f.tags.includes("サウナ"))signals.push("サウナ/水風呂/リセット感への口コミ反応が強い");if(f.tags.includes("おこもり"))signals.push("休憩・岩盤浴・長時間滞在の満足度が高い");if(f.tags.includes("美肌・泉質"))signals.push("湯ざわり・温泉効能・肌あたりの相性が良い");if(f.tags.includes("炭酸泉・機能風呂"))signals.push("炭酸泉や機能風呂で巡りを整える文脈が合う");return signals.join(" / ")||"施設説明とエリア条件から、今夜の気分に近い要素を抽出"}
-    function buildModalChatReply(text,f){const g=GUARDIANS[state.currentGuardianId||state.openingGuardianId],signal=mockReviewSignal(f);if(/混|空|人|待|並/.test(text))return `${g.name}です。DB上では「${signal}」が強い一湯。ただ、混み具合だけは当日の揺らぎが大きいです。Googleマップの現在情報を見て、ざわつきそうなら同じ条件で別の一湯へ逃がしましょう。`;if(/サウナ|水風呂|汗|熱/.test(text))return `${g.name}が口コミタグを読むと、${f.tags.includes("サウナ")?`${f.name}はサウナ目線でも十分候補です。熱で切って、水で戻す流れが作れます。`:`${f.name}はサウナ特化より、湯と過ごし方で整える寄りです。サウナ一点なら別候補もありです。`}`;if(/露天|外気|景色|海|風|夜景/.test(text))return `${f.tags.includes("露天・絶景")?`そこはかなり相性あり。口コミ傾向でも「${signal}」が出ています。${f.name}は湯上がりの風まで含めて選ぶタイプです。`:`外気浴を最優先にするなら、DB上では少し別の湯脈も見たいところです。`}`;if(/岩盤|休|寝|漫画|だら|こも|長/.test(text))return `${f.tags.includes("おこもり")?`おこもり気分なら、${f.name}は良い線です。DB上でも「${signal}」が拾えています。滞在時間を長めに取る前提で行きましょう。`:`今日は長居したい気分なら、岩盤浴や休憩処が強い別候補も出せます。`}`;return `${g.name}です。その気分なら、${f.name}で少し切り替えられそうです。違和感があれば、同じスパ神のまま別の一湯へ変えましょう。`}
+    function buildModalChatReply(text,f){const gid=state.currentGuardianId||state.openingGuardianId,g=GUARDIANS[gid],signal=mockReviewSignal(f),sauna=f.tags.includes("サウナ"),open=f.tags.includes("露天・絶景"),stay=f.tags.includes("おこもり");const topic=/混|空|人|待|並/.test(text)?"crowd":/サウナ|水風呂|汗|熱/.test(text)?"sauna":/露天|外気|景色|海|風|夜景/.test(text)?"open":/岩盤|休|寝|漫画|だら|こも|長/.test(text)?"stay":"general";const base={crowd:`混み具合だけ気になるなら、出発前にGoogleマップで現在状況を見ましょう。ざわつきそうなら別の一湯へ逃がせます。`,sauna:sauna?`${f.name}はサウナ目線でも候補です。熱と水の切り替えで、頭のノイズを落とせます。`:`${f.name}はサウナ一点突破より、湯と過ごし方で整える寄りです。`,open:open?`${f.name}は外の風まで含めて選ぶ一湯です。湯上がりの余白が残ります。`:`外気浴を最優先にするなら、別の湯脈も見てもいいです。`,stay:stay?`${f.name}は長めに滞在する前提なら良い線です。休む時間まで含めて組みましょう。`:`おこもり重視なら、岩盤浴や休憩処が強い別候補もあります。`,general:`その気分なら、${f.name}で少し切り替えられそうです。`}[topic];return{yukawa:`現実的にいくと、${base} 今日は判断力を温存して、外しにくい導線でいきましょう。`,izumi:`${base} うん、急がなくていいよぉ。湯ざわりに包まれて、心とお肌をふわっと戻してあげよぉ。`,neppa:`来ましたッ！${base} ただし無理は禁物、水分補給は絶対ですッ！今夜の疲れ、一回ログアウトしましょう！`,mido:`回復計画として見ると、${base} 違和感が少しでもあれば、条件を保ったまま別案へ切り替えます。`,kurebayashi:`${base} ……悪くないです。風と帰り道まで含めて、今夜の余白として選べます。`}[gid]}
     function closeResultModal(){$("result-modal").classList.remove("show");$("result-section").scrollIntoView({behavior:"smooth",block:"start"})}
-    function buildFreeTextReaction(text,{final=false}={}){const gid=state.openingGuardianId,g=GUARDIANS[gid];const mood=/疲|だる|重|肩|腰|眠|限界|しんど|ぐったり/.test(text)?"tired":/混|人|静|空|並|うるさ/.test(text)?"crowd":/サウナ|水風呂|汗|熱|ととの/.test(text)?"sauna":/ぼー|何も|無|考え|放心|抜け|ゆっくり/.test(text)?"blank":/海|風|空|景色|夜景|外|露天/.test(text)?"open":/肌|癒|やさ|ぬる|しっとり|温泉/.test(text)?"skin":"general";const core={tired:"体に重さが残っている感じですね。今日は刺激で押し切るより、湯に預けて回復する方向がよさそうです。",crowd:"人の多さが気になる夜ですね。にぎやかさより、落ち着ける導線と逃げ場のある施設を優先して読みます。",sauna:"熱で切り替えたい気配、出ています。サウナだけでなく、水風呂と休憩の流れまで見て選びます。",blank:"何も考えたくない夜ですね。情報量の少ない時間、ぼーっとできる湯けむりを強めに探します。",open:"外の空気を欲しがっていますね。露天、風、帰り道の余韻まで含めて湯脈を読みます。",skin:"やさしい湯ざわりを求めていますね。泉質や肌あたり、湯上がりのしっとり感を重めに見ます。",general:"その言葉、今夜の気分の芯として受け取りました。選択だけでは出にくいニュアンスも混ぜて読みます。"}[mood];const tail=final?"では、この気配に合う一湯を出します。":"この気配、ちゃんと候補選びに反映します。";return{yukawa:`${core} 現実的に外しにくい線でいきましょう。${tail}`,izumi:`${core} 無理に元気を出さなくていいよぉ。湯ざわりでそっと戻していこうねぇ。${tail}`,neppa:`なるほどッ！${core} ただし今日は無茶禁止、水分補給込みで組みますッ！${tail}`,mido:`${core} 条件として有効です。滞在スタイルと回復効率に反映します。${tail}`,kurebayashi:`${core} ……言葉の奥に、少し静けさが必要そうです。${tail}`}[gid]||`${g.name}です。${core} ${tail}`}function handleFreeTextInput(){const text=$("free-text").value.trim();logEvent("free_text_input",{variant:state.variant,length:text.length});clearTimeout(freeTextTimer);if(state.variant!=="B")return;if(!text){state.freeTextReaction="";$("reaction-after-free").classList.remove("show");return}freeTextTimer=setTimeout(()=>{if(text===state.freeTextReaction)return;state.freeTextReaction=text;guardianReply(buildFreeTextReaction(text),"reaction-after-free")},520)}
+    function buildFreeTextReaction(text,{final=false}={}){const gid=state.openingGuardianId,g=GUARDIANS[gid];const normalized=text.replace(/\s/g,"");const isJoke=/うんこ|ちんこ|おなら|ばか|バカ|あほ|アホ|草|www|ｗｗｗ|やばいだけ|適当|知らん|なし|ない|あああ|aaa|test|テスト|asdf|qwer|眠眠打破/.test(normalized)||/^(.)\1{3,}$/.test(normalized)||normalized.length<=1;const mood=isJoke?"joke":/疲|だる|重|肩|腰|眠|限界|しんど|ぐったり/.test(text)?"tired":/混|人|静|空|並|うるさ/.test(text)?"crowd":/サウナ|水風呂|汗|熱|ととの/.test(text)?"sauna":/ぼー|何も|無|考え|放心|抜け|ゆっくり/.test(text)?"blank":/海|風|空|景色|夜景|外|露天/.test(text)?"open":/肌|癒|やさ|ぬる|しっとり|温泉/.test(text)?"skin":"general";const core={joke:"湯けむりに変な泡が混ざりましたね。大丈夫、そういう日もあります。ふざけたい気分ごと流せる一湯として読み替えます。",tired:"体に重さが残っている感じですね。今日は刺激で押し切るより、湯に預けて回復する方向がよさそうです。",crowd:"人の多さが気になる夜ですね。にぎやかさより、落ち着ける導線と逃げ場のある施設を優先して読みます。",sauna:"熱で切り替えたい気配、出ています。サウナだけでなく、水風呂と休憩の流れまで見て選びます。",blank:"何も考えたくない夜ですね。情報量の少ない時間、ぼーっとできる湯けむりを強めに探します。",open:"外の空気を欲しがっていますね。露天、風、帰り道の余韻まで含めて湯脈を読みます。",skin:"やさしい湯ざわりを求めていますね。泉質や肌あたり、湯上がりのしっとり感を重めに見ます。",general:"その言葉、今夜の気分の芯として受け取りました。選択だけでは出にくいニュアンスも混ぜて読みます。"}[mood];const tail=final?"では、この気配に合う一湯を出します。":"この気配、ちゃんと候補選びに反映します。";if(mood==="joke")return{yukawa:`${core} 仕事終わりのテンションとして処理しておきます。${tail}`,izumi:`${core} ふふ、湯船では少しだけ上品にねぇ。${tail}`,neppa:`ボケ確認ッ！${core} その勢い、サウナではなく湯船に安全投入しますッ！${tail}`,mido:`${core} ふざけ入力として受理します。診断精度は少し落ちますが、遊び心は加点です。${tail}`,kurebayashi:`${core} ……その雑さ、逆に疲労のサインかもしれません。${tail}`}[gid]||`${g.name}です。${core} ${tail}`;return{yukawa:`${core} 現実的に外しにくい線でいきましょう。${tail}`,izumi:`${core} 無理に元気を出さなくていいよぉ。湯ざわりでそっと戻していこうねぇ。${tail}`,neppa:`なるほどッ！${core} ただし今日は無茶禁止、水分補給込みで組みますッ！${tail}`,mido:`${core} 条件として有効です。滞在スタイルと回復効率に反映します。${tail}`,kurebayashi:`${core} ……言葉の奥に、少し静けさが必要そうです。${tail}`}[gid]||`${g.name}です。${core} ${tail}`}function handleFreeTextInput(){const text=$("free-text").value.trim();logEvent("free_text_input",{variant:state.variant,length:text.length});clearTimeout(freeTextTimer);if(state.variant!=="B")return;if(!text){state.freeTextReaction="";$("sticky-reaction").classList.remove("show");return}freeTextTimer=setTimeout(()=>{if(text===state.freeTextReaction)return;state.freeTextReaction=text;guardianReply(buildFreeTextReaction(text),"sticky-reaction")},520)}
     function mockOpenAIText(gid,f,freeText){const suffix=freeText?`「${freeText}」という今の気分も、湯けむりに混ぜておきました。`:"";return{yukawa:`${f.name}なら、${f.point} 今日は変に冒険しすぎず、でもちゃんと気分が変わるラインです。${suffix}`,izumi:`${f.name}、いいねぇ。${f.effects}を感じたい夜に、湯ざわりからそっとほどけていけそう。お肌も心も、急がなくていいよぉ。${suffix}`,neppa:`${f.name}、来ましたッ！${f.tags.includes("サウナ")?"熱と水の切り替え":"湯のパワー"}で、仕事のノイズを一回ログアウトしましょう！ただし水分補給は絶対ですッ！${suffix}`,mido:`${f.name}が妥当です。${f.point} 設備と過ごし方の相性が良いので、今夜は回復時間をきちんと確保しましょう。${suffix}`,kurebayashi:`${f.name}。${f.point} 湯上がりの風まで含めて、今夜の余白になります。……帰り道、少しだけ静かになるはず。${suffix}`}[gid]}
     function logEvent(type,payload={}){const logs=JSON.parse(localStorage.getItem("spajin_ab_logs")||"[]");logs.push({timestamp:new Date().toISOString(),type,...payload});localStorage.setItem("spajin_ab_logs",JSON.stringify(logs.slice(-500)))}
     function exportLogs(){const logs=JSON.parse(localStorage.getItem("spajin_ab_logs")||"[]"),headers=["timestamp","type","variant","q1","q2","area","free_text_present","facility_id","guardian_id","score"],csv=[headers.join(","),...logs.map(r=>headers.map(h=>csvEscape(r[h]??"")).join(","))].join("\n"),blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=`spajin-ab-log-${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(url)}
     function csvEscape(v){const t=String(v);return/[",\n\r]/.test(t)?`"${t.replace(/"/g,'""')}"`:t}
-    document.querySelectorAll("[data-question] .option").forEach(b=>{b.setAttribute("aria-pressed","false");b.addEventListener("click",()=>selectOption(b.closest("[data-question]").dataset.question,b.dataset.value,b))});document.querySelectorAll("[data-variant]").forEach(b=>b.addEventListener("click",()=>setVariant(b.dataset.variant)));document.querySelectorAll("[data-feedback-value]").forEach(b=>b.addEventListener("click",()=>handleFeedback(b.dataset.feedbackValue,b)));document.querySelectorAll("[data-ai-question]").forEach(b=>b.addEventListener("click",()=>askAiQuestion(b.dataset.aiQuestion)));$("feedback-text-send").addEventListener("click",handleFeedbackTextSend);$("feedback-text-input").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();handleFeedbackTextSend()}});$("submit-button").addEventListener("click",()=>recommend());$("change-button").addEventListener("click",()=>recommend({change:true}));$("modal-close-button").addEventListener("click",closeResultModal);$("modal-change-button").addEventListener("click",()=>recommend({change:true}));$("result-modal").addEventListener("click",e=>{if(e.target.id==="result-modal")closeResultModal()});$("reset-button").addEventListener("click",()=>location.reload());$("export-log").addEventListener("click",exportLogs);$("free-text").addEventListener("input",handleFreeTextInput);chooseOpeningGuardian();setVariant(localStorage.getItem("spajin_ab_variant")||state.variant);
+    function typeOpeningText(el,text,done){el.textContent="";let i=0;const tick=()=>{el.textContent=text.slice(0,i++);if(i<=text.length)setTimeout(tick,58);else done&&done()};setTimeout(tick,360)}
+    function runOpeningTransition(){document.body.classList.add("opening-lock");const g=GUARDIANS[state.openingGuardianId],screen=$("opening-screen"),line=$("guardian-bubble").textContent||g.intro;let finished=false;$("opening-name").innerHTML=`スパ神<br>${escapeHtml(g.name)}`;$("opening-dialog-name").textContent=g.name;const finish=()=>{if(finished)return;finished=true;screen.classList.add("is-done");document.body.classList.add("opening-complete");document.body.classList.remove("opening-lock");setTimeout(()=>{screen.remove();guardianReply("では、今夜の気分をひとつずつ聞きます。直感で選んでください。","sticky-reaction")},760)};$("opening-skip").addEventListener("click",finish,{once:true});typeOpeningText($("opening-dialog-text"),line,()=>{setTimeout(()=>screen.classList.add("guardian-revealed"),360);setTimeout(finish,2450)})}
+    document.querySelectorAll("[data-question] .option").forEach(b=>{b.setAttribute("aria-pressed","false");b.addEventListener("click",()=>selectOption(b.closest("[data-question]").dataset.question,b.dataset.value,b))});document.querySelectorAll("[data-variant]").forEach(b=>b.addEventListener("click",()=>setVariant(b.dataset.variant)));document.querySelectorAll("[data-feedback-value]").forEach(b=>b.addEventListener("click",()=>handleFeedback(b.dataset.feedbackValue,b)));document.querySelectorAll("[data-ai-question]").forEach(b=>b.addEventListener("click",()=>askAiQuestion(b.dataset.aiQuestion)));$("feedback-text-send").addEventListener("click",handleFeedbackTextSend);$("feedback-text-input").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();handleFeedbackTextSend()}});$("submit-button").addEventListener("click",()=>recommend());$("change-button").addEventListener("click",()=>recommend({change:true}));$("modal-close-button").addEventListener("click",closeResultModal);$("modal-change-button").addEventListener("click",()=>recommend({change:true}));$("result-modal").addEventListener("click",e=>{if(e.target.id==="result-modal")closeResultModal()});$("reset-button").addEventListener("click",()=>location.reload());$("export-log").addEventListener("click",exportLogs);$("free-text").addEventListener("input",handleFreeTextInput);chooseOpeningGuardian();setVariant(localStorage.getItem("spajin_ab_variant")||state.variant);runOpeningTransition();
   </script>
 </body>
 </html>
+
+
