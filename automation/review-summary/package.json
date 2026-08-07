@@ -1,0 +1,11 @@
+{
+  "name": "spajin-review-summary",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "run": "node src/cli.mjs",
+    "job": "node src/cloud-job.mjs",
+    "test": "node --test"
+  },
+  "engines": { "node": ">=20" }
+}

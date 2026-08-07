@@ -1,0 +1,10 @@
+{
+  "name": "spajin-spa-god-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node --test"
+  },
+  "engines": { "node": ">=20" }
+}

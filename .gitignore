@@ -11,3 +11,7 @@ node_modules/
 .openai/
 outputs/
 work/
+# Local API credentials and generated review-summary data
+automation/review-summary/.env
+automation/review-summary/input/facilities.csv
+automation/review-summary/output/
